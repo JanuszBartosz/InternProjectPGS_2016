@@ -24,7 +24,6 @@ public class LoginController {
 		HttpSession session = httpServletRequest.getSession();
 		
 		
-		
 		return "You are logged! Id: " + session.getAttribute("id") + " Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
 	}
 	
