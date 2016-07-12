@@ -1,4 +1,4 @@
-package com.pgs.soft.DTO;
+package com.pgs.soft.dto;
 
 public class UserDTO {
 
