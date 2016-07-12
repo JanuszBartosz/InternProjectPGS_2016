@@ -17,13 +17,13 @@ import com.pgs.soft.service.UserService;
 
 @Controller
 @ResponseBody
-public class UserController {
+public class RegisterController {
 	
 	UserService userService;
 	UserDtoValidator userDtoValidator;
 	
 	@Autowired
-	public UserController(UserService userService, UserDtoValidator userDtoValidator){
+	public RegisterController(UserService userService, UserDtoValidator userDtoValidator){
 		this.userService = userService;
 		this.userDtoValidator = userDtoValidator;
 	}

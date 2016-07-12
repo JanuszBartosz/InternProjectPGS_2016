@@ -25,7 +25,7 @@ public class LoginController {
 		
 		
 		
-		return "You are logged!  Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
+		return "You are logged! Id: " + session.getAttribute("id") + " Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
 	}
 	
 	@RequestMapping(value = "/loggedout", method = RequestMethod.GET)
@@ -34,6 +34,6 @@ public class LoginController {
 		HttpSession session = httpServletRequest.getSession();
 			
 		
-		return "You are logged out!  Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
+		return "You are logged out! Id: " + session.getAttribute("id") + " Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
 	}
 }
