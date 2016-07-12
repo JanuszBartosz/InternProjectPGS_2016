@@ -3,19 +3,12 @@ package com.pgs.soft.service.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.stereotype.Service;
-
 import com.pgs.soft.domain.User;
 import com.pgs.soft.dto.UserDTO;
-=======
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
-import com.pgs.soft.domain.User;
->>>>>>> feature/Authentication_functionality
 import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.UserService;
 
@@ -37,8 +30,6 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		
 		return user;
 	}
-
-	UserRepository userRepository;
 	
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository){
@@ -54,8 +45,4 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		userRepository.save(user);
 	}
 
-	@Override
-	public Optional<User> getUserByEmail(String email) {
-		return userRepository.findOneByEmail(email);
-	}
 }
