@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +31,8 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	
 		
 	public User() {
@@ -58,18 +61,18 @@ public class User implements UserDetails {
 		return id;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return AuthorityUtils.createAuthorityList(role);
+		return AuthorityUtils.createAuthorityList(role.toString());
 	}
 
 	@Override
