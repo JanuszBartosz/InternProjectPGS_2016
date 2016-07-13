@@ -53,12 +53,11 @@ public class PasswordValidator implements Validator {
 		System.out.println(session.getAttribute("email") + "   " + session.getAttribute("id") + "   " + session.getAttribute("authorities"));
 		
 		String inputNewPasswordHash = new BCryptPasswordEncoder().encode(passwordDTO.getNewPassword());
-		String inputOldPasswordHash = new BCryptPasswordEncoder().encode(passwordDTO.getOldPassword());
 		String email = (String) session.getAttribute("email");
 		Optional<com.pgs.soft.domain.User> user = userService.getUserByEmail(email);
 		String oldPasswordHash = user.get().getPassword();
 		
-		if(!oldPasswordHash.equals(inputOldPasswordHash))
+		if(! new BCryptPasswordEncoder().matches(passwordDTO.getOldPassword(), oldPasswordHash))
 			errors.reject("old.password.wrong", "Wrong old password!");
 		
 		if(inputNewPasswordHash.equals(oldPasswordHash))
