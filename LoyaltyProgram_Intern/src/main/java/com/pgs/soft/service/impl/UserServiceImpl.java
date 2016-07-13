@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -56,6 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	}
 	
 	@Override
+	@PreAuthorize("hasRole('USER')")
 	public void changePassword(String newPassword){
 				
 			User user = userRepository.findOne((Integer)session.getAttribute("id"));

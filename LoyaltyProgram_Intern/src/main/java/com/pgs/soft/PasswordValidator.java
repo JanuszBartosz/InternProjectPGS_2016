@@ -51,9 +51,6 @@ public class PasswordValidator implements Validator {
 		if( !(passwordDTO.getNewPasswordRepeat() != null && passwordDTO.getNewPassword().equals(passwordDTO.getNewPasswordRepeat())) )
 			errors.reject("passwords.not.equal", "Password and repeated password do not match!");
 		
-		System.out.println(session.getAttribute("email") + "   " + session.getAttribute("id") + "   " + session.getAttribute("authorities"));
-		
-		String inputNewPasswordHash = new BCryptPasswordEncoder().encode(passwordDTO.getNewPassword());
 		String email = (String) session.getAttribute("email");
 		String oldPasswordHash = "";
 		
@@ -67,7 +64,7 @@ public class PasswordValidator implements Validator {
 		if(! new BCryptPasswordEncoder().matches(passwordDTO.getOldPassword(), oldPasswordHash))
 			errors.reject("old.password.wrong", "Wrong old password!");
 		
-		if(inputNewPasswordHash.equals(oldPasswordHash))
+		if(new BCryptPasswordEncoder().matches(passwordDTO.getNewPassword(), oldPasswordHash))
 			errors.reject("passwords.same", "New password the same as old one!");
 		
 	}
