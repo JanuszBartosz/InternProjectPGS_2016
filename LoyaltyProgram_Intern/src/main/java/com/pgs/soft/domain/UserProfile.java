@@ -1,5 +1,6 @@
 package com.pgs.soft.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,12 +21,13 @@ public class UserProfile {
 	
 	private String surname;
 	
-	@OneToOne
-	@JoinColumn(name = "user_id")
+	@OneToOne(mappedBy = "userProfile")
 	private User user;
 
+	
 	public UserProfile(){
-		
+		this.name = "";
+		this.surname = "";
 	}
 	
 	public UserProfile(String name, String surname){
@@ -33,6 +35,14 @@ public class UserProfile {
 		this.surname = surname;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	
 	public Integer getId() {
 		return id;

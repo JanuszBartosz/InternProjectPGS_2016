@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -36,8 +37,9 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-	private UserProfile userProfile;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_profile_id")
+	private UserProfile userProfile = new UserProfile();
 	
 		
 	public User() {
