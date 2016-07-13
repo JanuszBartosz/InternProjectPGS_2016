@@ -41,7 +41,7 @@ public class UserController {
 
 	
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
-	public String fillProfile(@RequestBody @Valid UserProfileDTO userProfileDTO, HttpServletRequest httpServletRequest){
+	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO, HttpServletRequest httpServletRequest){
 		HttpSession session = httpServletRequest.getSession();
 		String email = (String) session.getAttribute("email");
 		userProfileService.fill(userProfileDTO, email);
