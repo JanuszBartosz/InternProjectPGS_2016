@@ -1,5 +1,7 @@
 package com.pgs.soft.domain;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,7 +29,7 @@ public class UserProfile {
 	private String city;
 	
 	private String street;
-	
+
 	@Column(name = "home_number")
 	private String homeNumber;
 	
@@ -35,6 +39,9 @@ public class UserProfile {
 	@OneToOne(mappedBy = "userProfile")
 	private User user;
 
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
+	private Set<Hobby>hobbies;
 	
 	public UserProfile(){
 		this.name = "";
@@ -64,7 +71,6 @@ public class UserProfile {
 		this.user = user;
 	}
 
-	
 	public Integer getId() {
 		return id;
 	}
@@ -120,4 +126,12 @@ public class UserProfile {
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
 	}	
+	
+	public Set<Hobby> getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(Set<Hobby> hobbies) {
+		this.hobbies = hobbies;
+	}
 }

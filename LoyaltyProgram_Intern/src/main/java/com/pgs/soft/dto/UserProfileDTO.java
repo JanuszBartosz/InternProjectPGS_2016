@@ -1,5 +1,9 @@
 package com.pgs.soft.dto;
 
+import java.util.Set;
+
+import com.pgs.soft.domain.Hobby;
+
 public class UserProfileDTO {
 
 	private String name;
@@ -14,6 +18,8 @@ public class UserProfileDTO {
 	
 	private String postCode;
 	
+	private Set<String> hobbies;
+
 	public UserProfileDTO(){
 		name = "";
 		surname = "";
@@ -71,5 +77,12 @@ public class UserProfileDTO {
 		this.postCode = postCode;
 	}	
 	
+	public Set<String> getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(Set<String> hobbies) {
+		this.hobbies = hobbies;
+	}
 	
 }
