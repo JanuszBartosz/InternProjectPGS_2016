@@ -3,6 +3,7 @@ package com.pgs.soft.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -31,7 +32,7 @@ public class UserController {
     }
 	
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
-	String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
+	public String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
 		
 		userService.changePassword(passwordDTO.getNewPassword());
 		

@@ -5,7 +5,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -36,6 +36,7 @@ public class PasswordValidator implements Validator {
 		
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER')")
 	private void validatePassword(Errors errors, PasswordDTO passwordDTO) {
 		
 		if( !(passwordDTO.getOldPassword() != null && !passwordDTO.getOldPassword().isEmpty()) )
@@ -54,9 +55,15 @@ public class PasswordValidator implements Validator {
 		
 		String inputNewPasswordHash = new BCryptPasswordEncoder().encode(passwordDTO.getNewPassword());
 		String email = (String) session.getAttribute("email");
-		Optional<com.pgs.soft.domain.User> user = userService.getUserByEmail(email);
-		String oldPasswordHash = user.get().getPassword();
+		String oldPasswordHash = "";
 		
+		if(email==null)
+			errors.reject("not.logged", "You are not logged!");
+		else
+		{	
+			Optional<com.pgs.soft.domain.User> user = userService.getUserByEmail(email);
+			oldPasswordHash = user.get().getPassword();
+		}
 		if(! new BCryptPasswordEncoder().matches(passwordDTO.getOldPassword(), oldPasswordHash))
 			errors.reject("old.password.wrong", "Wrong old password!");
 		

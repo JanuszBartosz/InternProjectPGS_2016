@@ -15,7 +15,6 @@ public interface UserService {
 	
 	public void register(UserDTO userDTO);
 	
-	@PreAuthorize("hasRole('USER')")
 	public void changePassword(String newPassword);
 	
 }
