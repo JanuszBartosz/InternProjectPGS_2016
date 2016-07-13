@@ -1,6 +1,7 @@
 package com.pgs.soft.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,16 @@ public class UserProfile {
 	
 	private String surname;
 	
+	private String city;
+	
+	private String street;
+	
+	@Column(name = "home_number")
+	private String homeNumber;
+	
+	@Column(name = "post_code")
+	private String postCode;
+
 	@OneToOne(mappedBy = "userProfile")
 	private User user;
 
@@ -28,12 +39,22 @@ public class UserProfile {
 	public UserProfile(){
 		this.name = "";
 		this.surname = "";
+		this.city = "";
+		this.street = "";
+		this.homeNumber = "";
+		this.postCode = "";
 	}
 	
-	public UserProfile(String name, String surname){
+	public UserProfile(Integer id, String name, String surname, String city, String street, String homeNumber,
+				String postCode) {
+		this.id = id;
 		this.name = name;
 		this.surname = surname;
-	}
+		this.city = city;
+		this.street = street;
+		this.homeNumber = homeNumber;
+		this.postCode = postCode;
+		}
 	
 	public User getUser() {
 		return user;
@@ -67,5 +88,36 @@ public class UserProfile {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getHomeNumber() {
+		return homeNumber;
+	}
+
+	public void setHomeNumber(String homeNumber) {
+		this.homeNumber = homeNumber;
+	}
+
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}	
 }

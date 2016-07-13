@@ -25,13 +25,13 @@ public class UserProfileValidator implements Validator {
 	}
 	
 	private void validateName(Errors errors, UserProfileDTO userProfileDTO){
-		if(!isStringLetter(userProfileDTO.getName())){
+		if(!userProfileDTO.getName().isEmpty() && !isStringLetter(userProfileDTO.getName())){
 			errors.reject("name.incorrect","Name is incorrect");
 		}
 	}
 	
 	private void validateSurname(Errors errors, UserProfileDTO userProfileDTO){
-		if(!isStringLetter(userProfileDTO.getSurname())){
+		if(!userProfileDTO.getSurname().isEmpty() && !isStringLetter(userProfileDTO.getSurname())){
 			errors.reject("surname.incorrect","Surname is incorrect");
 		}
 	}

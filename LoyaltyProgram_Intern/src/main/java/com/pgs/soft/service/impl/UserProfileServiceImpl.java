@@ -28,6 +28,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 		UserProfile userProfile = user.getUserProfile();
 		userProfile.setName(userProfileDTO.getName());
 		userProfile.setSurname(userProfileDTO.getSurname());
+		userProfile.setCity(userProfileDTO.getCity());
+		userProfile.setStreet(userProfileDTO.getStreet());
+		userProfile.setHomeNumber(userProfileDTO.getHomeNumber());
+		userProfile.setPostCode(userProfileDTO.getPostCode());
 		userProfileRepository.save(userProfile);
 	}
 
