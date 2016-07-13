@@ -2,6 +2,8 @@ package com.pgs.soft.service.impl;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +21,11 @@ import com.pgs.soft.service.UserService;
 public class UserServiceImpl implements UserService, UserDetailsService{
 	
 	@Autowired
+	HttpSession session;
+	
+	@Autowired
 	UserRepository userRepository;
+	
 	
 	public Optional<User> getUserByEmail(String email){
 					
@@ -51,12 +57,11 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	
 	@Override
 	public void changePassword(String newPassword){
-		
-	
-		
-		User user = userRepository.findOne(arg0);
-		
-		userRepository.
+				
+			User user = userRepository.findOne((Integer)session.getAttribute("id"));
+			user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+			userRepository.save(user);
+						
 	}
 
 }

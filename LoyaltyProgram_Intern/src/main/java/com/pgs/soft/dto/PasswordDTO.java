@@ -6,6 +6,10 @@ public class PasswordDTO {
 	private String newPassword;
 	private String newPasswordRepeat;
 	
+	public PasswordDTO(){
+		
+	}
+	
 	public PasswordDTO(String oldPassword, String newPassword, String newPasswordRepeat) {
 		super();
 		this.oldPassword = oldPassword;
