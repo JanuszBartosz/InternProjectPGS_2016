@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	public void register(UserDTO userDTO) {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
-		//user.setPassword(userDTO.getPassword());
 		user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
 		userRepository.save(user);

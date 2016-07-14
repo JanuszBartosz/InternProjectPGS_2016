@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.neo4j.cypher.internal.compiler.v2_2.ast.hasAggregateButIsNotAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -39,7 +41,6 @@ public class UserController {
 	}
 
 
-	
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO, HttpServletRequest httpServletRequest){
 		HttpSession session = httpServletRequest.getSession();

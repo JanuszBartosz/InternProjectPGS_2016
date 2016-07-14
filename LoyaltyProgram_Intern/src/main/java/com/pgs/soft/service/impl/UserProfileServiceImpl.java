@@ -37,8 +37,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfile.setCity(userProfileDTO.getCity());
 		userProfile.setStreet(userProfileDTO.getStreet());
 		userProfile.setHomeNumber(userProfileDTO.getHomeNumber());
-		userProfile.setPostCode(userProfileDTO.getPostCode());
-		
+		userProfile.setPostCode(userProfileDTO.getPostCode());		
 		
 		for(String hobby : userProfileDTO.getHobbies()){
 			Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);

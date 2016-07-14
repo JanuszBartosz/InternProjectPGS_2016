@@ -26,10 +26,6 @@ public class UserProfileValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		UserProfileDTO userProfileDTO = (UserProfileDTO) target;
-		String userEmail = (String) session.getAttribute("email");
-		if(userEmail==null){
-			errors.reject("not.logged", "You are not logged.");
-		}
 		validateName(errors, userProfileDTO);
 		validateSurname(errors, userProfileDTO);
 	}
