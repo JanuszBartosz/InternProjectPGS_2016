@@ -57,7 +57,7 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Integer getIdUser() {
+	public Integer getId() {
 		return id;
 	}
 

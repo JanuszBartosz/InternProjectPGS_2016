@@ -2,6 +2,8 @@ package com.pgs.soft.service.impl;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.Role;
 import com.pgs.soft.domain.User;
+import com.pgs.soft.dto.PasswordDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.UserService;
@@ -19,7 +22,12 @@ import com.pgs.soft.service.UserService;
 public class UserServiceImpl implements UserService, UserDetailsService{
 	
 	@Autowired
+	HttpSession session;
+	
+	@Autowired
 	UserRepository userRepository;
+	
+	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	
 	public Optional<User> getUserByEmail(String email){
 					
@@ -43,10 +51,27 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	public void register(UserDTO userDTO) {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
-		//user.setPassword(userDTO.getPassword());
-		user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
 		userRepository.save(user);
+	}
+	
+	@Override
+	public String changePassword(PasswordDTO passwordDTO) {
+								
+			User user = userRepository.findOne((Integer)session.getAttribute("id"));
+			
+			if(! bCryptPasswordEncoder.matches(passwordDTO.getOldPassword(), user.getPassword()))
+				return("Wrong old password!");
+			
+			if(	bCryptPasswordEncoder.matches(passwordDTO.getNewPassword(), user.getPassword()))
+				return("New password the same as old one!");
+			
+			user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+			userRepository.save(user);
+			
+			return("Password changed.");
+						
 	}
 
 }

@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pgs.soft.service.impl.UserServiceImpl;
+import com.pgs.soft.service.UserService;
 
 @Controller
 @ResponseBody
 public class LoginController {
 
 	@Autowired
-	UserServiceImpl userService;
+	UserService userService;
 	
 	@RequestMapping(value = "/logged", method = RequestMethod.GET)
 	String login(HttpServletRequest httpServletRequest){
@@ -24,8 +24,7 @@ public class LoginController {
 		HttpSession session = httpServletRequest.getSession();
 		
 		
-		
-		return "You are logged!  Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
+		return "You are logged! Id: " + session.getAttribute("id") + " Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
 	}
 	
 	@RequestMapping(value = "/loggedout", method = RequestMethod.GET)
@@ -34,6 +33,6 @@ public class LoginController {
 		HttpSession session = httpServletRequest.getSession();
 			
 		
-		return "You are logged out!  Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
+		return "You are logged out! Id: " + session.getAttribute("id") + " Email: " + session.getAttribute("email") + "   Authorities: " + session.getAttribute("authorities");
 	}
 }

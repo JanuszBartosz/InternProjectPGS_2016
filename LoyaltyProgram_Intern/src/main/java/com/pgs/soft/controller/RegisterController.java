@@ -11,31 +11,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pgs.soft.PasswordValidator;
-import com.pgs.soft.dto.PasswordDTO;
+import com.pgs.soft.RegisterValidator;
+import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.service.UserService;
 
 @Controller
 @ResponseBody
-public class UserController {
+public class RegisterController {
 	
-	@Autowired
 	UserService userService;
+	RegisterValidator registerValidator;
 	
 	@Autowired
-	PasswordValidator passwordValidator;
+	public RegisterController(UserService userService, RegisterValidator userDtoValidator){
+		this.userService = userService;
+		this.registerValidator = userDtoValidator;
+	}
 	
-	//Dodanie validatora.
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addValidators(passwordValidator);
+        binder.addValidators(registerValidator);
     }
 	
-	//Metoda obsługująca zmianę hasła.
-	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
-	public String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
-					
-		return userService.changePassword(passwordDTO);
+	@RequestMapping(value = "/user", method=RequestMethod.POST)
+	public String register(@Valid @RequestBody UserDTO userDTO){
+		userService.register(userDTO);
+		return "Registered.";
 	}
-
 }
