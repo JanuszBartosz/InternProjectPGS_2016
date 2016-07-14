@@ -30,7 +30,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public void fill(UserProfileDTO userProfileDTO, String userEmail) {
-		User user = userRepository.findUserByEmail(userEmail);
+		User user = userRepository.findOneByEmail(userEmail).get();
 		UserProfile userProfile = user.getUserProfile();
 		userProfile.setName(userProfileDTO.getName());
 		userProfile.setSurname(userProfileDTO.getSurname());
