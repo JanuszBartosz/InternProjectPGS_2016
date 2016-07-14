@@ -25,11 +25,13 @@ public class UserController {
 	@Autowired
 	PasswordValidator passwordValidator;
 	
+	//Dodanie validatora.
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(passwordValidator);
     }
 	
+	//Metoda obsługująca zmianę hasła.
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
 	public String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
 					
