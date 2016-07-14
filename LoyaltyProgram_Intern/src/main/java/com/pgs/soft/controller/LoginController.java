@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pgs.soft.service.impl.UserServiceImpl;
+import com.pgs.soft.service.UserService;
 
 @Controller
 @ResponseBody
 public class LoginController {
 
 	@Autowired
-	UserServiceImpl userService;
+	UserService userService;
 	
 	@RequestMapping(value = "/logged", method = RequestMethod.GET)
 	String login(HttpServletRequest httpServletRequest){

@@ -1,27 +1,19 @@
 package com.pgs.soft;
 
-import java.util.Optional;
-
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.pgs.soft.dto.PasswordDTO;
-import com.pgs.soft.service.impl.UserServiceImpl;
 
 @Component
 public class PasswordValidator implements Validator {
 
-	@Autowired
+/*	@Autowired
 	private HttpSession session;
 	
 	@Autowired 
-	private UserServiceImpl userService;
+	private UserServiceImpl userService;*/
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -36,7 +28,6 @@ public class PasswordValidator implements Validator {
 		
 	}
 
-	@PreAuthorize("hasRole('ROLE_USER')")
 	private void validatePassword(Errors errors, PasswordDTO passwordDTO) {
 		
 		if( !(passwordDTO.getOldPassword() != null && !passwordDTO.getOldPassword().isEmpty()) )
@@ -51,7 +42,9 @@ public class PasswordValidator implements Validator {
 		if( !(passwordDTO.getNewPasswordRepeat() != null && passwordDTO.getNewPassword().equals(passwordDTO.getNewPasswordRepeat())) )
 			errors.reject("passwords.not.equal", "Password and repeated password do not match!");
 		
-		String email = (String) session.getAttribute("email");
+		
+		
+		/*String email = (String) session.getAttribute("email");
 		String oldPasswordHash = "";
 		
 		if(email==null)
@@ -65,7 +58,7 @@ public class PasswordValidator implements Validator {
 			errors.reject("old.password.wrong", "Wrong old password!");
 		
 		if(new BCryptPasswordEncoder().matches(passwordDTO.getNewPassword(), oldPasswordHash))
-			errors.reject("passwords.same", "New password the same as old one!");
+			errors.reject("passwords.same", "New password the same as old one!");*/
 		
 	}
 		

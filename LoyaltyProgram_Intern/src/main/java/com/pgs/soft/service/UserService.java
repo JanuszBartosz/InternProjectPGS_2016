@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.User;
+import com.pgs.soft.dto.PasswordDTO;
 import com.pgs.soft.dto.UserDTO;
 
 @Service
@@ -15,6 +16,7 @@ public interface UserService {
 	
 	public void register(UserDTO userDTO);
 	
-	public void changePassword(String newPassword);
+	@PreAuthorize("isAuthenticated()")
+	public String changePassword(PasswordDTO passwordDTO);
 	
 }

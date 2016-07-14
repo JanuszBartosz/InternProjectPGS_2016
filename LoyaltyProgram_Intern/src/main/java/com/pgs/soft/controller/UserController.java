@@ -3,7 +3,6 @@ package com.pgs.soft.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -14,14 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pgs.soft.PasswordValidator;
 import com.pgs.soft.dto.PasswordDTO;
-import com.pgs.soft.service.impl.UserServiceImpl;
+import com.pgs.soft.service.UserService;
 
 @Controller
 @ResponseBody
 public class UserController {
 	
 	@Autowired
-	UserServiceImpl userService;
+	UserService userService;
 	
 	@Autowired
 	PasswordValidator passwordValidator;
@@ -33,10 +32,8 @@ public class UserController {
 	
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
 	public String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
-		
-		userService.changePassword(passwordDTO.getNewPassword());
-		
-		return "Password changed succesfully.";
+					
+		return userService.changePassword(passwordDTO);
 	}
 
 }
