@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							
 	}
 	
+	
+	//Uruchomienie silnika Spring Security.
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
