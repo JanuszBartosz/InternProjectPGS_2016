@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
+				.antMatchers("/change_password").authenticated()
+				.anyRequest().permitAll()
 			.and()
 				.formLogin()
 				.loginProcessingUrl("/login")

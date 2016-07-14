@@ -57,21 +57,12 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	}
 	
 	@Override
-	public String changePassword(PasswordDTO passwordDTO) {
-								
-			User user = userRepository.findOne((Integer)session.getAttribute("id"));
+	public void changePassword(PasswordDTO passwordDTO) {
 			
-			if(! bCryptPasswordEncoder.matches(passwordDTO.getOldPassword(), user.getPassword()))
-				return("Wrong old password!");
-			
-			if(	bCryptPasswordEncoder.matches(passwordDTO.getNewPassword(), user.getPassword()))
-				return("New password the same as old one!");
-			
+			User user = userRepository.findOne((Integer) session.getAttribute("id"));
 			user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
 			userRepository.save(user);
-			
-			return("Password changed.");
-						
+												
 	}
 
 }

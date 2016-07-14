@@ -35,7 +35,7 @@ public class UserController {
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
 	public String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
 					
-		return userService.changePassword(passwordDTO);
+		return "Password changed successfully.";
 	}
 
 }
