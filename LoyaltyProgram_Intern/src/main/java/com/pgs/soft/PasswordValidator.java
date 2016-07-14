@@ -21,13 +21,15 @@ public class PasswordValidator implements Validator {
 		return clazz.equals(PasswordDTO.class);
 	}
 
+	//Metoda ustawiająca parametry validatora.
 	@Override
 	public void validate(Object target, Errors errors) {
 		PasswordDTO passwordDTO = (PasswordDTO) target;
 		validatePassword(errors, passwordDTO);
 		
 	}
-
+	
+	//Warunki validacji.
 	private void validatePassword(Errors errors, PasswordDTO passwordDTO) {
 		
 		if( !(passwordDTO.getOldPassword() != null && !passwordDTO.getOldPassword().isEmpty()) )
