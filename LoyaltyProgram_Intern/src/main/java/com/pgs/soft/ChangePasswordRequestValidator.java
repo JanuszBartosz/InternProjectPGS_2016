@@ -1,10 +1,10 @@
 package com.pgs.soft;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -31,16 +31,11 @@ public class ChangePasswordRequestValidator implements Validator {
 	
 	private void validatePassword(Errors errors, ChangePasswordRequestDTO passwordDTO) {
 		
-		if( StringUtils.isEmpty(passwordDTO.getOldPassword()))
-			errors.reject("old.password.empty", "Old password is empty!");
-				
-		if( StringUtils.isEmpty(passwordDTO.getNewPassword()) )
-			errors.reject("new.password.empty", "New password is empty!");
-		
-		if( StringUtils.isEmpty(passwordDTO.getNewPasswordRepeat()) )
-			errors.reject("repeat.password.empty", "Repeat password is empty!");
-				
-		if( !(! StringUtils.isEmpty(passwordDTO.getNewPasswordRepeat()) && passwordDTO.getNewPassword().equals(passwordDTO.getNewPasswordRepeat())) )
+		checkIfBlank(passwordDTO.getOldPassword(), errors, "old.password.empty", "Old password is empty!");
+		checkIfBlank(passwordDTO.getNewPassword(), errors, "new.password.empty", "New password is empty!");
+		checkIfBlank(passwordDTO.getNewPasswordRepeat(), errors, "repeat.password.empty", "Repeat password is empty!");
+						
+		if( ! StringUtils.equals(passwordDTO.getNewPassword(), passwordDTO.getNewPasswordRepeat()))
 			errors.reject("passwords.not.equal", "Password and repeated password do not match!");
 					
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -53,6 +48,11 @@ public class ChangePasswordRequestValidator implements Validator {
 		if(	bCryptPasswordEncoder.matches(passwordDTO.getNewPassword(), oldPasswordHash))
 			errors.reject("passwords.same", "New password the same as old one!");
 		
+	}
+	
+	private void checkIfBlank(String string, Errors errors, String errorKey, String errorMessage){
+		if(StringUtils.isBlank(string))
+			errors.reject(errorKey, errorMessage);
 	}
 		
 
