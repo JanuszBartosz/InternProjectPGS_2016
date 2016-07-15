@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +16,7 @@ import com.pgs.soft.service.CustomLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -27,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private CustomLogoutSuccessHandler logoutSuccessHandler;
 	
 	@Bean
-	public BCryptPasswordEncoder getPasswordEncoder(){
+	public BCryptPasswordEncoder getBCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
 	
@@ -36,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 			.antMatchers("/profile","/profile/*").authenticated()
+			.antMatchers("/change_password").authenticated()
 			.and()
 				.formLogin()
 				.loginProcessingUrl("/login")
@@ -53,9 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							
 	}
 	
+	
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(getBCryptPasswordEncoder());
     }
 }

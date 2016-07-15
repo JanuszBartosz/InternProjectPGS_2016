@@ -3,6 +3,7 @@ package com.pgs.soft.service.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.Role;
 import com.pgs.soft.domain.User;
+import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.UserService;
@@ -18,13 +20,14 @@ import com.pgs.soft.service.UserService;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService{
 	
+
 	@Autowired
 	UserRepository userRepository;
 	
 	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	public Optional<User> getUserByEmail(String email){				
+	public Optional<User> getUserByEmail(String email){
 		return userRepository.findOneByEmail(email);
 	}
 
@@ -38,8 +41,15 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	public void save(UserDTO userDTO) {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
-		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
 		userRepository.save(user);
+	}
+	
+	@Override
+	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
+			User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+			userRepository.save(loggedUser);												
 	}
 }

@@ -18,6 +18,10 @@ import com.pgs.soft.UserProfileValidator;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
 import com.pgs.soft.service.UserProfileService;
+
+import com.pgs.soft.ChangePasswordRequestValidator;
+import com.pgs.soft.dto.ChangePasswordRequestDTO;
+
 import com.pgs.soft.service.UserService;
 
 @Controller
@@ -36,6 +40,9 @@ public class UserController {
 	@Autowired
 	RegisterValidator registerValidator;	
 	
+	@Autowired
+	ChangePasswordRequestValidator passwordValidator;
+	
 	@InitBinder("userProfileDTO")
 	public void initProfileBinder(WebDataBinder binder){
 		binder.addValidators(userProfileValidator);
@@ -45,6 +52,11 @@ public class UserController {
 	public void initRegisterBinder(WebDataBinder binder){
 		binder.addValidators(registerValidator);
 	}
+	
+	@InitBinder("passwordDTO")
+    public void initChangePasswordBinder(WebDataBinder binder) {
+        binder.addValidators(passwordValidator);
+    }
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO){
@@ -56,5 +68,14 @@ public class UserController {
 	public String register(@Valid @RequestBody UserDTO userDTO){
 		userService.save(userDTO);
 		return "Registered.";
+	}
+
+	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
+	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
+		
+		userService.changePassword(passwordDTO);
+			
+		return "Password changed successfully.";
+
 	}
 }
