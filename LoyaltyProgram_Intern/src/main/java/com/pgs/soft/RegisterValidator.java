@@ -12,12 +12,12 @@ import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.service.UserService;
 
 @Component
-public class UserDtoValidator implements Validator {
+public class RegisterValidator implements Validator {
 	
 	private final UserService userService;
 	
 	@Autowired
-	public UserDtoValidator(UserService userService){
+	public RegisterValidator(UserService userService){
 		this.userService = userService;
 	}
 
