@@ -28,25 +28,17 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public Optional<User> getUserByEmail(String email){
-					
 		return userRepository.findOneByEmail(email);
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-		User user = getUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));
-		
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {		
+		User user = getUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));		
 		return user;
 	}
 	
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository){
-		this.userRepository = userRepository;
-	}
-	
 	@Override
-	public void register(UserDTO userDTO) {
+	public void save(UserDTO userDTO) {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
@@ -60,5 +52,4 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
 			userRepository.save(loggedUser);												
 	}
-
 }

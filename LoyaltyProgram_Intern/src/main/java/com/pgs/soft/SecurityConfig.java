@@ -37,8 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
-				.antMatchers("/change_password").authenticated()
-				.anyRequest().permitAll()
+			.antMatchers("/profile","/profile/*").authenticated()
+			.antMatchers("/change_password").authenticated()
 			.and()
 				.formLogin()
 				.loginProcessingUrl("/login")
@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService).passwordEncoder(getBCryptPasswordEncoder());
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(getBCryptPasswordEncoder());
     }
-
 }

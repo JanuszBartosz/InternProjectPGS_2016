@@ -2,6 +2,7 @@ package com.pgs.soft.domain;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -16,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 public class User implements UserDetails {
-
 
 	/**
 	 * 
@@ -34,15 +36,34 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_profile_id")
+	private UserProfile userProfile = new UserProfile();
+	
 		
 	public User() {
 		super();
 	}
-			
+	
 	public User(String email, String password) {
-		
 		this.email = email;
 		this.password = password;
+	}	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public UserProfile getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(UserProfile userProfile) {
+		this.userProfile = userProfile;
 	}
 
 	public String getEmail() {
@@ -56,9 +77,6 @@ public class User implements UserDetails {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public Integer getId() {
-		return id;
 	}
 
 	public Role getRole() {

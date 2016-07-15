@@ -12,9 +12,8 @@ import com.pgs.soft.dto.UserDTO;
 public interface UserService {
 
 	public Optional<User> getUserByEmail(String email);
-	
-	public void register(UserDTO userDTO);
+
+	public void save(UserDTO userDTO);
 	
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
-	
 }

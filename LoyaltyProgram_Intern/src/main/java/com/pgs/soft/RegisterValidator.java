@@ -14,12 +14,8 @@ import com.pgs.soft.service.UserService;
 @Component
 public class RegisterValidator implements Validator {
 	
-	private final UserService userService;
-	
 	@Autowired
-	public RegisterValidator(UserService userService){
-		this.userService = userService;
-	}
+	private UserService userService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

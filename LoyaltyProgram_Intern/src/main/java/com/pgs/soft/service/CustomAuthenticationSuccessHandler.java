@@ -16,15 +16,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
 			throws IOException, ServletException {
-		
- 
+
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
  
-        httpServletResponse.sendRedirect("/logged");
-        
-		
+        httpServletResponse.sendRedirect("/logged");       		
 	}
-	
-
-
 }
