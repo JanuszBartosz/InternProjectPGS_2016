@@ -56,11 +56,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	
 	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
-			
-			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
-			userRepository.save(user);
-												
+			User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+			userRepository.save(loggedUser);												
 	}
 
 }

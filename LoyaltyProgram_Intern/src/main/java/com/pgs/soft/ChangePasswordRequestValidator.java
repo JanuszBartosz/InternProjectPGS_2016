@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -30,16 +31,16 @@ public class ChangePasswordRequestValidator implements Validator {
 	
 	private void validatePassword(Errors errors, ChangePasswordRequestDTO passwordDTO) {
 		
-		if( !(passwordDTO.getOldPassword() != null && !passwordDTO.getOldPassword().isEmpty()) )
+		if( StringUtils.isEmpty(passwordDTO.getOldPassword()))
 			errors.reject("old.password.empty", "Old password is empty!");
 				
-		if( !(passwordDTO.getNewPassword() != null && !passwordDTO.getNewPassword().isEmpty()) )
+		if( StringUtils.isEmpty(passwordDTO.getNewPassword()) )
 			errors.reject("new.password.empty", "New password is empty!");
 		
-		if( !(passwordDTO.getNewPasswordRepeat() != null && !passwordDTO.getNewPasswordRepeat().isEmpty()) )
+		if( StringUtils.isEmpty(passwordDTO.getNewPasswordRepeat()) )
 			errors.reject("repeat.password.empty", "Repeat password is empty!");
 				
-		if( !(passwordDTO.getNewPasswordRepeat() != null && passwordDTO.getNewPassword().equals(passwordDTO.getNewPasswordRepeat())) )
+		if( !(! StringUtils.isEmpty(passwordDTO.getNewPasswordRepeat()) && passwordDTO.getNewPassword().equals(passwordDTO.getNewPasswordRepeat())) )
 			errors.reject("passwords.not.equal", "Password and repeated password do not match!");
 					
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
