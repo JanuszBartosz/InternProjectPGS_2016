@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.Role;
 import com.pgs.soft.domain.User;
-import com.pgs.soft.dto.PasswordDTO;
+import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.UserService;
@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
 	
-	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	public Optional<User> getUserByEmail(String email){
 					
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	}
 	
 	@Override
-	public void changePassword(PasswordDTO passwordDTO) {
+	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
 			
 			User user = userRepository.findOne((Integer) session.getAttribute("id"));
 			user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));

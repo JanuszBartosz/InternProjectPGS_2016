@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.pgs.soft.PasswordValidator;
-import com.pgs.soft.dto.PasswordDTO;
+import com.pgs.soft.ChangePasswordRequestValidator;
+import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.service.UserService;
 
 @Controller
@@ -23,7 +23,7 @@ public class UserController {
 	UserService userService;
 	
 	@Autowired
-	PasswordValidator passwordValidator;
+	ChangePasswordRequestValidator passwordValidator;
 	
 	//Dodanie validatora.
 	@InitBinder
@@ -33,7 +33,7 @@ public class UserController {
 	
 	//Metoda obsługująca zmianę hasła.
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
-	public String changePassword(@Valid @RequestBody PasswordDTO passwordDTO){
+	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
 					
 		return "Password changed successfully.";
 	}

@@ -1,16 +1,16 @@
 package com.pgs.soft.dto;
 
-public class PasswordDTO {
+public class ChangePasswordRequestDTO {
 	
 	private String oldPassword;
 	private String newPassword;
 	private String newPasswordRepeat;
 	
-	public PasswordDTO(){
+	public ChangePasswordRequestDTO(){
 		
 	}
 	
-	public PasswordDTO(String oldPassword, String newPassword, String newPasswordRepeat) {
+	public ChangePasswordRequestDTO(String oldPassword, String newPassword, String newPasswordRepeat) {
 		super();
 		this.oldPassword = oldPassword;
 		this.newPassword = newPassword;
