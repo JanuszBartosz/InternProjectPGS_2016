@@ -35,6 +35,5 @@ public class UserDTO {
 
 	public void setPasswordRepeated(String passwordRepeated) {
 		this.passwordRepeated = passwordRepeated;
-	}
-	
+	}	
 }

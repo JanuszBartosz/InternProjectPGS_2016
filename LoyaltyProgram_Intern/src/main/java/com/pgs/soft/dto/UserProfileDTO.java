@@ -20,15 +20,6 @@ public class UserProfileDTO {
 	
 	private Set<String> hobbies;
 
-	public UserProfileDTO(){
-		name = "";
-		surname = "";
-		city = "";
-		street = "";
-		homeNumber = "";
-		postCode = "";
-	}
-	
 	public String getName() {
 		return name;
 	}

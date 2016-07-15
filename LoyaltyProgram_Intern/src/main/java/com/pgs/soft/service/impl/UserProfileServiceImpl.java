@@ -3,6 +3,7 @@ package com.pgs.soft.service.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.Hobby;
@@ -17,34 +18,35 @@ import com.pgs.soft.service.UserProfileService;
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 	
+	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
 	UserProfileRepository userProfileRepository;
+	
+	@Autowired
 	HobbyRepository hobbyRepository;
 
-	@Autowired
-	public UserProfileServiceImpl(UserProfileRepository userProfileRepository, UserRepository userRepository, HobbyRepository hobbyRepository) {
-		this.userProfileRepository = userProfileRepository;
-		this.userRepository = userRepository;
-		this.hobbyRepository = hobbyRepository;
-	}
-
 	@Override
-	public void fill(UserProfileDTO userProfileDTO, String userEmail) {
-		User user = userRepository.findOneByEmail(userEmail).get();
+	public void save(UserProfileDTO userProfileDTO) {
+		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
 		UserProfile userProfile = user.getUserProfile();
+		map(userProfileDTO, userProfile);
+		userProfileRepository.save(userProfile);
+	}
+	
+	private void map(UserProfileDTO userProfileDTO, UserProfile userProfile){
 		userProfile.setName(userProfileDTO.getName());
 		userProfile.setSurname(userProfileDTO.getSurname());
 		userProfile.setCity(userProfileDTO.getCity());
 		userProfile.setStreet(userProfileDTO.getStreet());
 		userProfile.setHomeNumber(userProfileDTO.getHomeNumber());
-		userProfile.setPostCode(userProfileDTO.getPostCode());		
+		userProfile.setPostCode(userProfileDTO.getPostCode());	
 		
 		for(String hobby : userProfileDTO.getHobbies()){
 			Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);
 			optionalHobby.ifPresent(h -> userProfile.getHobbies().add(h));
 		}
-		
-		userProfileRepository.save(userProfile);
 	}
-
 }

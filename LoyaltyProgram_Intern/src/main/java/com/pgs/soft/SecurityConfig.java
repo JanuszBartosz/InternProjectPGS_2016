@@ -1,6 +1,7 @@
 package com.pgs.soft;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private CustomLogoutSuccessHandler logoutSuccessHandler;
+	
+	@Bean
+	public BCryptPasswordEncoder getPasswordEncoder(){
+		return new BCryptPasswordEncoder();
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -50,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+                .userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
     }
-
 }

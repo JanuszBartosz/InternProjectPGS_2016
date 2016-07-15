@@ -2,13 +2,9 @@ package com.pgs.soft.controller;
 
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.neo4j.cypher.internal.compiler.v2_2.ast.hasAggregateButIsNotAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -17,35 +13,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.pgs.soft.RegisterValidator;
 import com.pgs.soft.UserProfileValidator;
+import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
 import com.pgs.soft.service.UserProfileService;
+import com.pgs.soft.service.UserService;
 
 @Controller
 @ResponseBody
 public class UserController {
 	
+	@Autowired
 	UserProfileService userProfileService;
 	
+	@Autowired
 	UserProfileValidator userProfileValidator;
 	
 	@Autowired
-	public UserController(UserProfileService userProfileService, UserProfileValidator userProfileValidator) {
-		this.userProfileService = userProfileService;
-		this.userProfileValidator = userProfileValidator;
-	}
+	UserService userService;
 	
-	@InitBinder
-	public void initBinder(WebDataBinder binder){
+	@Autowired
+	RegisterValidator registerValidator;	
+	
+	@InitBinder("userProfileDTO")
+	public void initProfileBinder(WebDataBinder binder){
 		binder.addValidators(userProfileValidator);
 	}
-
+	
+	@InitBinder("userDTO")
+	public void initRegisterBinder(WebDataBinder binder){
+		binder.addValidators(registerValidator);
+	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
-	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO, HttpServletRequest httpServletRequest){
-		HttpSession session = httpServletRequest.getSession();
-		String email = (String) session.getAttribute("email");
-		userProfileService.fill(userProfileDTO, email);
+	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO){
+		userProfileService.save(userProfileDTO);
 		return "Profile filled.";
+	}
+	
+	@RequestMapping(value = "/register", method=RequestMethod.POST)
+	public String register(@Valid @RequestBody UserDTO userDTO){
+		userService.save(userDTO);
+		return "Registered.";
 	}
 }

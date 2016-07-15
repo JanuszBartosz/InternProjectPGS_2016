@@ -20,12 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 public class User implements UserDetails {
 
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -50,6 +44,7 @@ public class User implements UserDetails {
 		this.email = email;
 		this.password = password;
 	}	
+	
 	public Integer getId() {
 		return id;
 	}

@@ -21,31 +21,25 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
 	
-	public Optional<User> getUserByEmail(String email){
-					
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
+	public Optional<User> getUserByEmail(String email){				
 		return userRepository.findOneByEmail(email);
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-		User user = getUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));
-		
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {		
+		User user = getUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));		
 		return user;
 	}
 	
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository){
-		this.userRepository = userRepository;
-	}
-	
 	@Override
-	public void register(UserDTO userDTO) {
+	public void save(UserDTO userDTO) {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
-		user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
 		userRepository.save(user);
 	}
-
 }

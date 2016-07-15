@@ -3,9 +3,7 @@ package com.pgs.soft;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -14,9 +12,6 @@ import com.pgs.soft.dto.UserProfileDTO;
 
 @Component
 public class UserProfileValidator implements Validator {
-
-	@Autowired
-	HttpSession session;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -26,28 +21,27 @@ public class UserProfileValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		UserProfileDTO userProfileDTO = (UserProfileDTO) target;
-		validateName(errors, userProfileDTO);
-		validateSurname(errors, userProfileDTO);
+		validateNameAndSurname(errors, userProfileDTO);
 	}
-	
-	private void validateName(Errors errors, UserProfileDTO userProfileDTO){
-		if(!userProfileDTO.getName().isEmpty() && !isStringLetter(userProfileDTO.getName())){
-			errors.reject("name.incorrect","Name is incorrect");
-		}
-	}
-	
-	private void validateSurname(Errors errors, UserProfileDTO userProfileDTO){
-		if(!userProfileDTO.getSurname().isEmpty() && !isStringLetter(userProfileDTO.getSurname())){
-			errors.reject("surname.incorrect","Surname is incorrect");
-		}
-	}
-	
-	private boolean isStringLetter (String name){
+
+	private void validateNameAndSurname(Errors errors, UserProfileDTO userProfileDTO){
+		String name = userProfileDTO.getName();
+		String surname = userProfileDTO.getSurname();
 		Pattern pattern;
 		Matcher matcher;
-		String namePattern = "[a-zA-Z]+";
-		pattern = Pattern.compile(namePattern);
-		matcher = pattern.matcher(name);
-		return matcher.matches();
+		String surnamePattern = "[A-Z]{1}[a-z]+-?[a-zA-Z]+";
+		String namePattern = "[A-Z]{1}[a-z]+";
+		if(!StringUtils.isBlank(name) && !StringUtils.isBlank(surname)){
+			pattern = Pattern.compile(namePattern);
+			matcher = pattern.matcher(name);
+			if(!matcher.matches()){
+				errors.reject("name.incorrect","Name is incorrect");
+			}
+			pattern = Pattern.compile(surnamePattern);
+			matcher = pattern.matcher(surname);
+			if(!matcher.matches()){
+				errors.reject("surname.incorrect","Surname is incorrect");
+			}
+		}
 	}
 }

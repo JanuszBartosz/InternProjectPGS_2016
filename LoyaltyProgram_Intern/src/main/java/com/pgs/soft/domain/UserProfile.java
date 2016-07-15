@@ -44,12 +44,6 @@ public class UserProfile {
 	private Set<Hobby>hobbies;
 	
 	public UserProfile(){
-		this.name = "";
-		this.surname = "";
-		this.city = "";
-		this.street = "";
-		this.homeNumber = "";
-		this.postCode = "";
 	}
 	
 	public UserProfile(Integer id, String name, String surname, String city, String street, String homeNumber,

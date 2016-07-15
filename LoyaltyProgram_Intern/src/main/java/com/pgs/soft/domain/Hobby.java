@@ -21,9 +21,6 @@ public class Hobby {
 	@Column(name = "hobby_name")
 	private String hobbyName;
 	
-	@ManyToMany(mappedBy = "hobbies")
-	private Set<UserProfile> userProfiles;
-	
 	public Hobby(){
 		
 	}
@@ -47,13 +44,4 @@ public class Hobby {
 	public void setHobbyName(String hobbyName) {
 		this.hobbyName = hobbyName;
 	}
-
-	public Set<UserProfile> getUserProfiles() {
-		return userProfiles;
-	}
-
-	public void setUserProfiles(Set<UserProfile> userProfiles) {
-		this.userProfiles = userProfiles;
-	}
-
 }
