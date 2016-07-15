@@ -2,9 +2,8 @@ package com.pgs.soft.service.impl;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,9 +20,7 @@ import com.pgs.soft.service.UserService;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService{
 	
-	@Autowired
-	HttpSession session;
-	
+
 	@Autowired
 	UserRepository userRepository;
 	
@@ -60,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
 			
-			User user = userRepository.findOne((Integer) session.getAttribute("id"));
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
 			userRepository.save(user);
 												
