@@ -78,14 +78,6 @@ public class UserController {
 		return model;
 	}
 	
-	/*@RequestMapping(value = "/login", method=RequestMethod.POST)
-	public String login(@ModelAttribute ("loginForm") LoginFormDTO loginForm){
-		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println("Logged user email:  " + loggedUser.getEmail());
-		return "logged";
-	}*/
-	
-	
 	
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @RequestBody UserDTO userDTO){
