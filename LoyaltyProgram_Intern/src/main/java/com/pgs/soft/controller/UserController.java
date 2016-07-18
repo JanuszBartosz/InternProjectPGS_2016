@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +26,6 @@ import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
 
 @Controller
-//@ResponseBody
 public class UserController {
 	
 	@Autowired
@@ -70,26 +70,35 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping(value = "/logged", method=RequestMethod.GET)
-	public ModelAndView getLogged(){
-		ModelAndView model = new ModelAndView("logged");
-		model.addObject("loggedUser", (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-				
-		return model;
+	@RequestMapping(value = "/register", method=RequestMethod.GET)
+	public String registerView(@ModelAttribute("userDTO") UserDTO userDTO){
+		return "register";
 	}
 	
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
-	public String register(@Valid @RequestBody UserDTO userDTO){
-		userService.save(userDTO);
-		return "Registered.";
+	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userService.save(userDTO);
+			return "index";
+		}
+		return "register";
 	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
 	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
-		
-		userService.changePassword(passwordDTO);
-			
+		userService.changePassword(passwordDTO);		
 		return "Password changed successfully.";
-
+	}
+	
+	@RequestMapping("/main")
+	public ModelAndView mainPage(){
+		ModelAndView model = new ModelAndView("main");
+		model.addObject("loggedUser", (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+		return model;
+	}
+	
+	@RequestMapping("/")
+	public String index(){
+		return "index";
 	}
 }

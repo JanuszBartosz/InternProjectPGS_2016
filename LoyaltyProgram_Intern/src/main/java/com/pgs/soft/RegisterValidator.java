@@ -31,16 +31,16 @@ public class RegisterValidator implements Validator {
 	
 	private void validatePassword(Errors errors, UserDTO userDTO){
 		if(!userDTO.getPassword().equals(userDTO.getPasswordRepeated())){
-			errors.reject("passwords.nomatch", "Passwords does not match");
+			errors.rejectValue("passwordRepeated", "passwords.nomatch");
 		}
 	}
 	
 	private void validateEmail(Errors errors, UserDTO userDTO) {
         if (userService.getUserByEmail(userDTO.getEmail()).isPresent()) {
-            errors.reject("email.exists", "User with that email already exists");
+            errors.rejectValue("email", "email.exists");
         }
         if (!isEmailFormCorrect(userDTO.getEmail())){
-        	errors.reject("email.incorrect", "Incorrect email");
+        	errors.rejectValue("email","email.incorrect");
         } 
     }
 	
