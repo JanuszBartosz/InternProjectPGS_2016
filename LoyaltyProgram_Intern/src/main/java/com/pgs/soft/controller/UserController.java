@@ -69,10 +69,10 @@ public class UserController {
 	
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
-		if(result.hasErrors()){
+		if(!result.hasErrors()){
+			userService.save(userDTO);
 			return "register";
 		}
-		userService.save(userDTO);
 		return "register";
 	}
 
