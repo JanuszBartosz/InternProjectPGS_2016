@@ -78,10 +78,12 @@ public class UserController {
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
 	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
-		
-		userService.changePassword(passwordDTO);
-			
+		userService.changePassword(passwordDTO);		
 		return "Password changed successfully.";
-
+	}
+	
+	@RequestMapping("/main")
+	public String mainPage(){
+		return "main";
 	}
 }
