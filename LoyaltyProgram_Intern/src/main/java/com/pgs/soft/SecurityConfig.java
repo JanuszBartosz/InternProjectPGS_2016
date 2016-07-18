@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/change_password").authenticated()
 			.and()
 				.formLogin()
-				//.loginProcessingUrl("/login")
+				.loginProcessingUrl("/login")
 				.loginPage("/login")
 				.successHandler(authenticationSuccessHandler)
 				.usernameParameter("email")
