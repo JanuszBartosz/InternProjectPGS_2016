@@ -1,13 +1,10 @@
 package com.pgs.soft.domain;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,7 +23,7 @@ public class Hobby {
 	}
 	
 	public Hobby(String hobbyName){
-		this.hobbyName=hobbyName;
+		this.hobbyName=hobbyName;	
 	}
 
 	public Integer getId() {
