@@ -71,7 +71,7 @@ public class UserController {
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
 			userService.save(userDTO);
-			return "register";
+			return "index";
 		}
 		return "register";
 	}
@@ -85,5 +85,10 @@ public class UserController {
 	@RequestMapping("/main")
 	public String mainPage(){
 		return "main";
+	}
+	
+	@RequestMapping("/")
+	public String index(){
+		return "index";
 	}
 }
