@@ -78,7 +78,6 @@ public class UserController {
 		return model;
 	}
 	
-	
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @RequestBody UserDTO userDTO){
 		userService.save(userDTO);

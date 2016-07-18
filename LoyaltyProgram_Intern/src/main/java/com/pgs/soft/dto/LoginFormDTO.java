@@ -6,7 +6,6 @@ public class LoginFormDTO {
 	private String password;
 	
 	public LoginFormDTO(){
-		
 	}
 	
 	public LoginFormDTO(String email, String password) {
@@ -31,7 +30,4 @@ public class LoginFormDTO {
 		this.password = password;
 	}
 	
-	
-
-
 }
