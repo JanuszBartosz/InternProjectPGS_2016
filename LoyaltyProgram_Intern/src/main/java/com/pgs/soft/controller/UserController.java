@@ -71,17 +71,24 @@ public class UserController {
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
 			userService.save(userDTO);
-			return "register";
+			return "index";
 		}
 		return "register";
 	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
 	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
-		
-		userService.changePassword(passwordDTO);
-			
+		userService.changePassword(passwordDTO);		
 		return "Password changed successfully.";
-
+	}
+	
+	@RequestMapping("/main")
+	public String mainPage(){
+		return "main";
+	}
+	
+	@RequestMapping("/")
+	public String index(){
+		return "index";
 	}
 }
