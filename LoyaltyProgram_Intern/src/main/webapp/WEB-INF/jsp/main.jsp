@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <body>
+	<h1>Logged as:   ${loggedUser.email}</h1>
 	<h3>
 		<a href="/profile"> <spring:message code="main.profile" /></a><br>
 		<a href="/card"> <spring:message code="main.card" /></a><br>
