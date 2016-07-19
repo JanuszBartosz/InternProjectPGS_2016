@@ -1,5 +1,7 @@
 package com.pgs.soft.controller;
 
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.LoginFormDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
+import com.pgs.soft.service.HobbyService;
 import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
 
@@ -43,6 +46,9 @@ public class UserController {
 	@Autowired
 	ChangePasswordRequestValidator passwordValidator;
 	
+	@Autowired
+	HobbyService hobbyService;
+	
 	@InitBinder("userProfileDTO")
 	public void initProfileBinder(WebDataBinder binder){
 		binder.addValidators(userProfileValidator);
@@ -58,10 +64,17 @@ public class UserController {
         binder.addValidators(passwordValidator);
     }
 	
+	@ModelAttribute("hobbiesNames")
+	public Set<String> getHobbiesNames()
+	{
+		Set<String> hobbiesNames = hobbyService.getAllHobbiesNames();
+		return hobbiesNames;
+	}
+	
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
-	public ModelAndView fillProfileView(@ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO){
+	public ModelAndView fillProfileView(){
 		ModelAndView model = new ModelAndView("profile");
-		model.addObject(userProfileService.get());
+		model.addObject(userProfileService.get());	
 		return model;
 	}
 
