@@ -52,5 +52,6 @@
 			<input type="submit" />
 		</div>
 	</form:form>
+	<a href="/main"> <spring:message code="profile.go_main" /></a>
 </body>
 </html>
