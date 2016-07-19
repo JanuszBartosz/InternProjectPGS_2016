@@ -5,42 +5,33 @@ import java.io.Serializable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-import com.pgs.soft.dto.GenericDTO;
 import com.pgs.soft.service.GenericService;
 
 @Service
-public abstract class GenericServiceImpl<E, K extends Serializable> implements GenericService<E, K> {
+public abstract class GenericServiceImpl<E, D, K extends Serializable> implements GenericService<E, D, K> {
 
 	
-	private CrudRepository<E, K> crudRepository;
-			
-	public CrudRepository<E, K> getCrudRepository() {
-		return crudRepository;
-	}
+	protected abstract CrudRepository<E, K> getCrudRepository();
 
-	protected E mapDtoToEntity(GenericDTO<K> objectDTO){
-		return null;
-	}
+	protected abstract E mapDtoToEntity(D objectDTO);
 	
-	protected GenericDTO<K> mapEntityToDto(E entity){
-		return null;
-	}
+	protected abstract D mapEntityToDto(E entity);
 	
 	@Override
-	public void saveOrUpdate(GenericDTO<K> objectDTO) {
+	public void saveOrUpdate(D objectDTO) {
 		E entity = mapDtoToEntity(objectDTO);
 		getCrudRepository().save(entity);
 	}
 
 	@Override
-	public GenericDTO<K> get(K id) {
+	public D get(K id) {
 		E entity = getCrudRepository().findOne(id);
-		GenericDTO<K> objectDTO = mapEntityToDto(entity);
+		D objectDTO = mapEntityToDto(entity);
 		return objectDTO;
 	}
 
 	@Override
-	public void remove(GenericDTO<K> objectDTO) {
+	public void remove(D objectDTO) {
 		E entity = mapDtoToEntity(objectDTO);
 		getCrudRepository().delete(entity);
 	}

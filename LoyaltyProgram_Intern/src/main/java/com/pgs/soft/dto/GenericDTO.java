@@ -11,7 +11,4 @@ public abstract class GenericDTO<K> {
 	public void setId(K id) {
 		this.id = id;
 	}
-	
-	
-	
 }

@@ -2,7 +2,7 @@ package com.pgs.soft.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserDTO {
+public class UserDTO extends GenericDTO<Integer> {
 
 	@NotEmpty
 	private String email;

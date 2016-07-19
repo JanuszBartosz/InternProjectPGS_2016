@@ -9,11 +9,8 @@ import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 
 @Service
-public interface UserService {
+public interface UserService extends GenericService<User, UserDTO, Integer> {
 
 	public Optional<User> getUserByEmail(String email);
-
-	public void save(UserDTO userDTO);
-	
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
 }
