@@ -1,6 +1,9 @@
 package com.pgs.soft.service.impl;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,17 @@ public abstract class GenericServiceImpl<E, D, K extends Serializable> implement
 		E entity = getCrudRepository().findOne(id);
 		D objectDTO = mapEntityToDto(entity);
 		return objectDTO;
+	}
+	
+	@Override
+	public List<D> getAll(){
+		
+		List<D> list = new ArrayList<D>();
+		Iterator<E> iterator = getCrudRepository().findAll().iterator();
+		while(iterator.hasNext()){
+			list.add(mapEntityToDto(iterator.next()));
+		}
+		return list;		
 	}
 
 	@Override
