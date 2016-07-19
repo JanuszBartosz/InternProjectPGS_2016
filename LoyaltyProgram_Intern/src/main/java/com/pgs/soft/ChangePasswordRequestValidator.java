@@ -36,17 +36,17 @@ public class ChangePasswordRequestValidator implements Validator {
 		checkIfBlank(passwordDTO.getNewPasswordRepeat(), errors, "repeat.password.empty", "Repeat password is empty!");
 						
 		if( ! StringUtils.equals(passwordDTO.getNewPassword(), passwordDTO.getNewPasswordRepeat()))
-			errors.reject("passwords.not.equal", "Password and repeated password do not match!");
+			errors.rejectValue("newPasswordRepeat","passwords.nomatch");
 					
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 										
 		String oldPasswordHash = loggedUser.getPassword();
 		
 		if(! bCryptPasswordEncoder.matches(passwordDTO.getOldPassword(), oldPasswordHash))
-			errors.reject("old.password.wrong", "Wrong old password!");
+			errors.rejectValue("oldPassword","password.incorrect");
 		
 		if(	bCryptPasswordEncoder.matches(passwordDTO.getNewPassword(), oldPasswordHash))
-			errors.reject("passwords.same", "New password the same as old one!");
+			errors.rejectValue("newPassword", "passwords.same");
 		
 	}
 	

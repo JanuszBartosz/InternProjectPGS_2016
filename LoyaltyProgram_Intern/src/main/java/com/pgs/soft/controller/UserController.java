@@ -83,11 +83,19 @@ public class UserController {
 		}
 		return "register";
 	}
+	
+	@RequestMapping(value = "/change_password", method=RequestMethod.GET)
+	public String changePasswordView(@ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO){
+		return "change_password";
+	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
-	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
-		userService.changePassword(passwordDTO);		
-		return "Password changed successfully.";
+	public String changePassword(@Valid @ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userService.changePassword(passwordDTO);
+			return "main";
+		}				
+		return "change_password";
 	}
 	
 	@RequestMapping("/main")
