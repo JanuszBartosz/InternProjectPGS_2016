@@ -57,11 +57,21 @@ public class UserController {
     public void initChangePasswordBinder(WebDataBinder binder) {
         binder.addValidators(passwordValidator);
     }
+	
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
+	public ModelAndView fillProfileView(@ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO){
+		ModelAndView model = new ModelAndView("profile");
+		model.addObject(userProfileService.get());
+		return model;
+	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
-	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO){
-		userProfileService.save(userProfileDTO);
-		return "Profile filled.";
+	public String fillProfile(@Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userProfileService.save(userProfileDTO);
+			return "profile";
+		}
+		return "profile";
 	}
 	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
