@@ -1,6 +1,7 @@
 package com.pgs.soft.service.impl;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -69,6 +70,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfileDTO.setStreet(userProfile.getStreet());
 		userProfileDTO.setHomeNumber(userProfile.getHomeNumber());
 		userProfileDTO.setPostCode(userProfile.getPostCode());
+		
+		for(Hobby hobby : userProfile.getHobbies()){
+			userProfileDTO.getHobbies().add(hobby.getHobbyName());
+		}
+		
 		return userProfileDTO;
 	}
 }
