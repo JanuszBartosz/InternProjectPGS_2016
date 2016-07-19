@@ -9,5 +9,5 @@ public interface UserProfileService {
 
 	public void save(UserProfileDTO userProfileDTO);
 	
-	public UserProfileDTO get();
+	public UserProfileDTO getUserProfile();
 }

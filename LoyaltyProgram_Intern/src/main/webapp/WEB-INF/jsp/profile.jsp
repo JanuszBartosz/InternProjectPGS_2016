@@ -50,7 +50,7 @@
 		</div>
 		<div>
 			<spring:message code="profile.hobbies" />
-			<form:checkboxes items="${hobbiesNames}" path="hobbies"/>	
+			<form:checkboxes items="${hobbiesNames}" path="hobbies" />	
 		</div>
 		<div>
 			<input type="submit" />

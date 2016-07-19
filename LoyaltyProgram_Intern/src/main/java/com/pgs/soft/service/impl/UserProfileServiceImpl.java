@@ -28,7 +28,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	HobbyRepository hobbyRepository;
 	
 	@Override
-	public UserProfileDTO get() {
+	public UserProfileDTO getUserProfile() {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
 		UserProfile userProfile = user.getUserProfile();
@@ -52,12 +52,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfile.setCity(userProfileDTO.getCity());
 		userProfile.setStreet(userProfileDTO.getStreet());
 		userProfile.setHomeNumber(userProfileDTO.getHomeNumber());
-		userProfile.setPostCode(userProfileDTO.getPostCode());	
+		userProfile.setPostCode(userProfileDTO.getPostCode());
+		userProfile.getHobbies().clear();
 		
-		for(String hobby : userProfileDTO.getHobbies()){
-			Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);
-			optionalHobby.ifPresent(h -> userProfile.getHobbies().add(h));
+		if(userProfileDTO.getHobbies()!=null){
+			for(String hobby : userProfileDTO.getHobbies()){
+				Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);
+				optionalHobby.ifPresent(h -> userProfile.getHobbies().add(h));
+			}
 		}
+		
 		
 		return userProfile;
 	}

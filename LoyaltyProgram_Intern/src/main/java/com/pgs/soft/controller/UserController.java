@@ -74,7 +74,7 @@ public class UserController {
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	public ModelAndView fillProfileView(){
 		ModelAndView model = new ModelAndView("profile");
-		model.addObject(userProfileService.get());	
+		model.addObject(userProfileService.getUserProfile());	
 		return model;
 	}
 
@@ -82,7 +82,6 @@ public class UserController {
 	public String fillProfile(@Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO, BindingResult result){
 		if(!result.hasErrors()){
 			userProfileService.save(userProfileDTO);
-			return "profile";
 		}
 		return "profile";
 	}
