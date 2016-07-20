@@ -30,23 +30,23 @@ public class CardController {
 		binder.addValidators(cardValidator);
 	}
 
-	@RequestMapping(value = "/card_logged", method = RequestMethod.GET)
+	@RequestMapping(value = "/main/card", method = RequestMethod.GET)
 	public String cardLoggedView(@ModelAttribute("cardLoggedDTO") CardLoggedDTO cardLoggedDTO) {
 		return "card_logged";
 	}
 	
-	@RequestMapping(value = "/card_logged", method = RequestMethod.POST)
+	@RequestMapping(value = "/main/card", method = RequestMethod.POST)
 	public String cardLogged(@ModelAttribute("cardLoggedDTO") CardLoggedDTO cardLoggedDTO) {
 		cardService.saveForLogged(cardLoggedDTO);
 		return "card_logged";
 	}
 	
-	@RequestMapping(value = "/card", method = RequestMethod.GET)
+	@RequestMapping(value = "card", method = RequestMethod.GET)
 	public String cardView(@ModelAttribute("cardNotLoggedDTO") CardNotLoggedDTO cardNotLoggedDTO) {
 		return "card_not_logged";
 	}
 	
-	@RequestMapping(value = "/card", method = RequestMethod.POST)
+	@RequestMapping(value = "card", method = RequestMethod.POST)
 	public String card(@Valid @ModelAttribute("cardNotLoggedDTO") CardNotLoggedDTO cardNotLoggedDTO, BindingResult result) {
 		if(!result.hasErrors()){
 			cardService.saveForNotLogged(cardNotLoggedDTO);

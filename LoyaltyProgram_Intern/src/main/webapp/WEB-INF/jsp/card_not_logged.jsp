@@ -26,5 +26,6 @@
             <input type="submit" />
         </div>
     </form:form>
+    <a href="/"> <spring:message code="card.go_index" /></a><br>
 </body>
 </html>
