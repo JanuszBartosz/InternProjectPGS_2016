@@ -7,9 +7,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ElasticEmail {
     
-    public static String SendElasticEmail(String userName, String apiKey, String from, String fromName, String subject, String body, String to)  {
+    public static String SendElasticEmail(String userName, String apiKey, String from, String fromName, String subject, String template, String to, String email, String password)  {
         
     	String result="";
     	
@@ -21,8 +24,12 @@ public class ElasticEmail {
             data += "&from=" + URLEncoder.encode(from, "UTF-8");
             data += "&from_name=" + URLEncoder.encode(fromName, "UTF-8");
             data += "&subject=" + URLEncoder.encode(subject, "UTF-8");
-            data += "&body_html=" + URLEncoder.encode(body, "UTF-8");
+            //data += "&body_html=" + URLEncoder.encode(body, "UTF-8");
+            data += "&template=" + URLEncoder.encode(template, "UTF-8");
             data += "&to=" + URLEncoder.encode(to, "UTF-8");
+            data += "&merge_email=" + URLEncoder.encode(email, "UTF-8");
+            data += "&merge_password=" + URLEncoder.encode(password, "UTF-8");
+
             
             //Send data
             URL url = new URL("https://api.elasticemail.com/mailer/send");
