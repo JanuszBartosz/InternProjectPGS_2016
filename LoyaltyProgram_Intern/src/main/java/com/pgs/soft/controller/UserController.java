@@ -24,7 +24,7 @@ import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
 import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
-import com.pgs.soft.service.impl.ElasticEmail;
+import com.pgs.soft.service.impl.EmailService;
 
 @Controller
 public class UserController {
@@ -39,7 +39,7 @@ public class UserController {
 	UserService userService;
 	
 	@Autowired
-	ElasticEmail elasticEmail;
+	EmailService emailService;
 	
 	@Autowired
 	RegisterValidator registerValidator;	
@@ -84,7 +84,7 @@ public class UserController {
 		if(!result.hasErrors()){
 			userService.save(userDTO);
 			
-			String sendResult = ElasticEmail.SendElasticEmail("bjanusz@pgs-soft.com", "90a70d48-6289-44d2-a849-e323dcefc30b", "bjanusz@pgs-soft.com", "Janu$z", "Registration confirmation", "registration_conf", "bjanusz@pgs-soft.com", userDTO.getEmail(), userDTO.getPassword());
+			String sendResult = emailService.SendElasticEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword());
 			System.out.println(sendResult);
 			
 			return "index";
