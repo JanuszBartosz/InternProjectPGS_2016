@@ -1,5 +1,8 @@
 package com.pgs.soft.service.impl;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,9 @@ public class CardServiceImpl implements CardService {
 		card.setNumber(cardLoggedDTO.getNumber());
 		card.setUser(user);
 		cardRepository.save(card);
+		if(cardLoggedDTO.isActive()){
+			activateCard(user.getId(), card.getId());
+		}
 	}
 
 	@Override
@@ -38,5 +44,25 @@ public class CardServiceImpl implements CardService {
 		card.setNumber(cardNotLoggedDTO.getNumber());
 		card.setUser(user);
 		cardRepository.save(card);
+		if(cardNotLoggedDTO.isActive()){
+			activateCard(user.getId(), card.getId());
+		}
 	}	
+	
+	private void deactivateCards(Integer userId){
+		Set<Card> cards = cardRepository.findByUserId(userId);
+		Iterator<Card> iterator = cards.iterator();
+		while(iterator.hasNext()){
+			Card currentCard = iterator.next();
+			currentCard.setActive(false);
+			cardRepository.save(currentCard);
+		}	
+	}
+	
+	public void activateCard(Integer userId, Integer cardId){
+		deactivateCards(userId);
+		Card currentCard = cardRepository.findOne(cardId);
+		currentCard.setActive(true);
+		cardRepository.save(currentCard);
+	}
 }

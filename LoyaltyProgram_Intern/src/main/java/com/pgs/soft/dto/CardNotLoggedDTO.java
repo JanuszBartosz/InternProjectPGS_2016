@@ -9,6 +9,8 @@ public class CardNotLoggedDTO {
 	private String name; 
 	
 	private String surname;
+	
+	private boolean active;
 
 	public String getNumber() {
 		return number;
@@ -40,5 +42,13 @@ public class CardNotLoggedDTO {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

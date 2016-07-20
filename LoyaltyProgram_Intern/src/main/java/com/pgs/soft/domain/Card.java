@@ -1,5 +1,6 @@
 package com.pgs.soft.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,9 @@ public class Card {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@Column(name = "active", columnDefinition = "TINYINT", length = 1)
+	private boolean isActive;
 	
 	public Integer getId() {
 		return id;
@@ -44,5 +48,13 @@ public class Card {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }

@@ -11,6 +11,10 @@
             <form:input path="number" />
         </div>
         <div>
+		    <spring:message code="card.active" />
+			<form:checkbox path="active" />
+		</div>
+        <div>
             <input type="submit" />
         </div>
     </form:form>
