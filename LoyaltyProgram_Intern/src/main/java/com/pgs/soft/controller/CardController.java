@@ -19,7 +19,7 @@ public class CardController {
 
 	@RequestMapping(value = "/card", method = RequestMethod.POST)
 	public String card(@RequestBody CardDTO cardDTO){
-		
+		cardService.save(cardDTO);
 		return "done";
 	}
 }

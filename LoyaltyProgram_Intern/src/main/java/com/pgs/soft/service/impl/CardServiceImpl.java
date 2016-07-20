@@ -27,5 +27,6 @@ public class CardServiceImpl implements CardService {
 		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
 		card.setNumber(cardDTO.getNumber());
 		card.setUser(user);
+		cardRepository.save(card);
 	}
 }
