@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/profile","/profile/*").authenticated()
 			.antMatchers("/change_password").authenticated()
 			.antMatchers("/main").authenticated()
+			.antMatchers("/card_logged").authenticated()
 			.and()
 				.formLogin()
 				.loginProcessingUrl("/login")

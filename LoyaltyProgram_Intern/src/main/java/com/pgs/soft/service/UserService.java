@@ -16,4 +16,6 @@ public interface UserService {
 	public void save(UserDTO userDTO);
 	
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
+	
+	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname);
 }

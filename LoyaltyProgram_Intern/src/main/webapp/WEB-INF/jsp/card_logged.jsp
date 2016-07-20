@@ -3,8 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <body>
-    <h1><spring:message code="card.main" /></h1>
-    <form:form modelAttribute="cardDTO" method="POST" action="/card">
+    <h1><spring:message code="card.main_logged" /></h1>
+    <form:form modelAttribute="cardLoggedDTO" method="POST" action="/card_logged">
         <form:errors path="" element="div" />
         <div>
             <form:label path="number"><spring:message code="card.number" /></form:label>

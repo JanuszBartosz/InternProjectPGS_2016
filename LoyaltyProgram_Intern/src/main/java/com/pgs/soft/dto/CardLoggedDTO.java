@@ -1,6 +1,6 @@
 package com.pgs.soft.dto;
 
-public class CardDTO {
+public class CardLoggedDTO {
 	
 	private String number;
 

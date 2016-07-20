@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
 			userRepository.save(loggedUser);												
 	}
+
+	@Override
+	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname) {
+		return userRepository.findOneByEmailAndUserProfile_NameAndUserProfile_Surname(email, name, surname);
+	}
 }
