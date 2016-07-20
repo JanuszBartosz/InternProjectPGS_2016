@@ -1,6 +1,7 @@
 package com.pgs.soft.domain;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -40,6 +42,8 @@ public class User implements UserDetails {
 	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile = new UserProfile();
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<Card> cards;
 		
 	public User() {
 		super();
@@ -85,6 +89,14 @@ public class User implements UserDetails {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public Set<Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(Set<Card> cards) {
+		this.cards = cards;
 	}
 
 	@Override
