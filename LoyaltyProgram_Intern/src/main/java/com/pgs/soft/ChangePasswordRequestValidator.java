@@ -54,6 +54,4 @@ public class ChangePasswordRequestValidator implements Validator {
 		if(StringUtils.isBlank(string))
 			errors.reject(errorKey, errorMessage);
 	}
-		
-
 }
