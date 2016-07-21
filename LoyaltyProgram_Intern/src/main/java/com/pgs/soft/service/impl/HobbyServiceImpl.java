@@ -3,6 +3,9 @@ package com.pgs.soft.service.impl;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,13 +31,7 @@ public class HobbyServiceImpl implements HobbyService {
 
 	@Override
 	public Set<Hobby> getAllHobbies() {
-		Iterator<Hobby> iterator = hobbyRepository.findAll().iterator();
-		Set<Hobby> hobbies = new HashSet<Hobby>();
-	
-		while(iterator.hasNext()){
-			hobbies.add(iterator.next());
-		}
-			
-		return hobbies;
+		return StreamSupport.stream(hobbyRepository.findAll().spliterator(), false)
+						.collect(Collectors.toSet());
 	}
 }
