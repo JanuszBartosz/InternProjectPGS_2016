@@ -1,5 +1,6 @@
 package com.pgs.soft.dto;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class UserProfileDTO {
@@ -16,7 +17,7 @@ public class UserProfileDTO {
 	
 	private String postCode;
 	
-	private Set<String> hobbies;
+	private Set<String> hobbies = new HashSet<String>();
 
 	public String getName() {
 		return name;
