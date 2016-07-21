@@ -1,5 +1,6 @@
 package com.pgs.soft.service.impl;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -7,6 +8,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +24,14 @@ public class HobbyServiceImpl implements HobbyService {
 
 	@Override
 	public Set<String> getAllHobbiesNames() {
-		Set<String> hobbiesNames = new HashSet<String>();
-		for (Hobby hobby : getAllHobbies()){
-			hobbiesNames.add(hobby.getHobbyName());
-		}
-		return hobbiesNames;
+		return getAllHobbies().stream().map((h) -> h.getHobbyName()).collect(Collectors.toSet());
 	}
 
 	@Override
 	public Set<Hobby> getAllHobbies() {
-		return StreamSupport.stream(hobbyRepository.findAll().spliterator(), false)
-						.collect(Collectors.toSet());
+	//	return new HashSet<Hobby>((Collection<? extends Hobby>) hobbyRepository.findAll());
+//		return StreamSupport.stream(hobbyRepository.findAll().spliterator(), false)
+//						.collect(Collectors.toSet());
+		return new HashSet<>((Collection<Hobby>) hobbyRepository.findAll());
 	}
 }

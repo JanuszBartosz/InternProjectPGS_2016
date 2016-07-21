@@ -62,7 +62,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 			}
 		}
 		
-		
 		return userProfile;
 	}
 	

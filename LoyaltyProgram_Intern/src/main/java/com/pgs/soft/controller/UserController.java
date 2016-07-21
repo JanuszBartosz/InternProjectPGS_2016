@@ -66,9 +66,8 @@ public class UserController {
 	
 	@ModelAttribute("hobbiesNames")
 	public Set<String> getHobbiesNames()
-	{
-		Set<String> hobbiesNames = hobbyService.getAllHobbiesNames();
-		return hobbiesNames;
+	{ 
+		return hobbyService.getAllHobbiesNames();
 	}
 	
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
