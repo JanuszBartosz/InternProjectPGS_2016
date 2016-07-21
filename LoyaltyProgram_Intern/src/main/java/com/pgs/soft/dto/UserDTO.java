@@ -13,7 +13,6 @@ public class UserDTO {
 	@NotEmpty
 	private String passwordRepeated;
 	
-	@NotEmpty
 	private String uuid;
 
 	public String getEmail() {

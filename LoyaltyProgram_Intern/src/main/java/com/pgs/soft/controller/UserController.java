@@ -89,7 +89,7 @@ public class UserController {
 			String uuid = String.valueOf(UUID.randomUUID());
 			userDTO.setUuid(uuid);
 			userService.save(userDTO);
-			String sendResult = emailService.SendElasticEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword());
+			String sendResult = emailService.sendConfirmationEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword(), uuid);
 			System.out.println(sendResult);
 			
 			return "index";
@@ -98,11 +98,11 @@ public class UserController {
 		return "register";
 	}
 	
-	@RequestMapping(value="/activate_account", method=RequestMethod.POST)
+	@RequestMapping(value="/activate_account", method=RequestMethod.GET)
 	public String activateAccount(@RequestParam String uuid){
 		
 		if(userService.checkUUID(uuid))			
-			return "login";
+			return "index";
 		else
 			return "index";
 	}

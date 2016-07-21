@@ -15,7 +15,7 @@ public class EmailService {
 	private String userName = "bjanusz@pgs-soft.com";
 	private String apiKey = "90a70d48-6289-44d2-a849-e323dcefc30b";
 	
-	public  String SendElasticEmail(String template, String to, String email, String password)  {
+	public  String sendConfirmationEmail(String template, String to, String email, String password, String uuid)  {
         
     	String result="";
     	
@@ -28,6 +28,7 @@ public class EmailService {
             data += "&to=" + URLEncoder.encode(to, "UTF-8");
             data += "&merge_email=" + URLEncoder.encode(email, "UTF-8");
             data += "&merge_password=" + URLEncoder.encode(password, "UTF-8");
+            data += "&merge_token=" + URLEncoder.encode(uuid, "UTF-8");
 
             //Send data
             URL url = new URL("https://api.elasticemail.com/mailer/send");
