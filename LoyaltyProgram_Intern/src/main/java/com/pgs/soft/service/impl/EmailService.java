@@ -21,7 +21,7 @@ public class EmailService {
 	private String userName;
 	@Value("${api.key}")
 	private String apiKey;
-	@Value("${email.template}")
+	@Value("${email.template.for.registration}")
 	private String template;
 	
 	public  String sendConfirmationEmail(String to, String email, String registrationToken)  {
