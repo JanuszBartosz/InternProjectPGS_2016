@@ -1,6 +1,5 @@
 package com.pgs.soft.service.impl;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,8 @@ public class CardServiceImpl implements CardService {
 		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
 		card.setNumber(cardLoggedDTO.getNumber());
 		card.setUser(user);
+		card.setActive(cardLoggedDTO.isActive());
 		cardRepository.save(card);
-		if(cardLoggedDTO.isActive()){
-			activateCard(user.getId(), card.getId());
-		}
 	}
 
 	@Override
@@ -43,11 +40,19 @@ public class CardServiceImpl implements CardService {
 		User user = userRepository.findOneByEmail(cardNotLoggedDTO.getEmail()).get();
 		card.setNumber(cardNotLoggedDTO.getNumber());
 		card.setUser(user);
+		card.setActive(cardNotLoggedDTO.isActive());
 		cardRepository.save(card);
-		if(cardNotLoggedDTO.isActive()){
-			activateCard(user.getId(), card.getId());
-		}
-	}	
+	}
+	
+	@Override
+	public Set<Card> getCardsByUserId(Integer userId){
+		return cardRepository.findByUserId(userId);
+	}
+	
+	@Override
+	public boolean hasActiveCard(Integer userId){
+		return getCardsByUserId(userId).stream().anyMatch((c) -> c.isActive());
+	}
 	
 	private void deactivateCards(Integer userId){
 		Set<Card> cards = cardRepository.findByUserId(userId);
@@ -56,7 +61,7 @@ public class CardServiceImpl implements CardService {
 		cardRepository.save(cards);
 	}
 	
-	public void activateCard(Integer userId, Integer cardId){
+	private void activateCard(Integer userId, Integer cardId){
 		deactivateCards(userId);
 		Card currentCard = cardRepository.findOne(cardId);
 		currentCard.setActive(true);

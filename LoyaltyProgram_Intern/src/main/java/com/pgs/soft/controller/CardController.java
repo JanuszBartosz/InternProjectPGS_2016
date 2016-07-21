@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.pgs.soft.CardValidator;
+import com.pgs.soft.CardLoggedValidator;
+import com.pgs.soft.CardNotLoggedValidator;
 import com.pgs.soft.dto.CardLoggedDTO;
 import com.pgs.soft.dto.CardNotLoggedDTO;
 import com.pgs.soft.service.CardService;
@@ -23,11 +24,19 @@ public class CardController {
 	private CardService cardService;
 	
 	@Autowired
-	private CardValidator cardValidator;
+	private CardNotLoggedValidator cardNotLoggedValidator;
+	
+	@Autowired
+	private CardLoggedValidator cardLoggedValidator;
 	
 	@InitBinder("cardNotLoggedDTO")
-	public void initBinder(WebDataBinder binder){
-		binder.addValidators(cardValidator);
+	public void initCardNotLoggedBinder(WebDataBinder binder){
+		binder.addValidators(cardNotLoggedValidator);
+	}
+	
+	@InitBinder("cardLoggedDTO")
+	public void initCardLoggedBinder(WebDataBinder binder){
+		binder.addValidators(cardLoggedValidator);
 	}
 
 	@RequestMapping(value = "/main/card", method = RequestMethod.GET)
@@ -36,8 +45,11 @@ public class CardController {
 	}
 	
 	@RequestMapping(value = "/main/card", method = RequestMethod.POST)
-	public String cardLogged(@ModelAttribute("cardLoggedDTO") CardLoggedDTO cardLoggedDTO) {
-		cardService.saveForLogged(cardLoggedDTO);
+	public String cardLogged(@Valid @ModelAttribute("cardLoggedDTO") CardLoggedDTO cardLoggedDTO, BindingResult result) {
+		if(!result.hasErrors()){
+			cardLoggedDTO.setActive(true);
+			cardService.saveForLogged(cardLoggedDTO);
+		}
 		return "card_logged";
 	}
 	
@@ -49,6 +61,7 @@ public class CardController {
 	@RequestMapping(value = "card", method = RequestMethod.POST)
 	public String card(@Valid @ModelAttribute("cardNotLoggedDTO") CardNotLoggedDTO cardNotLoggedDTO, BindingResult result) {
 		if(!result.hasErrors()){
+			cardNotLoggedDTO.setActive(true);
 			cardService.saveForNotLogged(cardNotLoggedDTO);
 		}
 		return "card_not_logged";
