@@ -78,7 +78,7 @@ public class UserController {
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
-			userService.save(userDTO);
+			userService.saveOrUpdate(userDTO);
 			return "index";
 		}
 		return "register";
