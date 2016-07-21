@@ -8,4 +8,6 @@ import com.pgs.soft.dto.UserProfileDTO;
 public interface UserProfileService {
 
 	public void save(UserProfileDTO userProfileDTO);
+	
+	public UserProfileDTO getUserProfile();
 }

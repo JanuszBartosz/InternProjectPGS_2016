@@ -26,27 +26,57 @@ public class UserProfileServiceImpl implements UserProfileService {
 	
 	@Autowired
 	HobbyRepository hobbyRepository;
+	
+	@Override
+	public UserProfileDTO getUserProfile() {
+		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
+		UserProfile userProfile = user.getUserProfile();
+		UserProfileDTO userProfileDTO = new UserProfileDTO();
+		userProfileDTO = mapEntityToDto(userProfile, userProfileDTO);
+		return userProfileDTO;
+	}
 
 	@Override
 	public void save(UserProfileDTO userProfileDTO) {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
 		UserProfile userProfile = user.getUserProfile();
-		map(userProfileDTO, userProfile);
+		userProfile = mapDtoToEntity(userProfileDTO, userProfile);
 		userProfileRepository.save(userProfile);
 	}
 	
-	private void map(UserProfileDTO userProfileDTO, UserProfile userProfile){
+	private UserProfile mapDtoToEntity(UserProfileDTO userProfileDTO, UserProfile userProfile){
 		userProfile.setName(userProfileDTO.getName());
 		userProfile.setSurname(userProfileDTO.getSurname());
 		userProfile.setCity(userProfileDTO.getCity());
 		userProfile.setStreet(userProfileDTO.getStreet());
 		userProfile.setHomeNumber(userProfileDTO.getHomeNumber());
-		userProfile.setPostCode(userProfileDTO.getPostCode());	
+		userProfile.setPostCode(userProfileDTO.getPostCode());
+		userProfile.getHobbies().clear();
 		
-		for(String hobby : userProfileDTO.getHobbies()){
-			Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);
-			optionalHobby.ifPresent(h -> userProfile.getHobbies().add(h));
+		if(userProfileDTO.getHobbies()!=null){
+			for(String hobby : userProfileDTO.getHobbies()){
+				Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);
+				optionalHobby.ifPresent(h -> userProfile.getHobbies().add(h));
+			}
 		}
+		
+		return userProfile;
+	}
+	
+	private UserProfileDTO mapEntityToDto(UserProfile userProfile, UserProfileDTO userProfileDTO){
+		userProfileDTO.setName(userProfile.getName());
+		userProfileDTO.setSurname(userProfile.getSurname());
+		userProfileDTO.setCity(userProfile.getCity());
+		userProfileDTO.setStreet(userProfile.getStreet());
+		userProfileDTO.setHomeNumber(userProfile.getHomeNumber());
+		userProfileDTO.setPostCode(userProfile.getPostCode());
+		
+		for(Hobby hobby : userProfile.getHobbies()){
+			userProfileDTO.getHobbies().add(hobby.getHobbyName());
+		}
+	
+		return userProfileDTO;
 	}
 }

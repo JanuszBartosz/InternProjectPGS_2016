@@ -35,9 +35,4 @@ public class ChangePasswordRequestDTO {
 	public void setNewPasswordRepeat(String newPasswordRepeat) {
 		this.newPasswordRepeat = newPasswordRepeat;
 	}
-	
-	
-	
-	
-
 }

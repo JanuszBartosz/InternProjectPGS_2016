@@ -1,5 +1,7 @@
 package com.pgs.soft.controller;
 
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.LoginFormDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
+import com.pgs.soft.service.HobbyService;
 import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
 
@@ -43,6 +46,9 @@ public class UserController {
 	@Autowired
 	ChangePasswordRequestValidator passwordValidator;
 	
+	@Autowired
+	HobbyService hobbyService;
+	
 	@InitBinder("userProfileDTO")
 	public void initProfileBinder(WebDataBinder binder){
 		binder.addValidators(userProfileValidator);
@@ -57,11 +63,26 @@ public class UserController {
     public void initChangePasswordBinder(WebDataBinder binder) {
         binder.addValidators(passwordValidator);
     }
+	
+	@ModelAttribute("hobbiesNames")
+	public Set<String> getHobbiesNames()
+	{ 
+		return hobbyService.getAllHobbiesNames();
+	}
+	
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
+	public ModelAndView fillProfileView(){
+		ModelAndView model = new ModelAndView("profile");
+		model.addObject(userProfileService.getUserProfile());	
+		return model;
+	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
-	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO){
-		userProfileService.save(userProfileDTO);
-		return "Profile filled.";
+	public String fillProfile(@Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userProfileService.save(userProfileDTO);
+		}
+		return "profile";
 	}
 	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
