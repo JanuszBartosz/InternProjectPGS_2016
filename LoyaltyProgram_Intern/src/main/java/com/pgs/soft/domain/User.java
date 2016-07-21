@@ -40,7 +40,8 @@ public class User implements UserDetails {
 	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile = new UserProfile();
 	
-	private String uuid;
+	@Column(name = "registration_token")
+	private String registrationToken;
 	
 	@Column(name="is_active")
 	private Boolean isActive;
@@ -93,12 +94,12 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 	
-	public String getUuid() {
-		return uuid;
+	public String getRegistrationToken() {
+		return registrationToken;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setRegistrationToken(String uuid) {
+		this.registrationToken = uuid;
 	}
 	
 	public void setIsActive(Boolean isActive) {

@@ -44,7 +44,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
-		user.setUuid(userDTO.getUuid());
+		user.setRegistrationToken(userDTO.getRegistrationToken());
 		return user;
 	}
 
@@ -77,25 +77,25 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 	}
 	
 	@Override
-	public Boolean checkUUID(String uuid){
+	public Boolean checkUUID(String registrationToken){
 		
-		Optional<User> user = userRepository.findOneByUuid(uuid);
+		Optional<User> user = userRepository.findOneByUuid(registrationToken);
 		
 		if(user.isPresent()){
 			user.get().setIsActive(true);
+			user.get().setRegistrationToken(null);
 			userRepository.save(user.get());
 			return true;
 		}
-		else
-			return false;		
+		return false;
 	}
 
 	public void register(UserDTO userDTO){
 		
-		String uuid = String.valueOf(UUID.randomUUID());
-		userDTO.setUuid(uuid);
+		String registrationToken = String.valueOf(UUID.randomUUID());
+		userDTO.setRegistrationToken(registrationToken);
 		saveOrUpdate(userDTO);
-		String sendResult = emailService.sendConfirmationEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword(), uuid);
+		String sendResult = emailService.sendConfirmationEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword(), registrationToken);
 		System.out.println(sendResult);
 	}
 }

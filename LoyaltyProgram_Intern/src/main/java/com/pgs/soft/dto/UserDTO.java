@@ -13,7 +13,7 @@ public class UserDTO extends GenericDTO<Integer> {
 	@NotEmpty
 	private String passwordRepeated;
 	
-	private String uuid;
+	private String registrationToken;
 
 	public String getEmail() {
 		return email;
@@ -39,13 +39,11 @@ public class UserDTO extends GenericDTO<Integer> {
 		this.passwordRepeated = passwordRepeated;
 	}
 
-	public String getUuid() {
-		return uuid;
+	public String getRegistrationToken() {
+		return registrationToken;
 	}
 
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}	
-	
-	
+	public void setRegistrationToken(String registrationToken) {
+		this.registrationToken = registrationToken;
+	}
 }
