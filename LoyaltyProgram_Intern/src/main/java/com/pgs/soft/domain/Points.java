@@ -5,7 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +20,8 @@ public class Points {
 	@Column(name = "points_amount")
 	private int pointsAmount;
 	
-	@OneToOne(mappedBy = "points")
+	@ManyToOne
+	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile;
 	
 	public Points(){
