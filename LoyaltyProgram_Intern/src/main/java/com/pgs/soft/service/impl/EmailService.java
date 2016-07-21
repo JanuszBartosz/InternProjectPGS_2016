@@ -21,8 +21,10 @@ public class EmailService {
 	private String userName;
 	@Value("${api.key}")
 	private String apiKey;
+	@Value("${email.template}")
+	private String template;
 	
-	public  String sendConfirmationEmail(String template, String to, String email, String password, String registrationToken)  {
+	public  String sendConfirmationEmail(String to, String email, String registrationToken)  {
         
 		String data = "";
 		
@@ -32,7 +34,6 @@ public class EmailService {
 	        data += "&template=" + URLEncoder.encode(template, "UTF-8");
 	        data += "&to=" + URLEncoder.encode(to, "UTF-8");
 	        data += "&merge_email=" + URLEncoder.encode(email, "UTF-8");
-	        data += "&merge_password=" + URLEncoder.encode(password, "UTF-8");
 	        data += "&merge_token=" + URLEncoder.encode(registrationToken, "UTF-8");
 	    }
 	    catch(Exception e){
