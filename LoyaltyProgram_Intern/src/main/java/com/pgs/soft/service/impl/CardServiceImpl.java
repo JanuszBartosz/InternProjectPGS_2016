@@ -51,12 +51,9 @@ public class CardServiceImpl implements CardService {
 	
 	private void deactivateCards(Integer userId){
 		Set<Card> cards = cardRepository.findByUserId(userId);
-		Iterator<Card> iterator = cards.iterator();
-		while(iterator.hasNext()){
-			Card currentCard = iterator.next();
-			currentCard.setActive(false);
-			cardRepository.save(currentCard);
-		}	
+		cards.stream()
+			 .forEach((c) -> c.setActive(false));
+		cardRepository.save(cards);
 	}
 	
 	public void activateCard(Integer userId, Integer cardId){
