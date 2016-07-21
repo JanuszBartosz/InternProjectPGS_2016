@@ -8,12 +8,13 @@ import com.pgs.soft.domain.User;
 import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 
-@Service
 public interface UserService {
 
 	public Optional<User> getUserByEmail(String email);
 
 	public void save(UserDTO userDTO);
+	
+	public Boolean checkUUID(String uuid);
 	
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
 }

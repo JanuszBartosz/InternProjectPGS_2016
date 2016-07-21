@@ -12,4 +12,5 @@ import com.pgs.soft.domain.User;
 public interface UserRepository extends CrudRepository<User, Integer>{
 
 	 Optional<User> findOneByEmail(String email);
+	 Optional<User> findOneByUuid(String uuid);
 }

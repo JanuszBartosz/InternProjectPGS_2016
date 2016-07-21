@@ -12,6 +12,9 @@ public class UserDTO {
 	
 	@NotEmpty
 	private String passwordRepeated;
+	
+	@NotEmpty
+	private String uuid;
 
 	public String getEmail() {
 		return email;
@@ -35,5 +38,15 @@ public class UserDTO {
 
 	public void setPasswordRepeated(String passwordRepeated) {
 		this.passwordRepeated = passwordRepeated;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}	
+	
+	
 }

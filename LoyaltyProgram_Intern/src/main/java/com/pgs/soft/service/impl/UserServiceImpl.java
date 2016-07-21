@@ -37,12 +37,26 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		return user;
 	}
 	
+	public Boolean checkUUID(String uuid){
+		
+		Optional<User> user = userRepository.findOneByUuid(uuid);
+		
+		if(user.isPresent()){
+			user.get().setIsActive(true);
+			userRepository.save(user.get());
+			return true;
+		}
+		else
+			return false;		
+	}
+	
 	@Override
 	public void save(UserDTO userDTO) {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
+		user.setUuid(userDTO.getUuid());
 		userRepository.save(user);
 	}
 	

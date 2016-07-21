@@ -1,5 +1,7 @@
 package com.pgs.soft.controller;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pgs.soft.ChangePasswordRequestValidator;
@@ -82,8 +85,10 @@ public class UserController {
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
-			userService.save(userDTO);
 			
+			String uuid = String.valueOf(UUID.randomUUID());
+			userDTO.setUuid(uuid);
+			userService.save(userDTO);
 			String sendResult = emailService.SendElasticEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword());
 			System.out.println(sendResult);
 			
@@ -91,6 +96,15 @@ public class UserController {
 		}
 		
 		return "register";
+	}
+	
+	@RequestMapping(value="/activate_account", method=RequestMethod.POST)
+	public String activateAccount(@RequestParam String uuid){
+		
+		if(userService.checkUUID(uuid))			
+			return "login";
+		else
+			return "index";
 	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
