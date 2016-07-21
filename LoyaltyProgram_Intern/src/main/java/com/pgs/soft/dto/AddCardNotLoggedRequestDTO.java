@@ -1,24 +1,12 @@
 package com.pgs.soft.dto;
 
-public class CardNotLoggedDTO {
+public class AddCardNotLoggedRequestDTO extends AddCardRequestDTO {
 
-	private String number;
-	
 	private String email;
 	
 	private String name; 
 	
 	private String surname;
-	
-	private boolean active;
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
 
 	public String getEmail() {
 		return email;
@@ -42,13 +30,5 @@ public class CardNotLoggedDTO {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 }

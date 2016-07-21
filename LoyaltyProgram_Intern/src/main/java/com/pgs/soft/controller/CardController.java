@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.pgs.soft.CardLoggedValidator;
 import com.pgs.soft.CardNotLoggedValidator;
-import com.pgs.soft.dto.CardLoggedDTO;
-import com.pgs.soft.dto.CardNotLoggedDTO;
+import com.pgs.soft.dto.AddCardRequestDTO;
+import com.pgs.soft.dto.AddCardNotLoggedRequestDTO;
 import com.pgs.soft.service.CardService;
 
 @Controller
@@ -40,28 +40,26 @@ public class CardController {
 	}
 
 	@RequestMapping(value = "/main/card", method = RequestMethod.GET)
-	public String cardLoggedView(@ModelAttribute("cardLoggedDTO") CardLoggedDTO cardLoggedDTO) {
+	public String cardLoggedView(@ModelAttribute("cardLoggedDTO") AddCardRequestDTO cardLoggedDTO) {
 		return "card_logged";
 	}
 	
 	@RequestMapping(value = "/main/card", method = RequestMethod.POST)
-	public String cardLogged(@Valid @ModelAttribute("cardLoggedDTO") CardLoggedDTO cardLoggedDTO, BindingResult result) {
+	public String cardLogged(@Valid @ModelAttribute("cardLoggedDTO") AddCardRequestDTO cardLoggedDTO, BindingResult result) {
 		if(!result.hasErrors()){
-			cardLoggedDTO.setActive(true);
 			cardService.saveForLogged(cardLoggedDTO);
 		}
 		return "card_logged";
 	}
 	
 	@RequestMapping(value = "card", method = RequestMethod.GET)
-	public String cardView(@ModelAttribute("cardNotLoggedDTO") CardNotLoggedDTO cardNotLoggedDTO) {
+	public String cardView(@ModelAttribute("cardNotLoggedDTO") AddCardNotLoggedRequestDTO cardNotLoggedDTO) {
 		return "card_not_logged";
 	}
 	
 	@RequestMapping(value = "card", method = RequestMethod.POST)
-	public String card(@Valid @ModelAttribute("cardNotLoggedDTO") CardNotLoggedDTO cardNotLoggedDTO, BindingResult result) {
+	public String card(@Valid @ModelAttribute("cardNotLoggedDTO") AddCardNotLoggedRequestDTO cardNotLoggedDTO, BindingResult result) {
 		if(!result.hasErrors()){
-			cardNotLoggedDTO.setActive(true);
 			cardService.saveForNotLogged(cardNotLoggedDTO);
 		}
 		return "card_not_logged";

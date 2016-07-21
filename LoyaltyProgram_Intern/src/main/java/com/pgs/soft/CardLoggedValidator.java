@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.pgs.soft.domain.User;
-import com.pgs.soft.dto.CardLoggedDTO;
+import com.pgs.soft.dto.AddCardRequestDTO;
 import com.pgs.soft.service.CardService;
 
 @Component
@@ -18,16 +18,16 @@ public class CardLoggedValidator implements Validator {
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return clazz.equals(CardLoggedDTO.class);
+		return clazz.equals(AddCardRequestDTO.class);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		CardLoggedDTO cardLoggedDTO = (CardLoggedDTO) target;
-		validateActivate(errors, cardLoggedDTO);
+		AddCardRequestDTO cardLoggedDTO = (AddCardRequestDTO) target;
+		validateUsersActiveCards(errors, cardLoggedDTO);
 	}
 	
-	private void validateActivate(Errors errors, CardLoggedDTO cardLoggedDTO){
+	private void validateUsersActiveCards(Errors errors, AddCardRequestDTO cardLoggedDTO){
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(cardService.hasActiveCard(loggedUser.getId())){
 			errors.reject("card.has_active_card");

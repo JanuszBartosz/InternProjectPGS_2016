@@ -23,7 +23,7 @@ public class Card {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@Column(name = "active", columnDefinition = "TINYINT", length = 1)
+	@Column(name = "active")
 	private boolean isActive;
 	
 	public Integer getId() {

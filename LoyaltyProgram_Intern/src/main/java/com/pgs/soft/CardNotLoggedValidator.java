@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.pgs.soft.domain.User;
-import com.pgs.soft.dto.CardNotLoggedDTO;
+import com.pgs.soft.dto.AddCardNotLoggedRequestDTO;
 import com.pgs.soft.service.CardService;
 import com.pgs.soft.service.UserService;
 
@@ -21,23 +21,23 @@ public class CardNotLoggedValidator implements Validator{
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return clazz.equals(CardNotLoggedDTO.class);
+		return clazz.equals(AddCardNotLoggedRequestDTO.class);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		CardNotLoggedDTO cardNotLoggedDTO = (CardNotLoggedDTO) target;
+		AddCardNotLoggedRequestDTO cardNotLoggedDTO = (AddCardNotLoggedRequestDTO) target;
 		validateUser(errors, cardNotLoggedDTO);
-		validateActivate(errors, cardNotLoggedDTO);
+		validateUsersActiveCards(errors, cardNotLoggedDTO);
 	}
 	
-	private void validateUser(Errors errors, CardNotLoggedDTO cardNotLoggedDTO){
+	private void validateUser(Errors errors, AddCardNotLoggedRequestDTO cardNotLoggedDTO){
 		if(!userService.getUserByEmailAndNameAndSurname(cardNotLoggedDTO.getEmail(), cardNotLoggedDTO.getName(), cardNotLoggedDTO.getSurname()).isPresent()){
 			errors.reject("card.user_not_exist");
 		}
 	}
 	
-	private void validateActivate(Errors errors, CardNotLoggedDTO cardNotLoggedDTO){
+	private void validateUsersActiveCards(Errors errors, AddCardNotLoggedRequestDTO cardNotLoggedDTO){
 		User user = userService.getUserByEmail(cardNotLoggedDTO.getEmail()).get();
 		if(cardService.hasActiveCard(user.getId())){
 			errors.reject("card.has_active_card");

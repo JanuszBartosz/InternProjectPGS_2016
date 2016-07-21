@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.Card;
 import com.pgs.soft.domain.User;
-import com.pgs.soft.dto.CardLoggedDTO;
-import com.pgs.soft.dto.CardNotLoggedDTO;
+import com.pgs.soft.dto.AddCardRequestDTO;
+import com.pgs.soft.dto.AddCardNotLoggedRequestDTO;
 import com.pgs.soft.repository.CardRepository;
 import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.CardService;
@@ -24,24 +24,26 @@ public class CardServiceImpl implements CardService {
 	private UserRepository userRepository;
 
 	@Override
-	public void saveForLogged(CardLoggedDTO cardLoggedDTO) {
-		Card card = new Card();
+	public void saveForLogged(AddCardRequestDTO cardLoggedDTO) {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findOneByEmail(loggedUser.getEmail()).get();
-		card.setNumber(cardLoggedDTO.getNumber());
-		card.setUser(user);
-		card.setActive(cardLoggedDTO.isActive());
+		Card card = map(cardLoggedDTO, user);
 		cardRepository.save(card);
 	}
 
 	@Override
-	public void saveForNotLogged(CardNotLoggedDTO cardNotLoggedDTO) {
-		Card card = new Card();
+	public void saveForNotLogged(AddCardNotLoggedRequestDTO cardNotLoggedDTO) {
 		User user = userRepository.findOneByEmail(cardNotLoggedDTO.getEmail()).get();
-		card.setNumber(cardNotLoggedDTO.getNumber());
-		card.setUser(user);
-		card.setActive(cardNotLoggedDTO.isActive());
+		Card card = map(cardNotLoggedDTO, user);
 		cardRepository.save(card);
+	}
+	
+	private Card map(AddCardRequestDTO cardDTO, User user){
+		Card card = new Card();
+		card.setNumber(cardDTO.getNumber());
+		card.setUser(user);
+		card.setActive(true);
+		return card;
 	}
 	
 	@Override
