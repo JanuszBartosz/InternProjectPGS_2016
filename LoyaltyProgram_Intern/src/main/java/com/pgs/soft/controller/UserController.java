@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pgs.soft.ChangePasswordRequestValidator;
@@ -86,7 +87,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
 	public String getLogin(@ModelAttribute ("loginForm") LoginFormDTO loginForm){
-
 		return "login";
 	}
 	
@@ -98,10 +98,19 @@ public class UserController {
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
-			userService.saveOrUpdate(userDTO);
+			userService.register(userDTO);
 			return "index";
 		}
-		return "register";
+		else
+			return "register";
+	}
+	
+	@RequestMapping(value="/activate_account", method=RequestMethod.GET)
+	public ModelAndView activateAccount(@RequestParam String uuid){
+		if(userService.checkUUID(uuid))			
+			return new ModelAndView("index", "message", "Confirmation succeeded, you can now log in.");
+		else
+			return new ModelAndView("index", "message", "Confirmation failed, account cannot be activated!");
 	}
 	
 	@RequestMapping(value = "/change_password", method=RequestMethod.GET)

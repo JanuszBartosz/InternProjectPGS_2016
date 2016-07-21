@@ -9,5 +9,10 @@ import com.pgs.soft.dto.UserDTO;
 public interface UserService extends GenericService<UserDTO, Integer> {
 
 	public Optional<User> getUserByEmail(String email);
+
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
+
+	public Boolean checkUUID(String uuid);
+
+	public void register(UserDTO userDTO);
 }

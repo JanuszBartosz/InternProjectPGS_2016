@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <body>
+	<h2>${message}</h2>
 	<h3>
 		<a href="/login"> <spring:message code="index.login" /></a><br>
 		<a href="/register"> <spring:message code="index.register" /></a><br>

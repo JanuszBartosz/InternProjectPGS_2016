@@ -1,6 +1,7 @@
 package com.pgs.soft.service.impl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -28,11 +29,14 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Autowired
+	EmailService emailService;
+	
 	@Override
 	protected CrudRepository<User, Integer> getCrudRepository() {
 		return (CrudRepository<User, Integer>) userRepository;
 	}
-
+	
 	@Override
 	protected User mapDtoToEntity(UserDTO userDTO) {
 		User user = new User();
@@ -40,6 +44,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
 		user.setRole(Role.USER);
+		user.setRegistrationToken(userDTO.getRegistrationToken());
 		return user;
 	}
 
@@ -50,9 +55,10 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		userDTO.setEmail(user.getEmail());
 		userDTO.setPassword(user.getPassword());
 		return userDTO;
+
 	}
 	
-	
+	@Override
 	public Optional<User> getUserByEmail(String email){
 		return userRepository.findOneByEmail(email);
 	}
@@ -63,10 +69,32 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		return user;
 	}
 	
+	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
 			User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
 			userRepository.save(loggedUser);												
 	}
+	
+	@Override
+	public Boolean checkUUID(String registrationToken){
+		
+		Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
+		
+		if(user.isPresent()){
+			user.get().setIsActive(true);
+			user.get().setRegistrationToken(null);
+			userRepository.save(user.get());
+			return true;
+		}
+		return false;
+	}
 
+	public void register(UserDTO userDTO){
+		
+		String registrationToken = String.valueOf(UUID.randomUUID());
+		userDTO.setRegistrationToken(registrationToken);
+		saveOrUpdate(userDTO);
+		emailService.sendConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), registrationToken);
+	}
 }
