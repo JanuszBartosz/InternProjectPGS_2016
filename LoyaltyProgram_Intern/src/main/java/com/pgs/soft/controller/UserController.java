@@ -88,7 +88,7 @@ public class UserController {
 			
 			String uuid = String.valueOf(UUID.randomUUID());
 			userDTO.setUuid(uuid);
-			userService.save(userDTO);
+			userService.saveOrUpdate(userDTO);
 			String sendResult = emailService.sendConfirmationEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword(), uuid);
 			System.out.println(sendResult);
 			
