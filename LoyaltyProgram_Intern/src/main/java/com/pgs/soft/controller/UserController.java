@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -104,11 +103,19 @@ public class UserController {
 		}
 		return "register";
 	}
+	
+	@RequestMapping(value = "/change_password", method=RequestMethod.GET)
+	public String changePasswordView(@ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO){
+		return "change_password";
+	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
-	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
-		userService.changePassword(passwordDTO);		
-		return "Password changed successfully.";
+	public String changePassword(@Valid @ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userService.changePassword(passwordDTO);
+			return "main";
+		}				
+		return "change_password";
 	}
 	
 	@RequestMapping("/main")
