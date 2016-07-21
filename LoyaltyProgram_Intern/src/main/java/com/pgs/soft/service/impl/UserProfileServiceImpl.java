@@ -76,7 +76,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		for(Hobby hobby : userProfile.getHobbies()){
 			userProfileDTO.getHobbies().add(hobby.getHobbyName());
 		}
-		
+	
 		return userProfileDTO;
 	}
 }
