@@ -2,8 +2,6 @@ package com.pgs.soft.dto;
 
 import java.util.Set;
 
-import com.pgs.soft.domain.Hobby;
-
 public class UserProfileDTO {
 
 	private String name;

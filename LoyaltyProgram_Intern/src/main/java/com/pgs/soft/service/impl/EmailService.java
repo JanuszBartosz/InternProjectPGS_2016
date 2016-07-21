@@ -7,13 +7,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+@PropertySource("email.properties")
 @Service
 public class EmailService {
     
-	private String userName = "bjanusz@pgs-soft.com";
-	private String apiKey = "90a70d48-6289-44d2-a849-e323dcefc30b";
+	@Value("${url}")
+	private String emailUrl;
+	@Value("${user.name}")
+	private String userName;
+	@Value("${api.key}")
+	private String apiKey;
 	
 	public  String sendConfirmationEmail(String template, String to, String email, String password, String registrationToken)  {
         
@@ -38,7 +45,7 @@ public class EmailService {
 	{
 		String result = "";
 		try {
-	        URL url = new URL("https://api.elasticemail.com/mailer/send");
+	        URL url = new URL(emailUrl);
 	        URLConnection conn = url.openConnection();
 	        conn.setDoOutput(true);
 	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
