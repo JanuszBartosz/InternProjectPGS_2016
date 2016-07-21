@@ -13,4 +13,6 @@ public interface UserService extends GenericService<UserDTO, Integer> {
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
 
 	public Boolean checkUUID(String uuid);
+
+	public void register(UserDTO userDTO);
 }

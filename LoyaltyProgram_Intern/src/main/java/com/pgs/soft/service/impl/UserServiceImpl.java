@@ -1,6 +1,7 @@
 package com.pgs.soft.service.impl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -28,22 +29,12 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	@Autowired
+	EmailService emailService;
+	
 	@Override
 	protected CrudRepository<User, Integer> getCrudRepository() {
 		return (CrudRepository<User, Integer>) userRepository;
-	}
-
-	public Boolean checkUUID(String uuid){
-		
-		Optional<User> user = userRepository.findOneByUuid(uuid);
-		
-		if(user.isPresent()){
-			user.get().setIsActive(true);
-			userRepository.save(user.get());
-			return true;
-		}
-		else
-			return false;		
 	}
 	
 	@Override
@@ -67,6 +58,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 
 	}
 	
+	@Override
 	public Optional<User> getUserByEmail(String email){
 		return userRepository.findOneByEmail(email);
 	}
@@ -77,10 +69,33 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		return user;
 	}
 	
+	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
 			User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
 			userRepository.save(loggedUser);												
 	}
+	
+	@Override
+	public Boolean checkUUID(String uuid){
+		
+		Optional<User> user = userRepository.findOneByUuid(uuid);
+		
+		if(user.isPresent()){
+			user.get().setIsActive(true);
+			userRepository.save(user.get());
+			return true;
+		}
+		else
+			return false;		
+	}
 
+	public void register(UserDTO userDTO){
+		
+		String uuid = String.valueOf(UUID.randomUUID());
+		userDTO.setUuid(uuid);
+		saveOrUpdate(userDTO);
+		String sendResult = emailService.sendConfirmationEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword(), uuid);
+		System.out.println(sendResult);
+	}
 }

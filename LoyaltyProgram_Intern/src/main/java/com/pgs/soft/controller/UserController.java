@@ -1,7 +1,5 @@
 package com.pgs.soft.controller;
 
-import java.util.UUID;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
 import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
-import com.pgs.soft.service.impl.EmailService;
 
 @Controller
 public class UserController {
@@ -40,9 +37,6 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	EmailService emailService;
 	
 	@Autowired
 	RegisterValidator registerValidator;	
@@ -73,7 +67,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
 	public String getLogin(@ModelAttribute ("loginForm") LoginFormDTO loginForm){
-
 		return "login";
 	}
 	
@@ -85,26 +78,19 @@ public class UserController {
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
-			
-			String uuid = String.valueOf(UUID.randomUUID());
-			userDTO.setUuid(uuid);
-			userService.saveOrUpdate(userDTO);
-			String sendResult = emailService.sendConfirmationEmail("registration_conf", userDTO.getEmail(), userDTO.getEmail(), userDTO.getPassword(), uuid);
-			System.out.println(sendResult);
-			
+			userService.register(userDTO);
 			return "index";
 		}
-		
-		return "register";
+		else
+			return "register";
 	}
 	
 	@RequestMapping(value="/activate_account", method=RequestMethod.GET)
-	public String activateAccount(@RequestParam String uuid){
-		
+	public ModelAndView activateAccount(@RequestParam String uuid){
 		if(userService.checkUUID(uuid))			
-			return "index";
+			return new ModelAndView("index", "message", "Confirmation succeeded, you can now log in.");
 		else
-			return "index";
+			return new ModelAndView("index", "message", "Confirmation failed, account cannot be activated!");
 	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
