@@ -43,6 +43,10 @@ public class UserProfile {
     @JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
 	private Set<Hobby>hobbies;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "points_id")
+	private Points points = new Points(0);
+	
 	public UserProfile(){
 	}
 	
@@ -127,5 +131,13 @@ public class UserProfile {
 
 	public void setHobbies(Set<Hobby> hobbies) {
 		this.hobbies = hobbies;
+	}
+
+	public Points getPoints() {
+		return points;
+	}
+
+	public void setPoints(Points points) {
+		this.points = points;
 	}
 }
