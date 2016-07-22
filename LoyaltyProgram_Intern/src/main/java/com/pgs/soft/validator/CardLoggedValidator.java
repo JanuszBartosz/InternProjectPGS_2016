@@ -12,7 +12,7 @@ import com.pgs.soft.service.CardService;
 
 @Component
 public class CardLoggedValidator implements Validator {
-	
+
 	@Autowired
 	CardService cardService;
 
@@ -26,10 +26,10 @@ public class CardLoggedValidator implements Validator {
 		AddCardRequestDTO cardLoggedDTO = (AddCardRequestDTO) target;
 		validateUsersActiveCards(errors, cardLoggedDTO);
 	}
-	
-	private void validateUsersActiveCards(Errors errors, AddCardRequestDTO cardLoggedDTO){
+
+	private void validateUsersActiveCards(Errors errors, AddCardRequestDTO cardLoggedDTO) {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(cardService.hasActiveCard(loggedUser.getId())){
+		if (cardService.hasActiveCard(loggedUser.getId())) {
 			errors.reject("card.has_active_card");
 		}
 	}

@@ -11,7 +11,7 @@ public interface UserService extends GenericService<UserDTO, Integer> {
 	public Optional<User> getUserByEmail(String email);
 
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
-	
+
 	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname);
 
 	public Boolean checkUUID(String uuid);

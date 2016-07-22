@@ -41,14 +41,14 @@ public class UserProfile {
 	private User user;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
-	private Set<Hobby>hobbies;
-	
+	@JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
+	private Set<Hobby> hobbies;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_profile_id")
 	private Set<Points> points;
-	
-	public UserProfile(){
+
+	public UserProfile() {
 
 	}
 

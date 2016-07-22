@@ -34,8 +34,7 @@ public abstract class GenericServiceImpl<E, D, K extends Serializable> implement
 
 	@Override
 	public List<D> getAll() {
-		return StreamSupport.stream(getCrudRepository().findAll().spliterator(), false)
-				.map(e -> mapEntityToDto(e))
+		return StreamSupport.stream(getCrudRepository().findAll().spliterator(), false).map(e -> mapEntityToDto(e))
 				.collect(Collectors.toList());
 	}
 

@@ -83,7 +83,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname) {
 		return userRepository.findOneByEmailAndUserProfile_NameAndUserProfile_Surname(email, name, surname);
 	}
-	
+
 	@Override
 	public Boolean checkUUID(String registrationToken) {
 

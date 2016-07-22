@@ -11,11 +11,11 @@ import com.pgs.soft.service.CardService;
 import com.pgs.soft.service.UserService;
 
 @Component
-public class CardNotLoggedValidator implements Validator{
-	
+public class CardNotLoggedValidator implements Validator {
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	CardService cardService;
 
@@ -29,16 +29,17 @@ public class CardNotLoggedValidator implements Validator{
 		AddCardNotLoggedRequestDTO cardNotLoggedDTO = (AddCardNotLoggedRequestDTO) target;
 		validateUser(errors, cardNotLoggedDTO);
 	}
-	
-	private void validateUser(Errors errors, AddCardNotLoggedRequestDTO cardNotLoggedDTO){
-		if(!userService.getUserByEmailAndNameAndSurname(cardNotLoggedDTO.getEmail(), cardNotLoggedDTO.getName(), cardNotLoggedDTO.getSurname()).isPresent()){
+
+	private void validateUser(Errors errors, AddCardNotLoggedRequestDTO cardNotLoggedDTO) {
+		if (!userService.getUserByEmailAndNameAndSurname(cardNotLoggedDTO.getEmail(), cardNotLoggedDTO.getName(),
+				cardNotLoggedDTO.getSurname()).isPresent()) {
 			errors.reject("card.user_not_exist");
 			return;
 		}
 		User user = userService.getUserByEmail(cardNotLoggedDTO.getEmail()).get();
-		if(cardService.hasActiveCard(user.getId())){
+		if (cardService.hasActiveCard(user.getId())) {
 			errors.reject("card.has_active_card");
 		}
-		
+
 	}
 }

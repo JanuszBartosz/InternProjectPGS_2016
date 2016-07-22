@@ -10,18 +10,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "points")
 public class Points {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "points_amount")
 	private int pointsAmount;
 
-	public Points(){
-		
+	public Points() {
+
 	}
-	
+
 	public Points(int pointsAmount) {
 		super();
 		this.pointsAmount = pointsAmount;

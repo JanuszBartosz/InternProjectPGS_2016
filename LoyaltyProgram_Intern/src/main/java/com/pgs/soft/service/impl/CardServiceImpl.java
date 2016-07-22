@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.pgs.soft.domain.Card;
 import com.pgs.soft.domain.User;
-import com.pgs.soft.dto.AddCardRequestDTO;
 import com.pgs.soft.dto.AddCardNotLoggedRequestDTO;
+import com.pgs.soft.dto.AddCardRequestDTO;
 import com.pgs.soft.repository.CardRepository;
 import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.CardService;
@@ -37,36 +37,35 @@ public class CardServiceImpl implements CardService {
 		Card card = map(cardNotLoggedDTO, user);
 		cardRepository.save(card);
 	}
-	
-	private Card map(AddCardRequestDTO cardDTO, User user){
+
+	private Card map(AddCardRequestDTO cardDTO, User user) {
 		Card card = new Card();
 		card.setNumber(cardDTO.getNumber());
 		card.setUser(user);
 		card.setActive(true);
 		return card;
 	}
-	
+
 	@Override
-	public Set<Card> getCardsByUserId(Integer userId){
+	public Set<Card> getCardsByUserId(Integer userId) {
 		return cardRepository.findByUserId(userId);
 	}
-	
+
 	@Override
-	public boolean hasActiveCard(Integer userId){
+	public boolean hasActiveCard(Integer userId) {
 		return getCardsByUserId(userId).stream().anyMatch((c) -> c.isActive());
 	}
-	
-	private void deactivateCards(Integer userId){
-		Set<Card> cards = cardRepository.findByUserId(userId);
-		cards.stream()
-			 .forEach((c) -> c.setActive(false));
-		cardRepository.save(cards);
-	}
-	
-	private void activateCard(Integer userId, Integer cardId){
-		deactivateCards(userId);
-		Card currentCard = cardRepository.findOne(cardId);
-		currentCard.setActive(true);
-		cardRepository.save(currentCard);
-	}
+
+	// private void deactivateCards(Integer userId) {
+	// Set<Card> cards = cardRepository.findByUserId(userId);
+	// cards.stream().forEach((c) -> c.setActive(false));
+	// cardRepository.save(cards);
+	// }
+	//
+	// private void activateCard(Integer userId, Integer cardId) {
+	// deactivateCards(userId);
+	// Card currentCard = cardRepository.findOne(cardId);
+	// currentCard.setActive(true);
+	// cardRepository.save(currentCard);
+	// }
 }

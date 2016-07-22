@@ -99,7 +99,8 @@ public class UserController {
 		if (!result.hasErrors()) {
 			userService.register(userDTO);
 			return "index";
-		} else
+		}
+		else
 			return "register";
 	}
 
