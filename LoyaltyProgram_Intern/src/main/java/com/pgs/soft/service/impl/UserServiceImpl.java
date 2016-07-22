@@ -18,25 +18,26 @@ import com.pgs.soft.repository.UserRepository;
 import com.pgs.soft.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService{
-	
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
-	public Optional<User> getUserByEmail(String email){
+
+	@Override
+	public Optional<User> getUserByEmail(String email) {
 		return userRepository.findOneByEmail(email);
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {		
-		User user = getUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));		
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = getUserByEmail(email).orElseThrow(
+				() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));
 		return user;
 	}
-	
+
 	@Override
 	public void save(UserDTO userDTO) {
 		User user = new User();
@@ -45,11 +46,11 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		user.setRole(Role.USER);
 		userRepository.save(user);
 	}
-	
+
 	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
-			User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
-			userRepository.save(loggedUser);												
+		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+		userRepository.save(loggedUser);
 	}
 }
