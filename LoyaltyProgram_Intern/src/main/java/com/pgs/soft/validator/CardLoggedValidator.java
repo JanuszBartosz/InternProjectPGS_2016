@@ -1,4 +1,4 @@
-package com.pgs.soft;
+package com.pgs.soft.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +12,7 @@ import com.pgs.soft.service.CardService;
 
 @Component
 public class CardLoggedValidator implements Validator {
-	
+
 	@Autowired
 	CardService cardService;
 
@@ -26,10 +26,10 @@ public class CardLoggedValidator implements Validator {
 		AddCardRequestDTO cardLoggedDTO = (AddCardRequestDTO) target;
 		validateUsersActiveCards(errors, cardLoggedDTO);
 	}
-	
-	private void validateUsersActiveCards(Errors errors, AddCardRequestDTO cardLoggedDTO){
+
+	private void validateUsersActiveCards(Errors errors, AddCardRequestDTO cardLoggedDTO) {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(cardService.hasActiveCard(loggedUser.getId())){
+		if (cardService.hasActiveCard(loggedUser.getId())) {
 			errors.reject("card.has_active_card");
 		}
 	}

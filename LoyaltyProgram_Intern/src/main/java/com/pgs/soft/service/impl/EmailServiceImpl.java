@@ -52,12 +52,12 @@ public class EmailServiceImpl implements EmailService {
 		try {
 			post.setEntity(new UrlEncodedFormEntity(urlParameters));
 			client.execute(post);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (ClientProtocolException e) {
 			e.printStackTrace();
 		}
-
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-
 }

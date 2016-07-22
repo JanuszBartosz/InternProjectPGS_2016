@@ -1,13 +1,11 @@
 package com.pgs.soft.dto;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class AddCardNotLoggedRequestDTO extends AddCardRequestDTO {
 
 	private String email;
-	
-	private String name; 
-	
+
+	private String name;
+
 	private String surname;
 
 	public String getEmail() {

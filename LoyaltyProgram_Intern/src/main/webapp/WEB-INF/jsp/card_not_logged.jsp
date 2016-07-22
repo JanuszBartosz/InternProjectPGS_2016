@@ -38,7 +38,7 @@
 			<input type="submit" />
 		</div>
 	</form:form>
-	<a href="/"> <spring:message code="card.go_index" /></a>
+	<a href="/"> <spring:message code="go.index" /></a>
 	<br>
 </body>
 </html>

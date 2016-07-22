@@ -50,13 +50,13 @@
 		</div>
 		<div>
 			<spring:message code="profile.hobbies" />
-			<form:checkboxes items="${hobbiesNames}" path="hobbies" />	
+			<form:checkboxes items="${hobbiesNames}" path="hobbies" />
 		</div>
 		<div>
 			<input type="submit" />
 		</div>
 	</form:form>
 
-	<a href="/main"> <spring:message code="profile.go_main" /></a>
+	<a href="/main"> <spring:message code="go.main" /></a>
 </body>
 </html>

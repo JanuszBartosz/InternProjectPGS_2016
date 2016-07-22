@@ -12,20 +12,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "card")
 public class Card {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String number;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@Column(name = "active")
 	private boolean isActive;
-	
+
 	public Integer getId() {
 		return id;
 	}

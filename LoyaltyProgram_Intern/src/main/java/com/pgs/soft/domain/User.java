@@ -41,7 +41,7 @@ public class User implements UserDetails {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile = new UserProfile();
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Card> cards;
 
