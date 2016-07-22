@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.pgs.soft.CardLoggedValidator;
-import com.pgs.soft.CardNotLoggedValidator;
 import com.pgs.soft.dto.AddCardRequestDTO;
 import com.pgs.soft.dto.AddCardNotLoggedRequestDTO;
 import com.pgs.soft.service.CardService;
+import com.pgs.soft.validator.CardLoggedValidator;
+import com.pgs.soft.validator.CardNotLoggedValidator;
 
 @Controller
 public class CardController {

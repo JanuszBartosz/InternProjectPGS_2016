@@ -1,4 +1,4 @@
-package com.pgs.soft;
+package com.pgs.soft.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

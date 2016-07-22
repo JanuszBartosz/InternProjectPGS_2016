@@ -1,4 +1,4 @@
-package com.pgs.soft;
+package com.pgs.soft.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

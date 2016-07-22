@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pgs.soft.ChangePasswordRequestValidator;
-import com.pgs.soft.RegisterValidator;
-import com.pgs.soft.UserProfileValidator;
 import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.LoginFormDTO;
 import com.pgs.soft.dto.UserDTO;
@@ -26,6 +23,9 @@ import com.pgs.soft.dto.UserProfileDTO;
 import com.pgs.soft.service.HobbyService;
 import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
+import com.pgs.soft.validator.ChangePasswordRequestValidator;
+import com.pgs.soft.validator.RegisterValidator;
+import com.pgs.soft.validator.UserProfileValidator;
 
 @Controller
 public class UserController {
