@@ -6,13 +6,13 @@ public class UserDTO extends GenericDTO<Integer> {
 
 	@NotEmpty
 	private String email;
-	
+
 	@NotEmpty
 	private String password;
-	
+
 	@NotEmpty
 	private String passwordRepeated;
-	
+
 	private String registrationToken;
 
 	public String getEmail() {

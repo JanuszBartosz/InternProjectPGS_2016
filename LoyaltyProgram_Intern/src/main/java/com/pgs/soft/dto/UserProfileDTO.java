@@ -8,15 +8,15 @@ public class UserProfileDTO {
 	private String name;
 
 	private String surname;
-	
+
 	private String city;
-	
+
 	private String street;
-	
+
 	private String homeNumber;
-	
+
 	private String postCode;
-	
+
 	private Set<String> hobbies = new HashSet<String>();
 
 	public String getName() {
@@ -65,13 +65,13 @@ public class UserProfileDTO {
 
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
-	}	
-	
+	}
+
 	public Set<String> getHobbies() {
 		return hobbies;
 	}
 
 	public void setHobbies(Set<String> hobbies) {
 		this.hobbies = hobbies;
-	}	
+	}
 }
