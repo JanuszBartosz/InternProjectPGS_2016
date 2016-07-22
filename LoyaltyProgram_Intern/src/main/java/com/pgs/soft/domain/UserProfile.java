@@ -21,18 +21,18 @@ public class UserProfile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String name;
-	
+
 	private String surname;
-	
+
 	private String city;
-	
+
 	private String street;
 
 	@Column(name = "home_number")
 	private String homeNumber;
-	
+
 	@Column(name = "post_code")
 	private String postCode;
 
@@ -40,14 +40,14 @@ public class UserProfile {
 	private User user;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
-	private Set<Hobby>hobbies;
-	
-	public UserProfile(){
+	@JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
+	private Set<Hobby> hobbies;
+
+	public UserProfile() {
 	}
-	
+
 	public UserProfile(Integer id, String name, String surname, String city, String street, String homeNumber,
-				String postCode) {
+			String postCode) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -55,8 +55,8 @@ public class UserProfile {
 		this.street = street;
 		this.homeNumber = homeNumber;
 		this.postCode = postCode;
-		}
-	
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -119,8 +119,8 @@ public class UserProfile {
 
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
-	}	
-	
+	}
+
 	public Set<Hobby> getHobbies() {
 		return hobbies;
 	}

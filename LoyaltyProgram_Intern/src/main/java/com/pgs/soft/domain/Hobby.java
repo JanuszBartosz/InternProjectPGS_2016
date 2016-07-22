@@ -10,20 +10,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "hobbies")
 public class Hobby {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(name = "hobby_name")
 	private String hobbyName;
-	
-	public Hobby(){
-		
+
+	public Hobby() {
+
 	}
-	
-	public Hobby(String hobbyName){
-		this.hobbyName=hobbyName;	
+
+	public Hobby(String hobbyName) {
+		this.hobbyName = hobbyName;
 	}
 
 	public Integer getId() {

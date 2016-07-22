@@ -17,16 +17,16 @@ import com.pgs.soft.service.UserProfileService;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	UserProfileRepository userProfileRepository;
-	
+
 	@Autowired
 	HobbyRepository hobbyRepository;
-	
+
 	@Override
 	public UserProfileDTO getUserProfile() {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -45,8 +45,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfile = mapDtoToEntity(userProfileDTO, userProfile);
 		userProfileRepository.save(userProfile);
 	}
-	
-	private UserProfile mapDtoToEntity(UserProfileDTO userProfileDTO, UserProfile userProfile){
+
+	private UserProfile mapDtoToEntity(UserProfileDTO userProfileDTO, UserProfile userProfile) {
 		userProfile.setName(userProfileDTO.getName());
 		userProfile.setSurname(userProfileDTO.getSurname());
 		userProfile.setCity(userProfileDTO.getCity());
@@ -54,29 +54,29 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfile.setHomeNumber(userProfileDTO.getHomeNumber());
 		userProfile.setPostCode(userProfileDTO.getPostCode());
 		userProfile.getHobbies().clear();
-		
-		if(userProfileDTO.getHobbies()!=null){
-			for(String hobby : userProfileDTO.getHobbies()){
+
+		if (userProfileDTO.getHobbies() != null) {
+			for (String hobby : userProfileDTO.getHobbies()) {
 				Optional<Hobby> optionalHobby = hobbyRepository.findOneByHobbyName(hobby);
 				optionalHobby.ifPresent(h -> userProfile.getHobbies().add(h));
 			}
 		}
-		
+
 		return userProfile;
 	}
-	
-	private UserProfileDTO mapEntityToDto(UserProfile userProfile, UserProfileDTO userProfileDTO){
+
+	private UserProfileDTO mapEntityToDto(UserProfile userProfile, UserProfileDTO userProfileDTO) {
 		userProfileDTO.setName(userProfile.getName());
 		userProfileDTO.setSurname(userProfile.getSurname());
 		userProfileDTO.setCity(userProfile.getCity());
 		userProfileDTO.setStreet(userProfile.getStreet());
 		userProfileDTO.setHomeNumber(userProfile.getHomeNumber());
 		userProfileDTO.setPostCode(userProfile.getPostCode());
-		
-		for(Hobby hobby : userProfile.getHobbies()){
+
+		for (Hobby hobby : userProfile.getHobbies()) {
 			userProfileDTO.getHobbies().add(hobby.getHobbyName());
 		}
-	
+
 		return userProfileDTO;
 	}
 }
