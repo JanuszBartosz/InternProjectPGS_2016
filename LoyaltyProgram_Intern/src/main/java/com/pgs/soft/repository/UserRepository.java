@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.pgs.soft.domain.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer>{
+public interface UserRepository extends CrudRepository<User, Integer> {
 
-	 Optional<User> findOneByEmail(String email);
-	 Optional<User> findOneByRegistrationToken(String registrationToken);
+	Optional<User> findOneByEmail(String email);
+
+	Optional<User> findOneByRegistrationToken(String registrationToken);
 }

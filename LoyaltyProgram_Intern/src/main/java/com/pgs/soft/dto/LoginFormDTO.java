@@ -1,13 +1,13 @@
 package com.pgs.soft.dto;
 
 public class LoginFormDTO {
-	
+
 	private String email;
 	private String password;
-	
-	public LoginFormDTO(){
+
+	public LoginFormDTO() {
 	}
-	
+
 	public LoginFormDTO(String email, String password) {
 		super();
 		this.email = email;
@@ -29,5 +29,5 @@ public class LoginFormDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }

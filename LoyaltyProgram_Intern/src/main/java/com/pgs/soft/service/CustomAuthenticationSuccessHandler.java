@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
-			throws IOException, ServletException {
+	public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			Authentication authentication) throws IOException, ServletException {
 
-        httpServletResponse.setStatus(HttpServletResponse.SC_OK);
- 
-        httpServletResponse.sendRedirect("/main");       		
+		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+
+		httpServletResponse.sendRedirect("/main");
 	}
 }

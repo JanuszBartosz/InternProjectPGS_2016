@@ -14,7 +14,7 @@ import com.pgs.soft.service.HobbyService;
 
 @Service
 public class HobbyServiceImpl implements HobbyService {
-	
+
 	@Autowired
 	HobbyRepository hobbyRepository;
 

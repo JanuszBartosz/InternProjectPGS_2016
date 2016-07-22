@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
 	@Override
-	public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication)
-			throws IOException, ServletException {
-		
-		httpServletResponse.sendRedirect("/");	
+	public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			Authentication authentication) throws IOException, ServletException {
+
+		httpServletResponse.sendRedirect("/");
 	}
 }

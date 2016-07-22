@@ -17,26 +17,27 @@ import com.pgs.soft.domain.User;
 import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.repository.UserRepository;
+import com.pgs.soft.service.EmailService;
 import com.pgs.soft.service.UserService;
 
 @Service
-public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> implements UserService, UserDetailsService{
-	
+public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
+		implements UserService, UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@Autowired
 	EmailService emailService;
-	
+
 	@Override
 	protected CrudRepository<User, Integer> getCrudRepository() {
-		return (CrudRepository<User, Integer>) userRepository;
+		return userRepository;
 	}
-	
+
 	@Override
 	protected User mapDtoToEntity(UserDTO userDTO) {
 		User user = new User();
@@ -57,31 +58,32 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		return userDTO;
 
 	}
-	
+
 	@Override
-	public Optional<User> getUserByEmail(String email){
+	public Optional<User> getUserByEmail(String email) {
 		return userRepository.findOneByEmail(email);
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {		
-		User user = getUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));		
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = getUserByEmail(email).orElseThrow(
+				() -> new UsernameNotFoundException(String.format("User with email=%s was not found", email)));
 		return user;
 	}
-	
+
 	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
-			User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
-			userRepository.save(loggedUser);												
+		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+		userRepository.save(loggedUser);
 	}
-	
+
 	@Override
-	public Boolean checkUUID(String registrationToken){
-		
+	public Boolean checkUUID(String registrationToken) {
+
 		Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
-		
-		if(user.isPresent()){
+
+		if (user.isPresent()) {
 			user.get().setIsActive(true);
 			user.get().setRegistrationToken(null);
 			userRepository.save(user.get());
@@ -90,8 +92,9 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer> 
 		return false;
 	}
 
-	public void register(UserDTO userDTO){
-		
+	@Override
+	public void register(UserDTO userDTO) {
+
 		String registrationToken = String.valueOf(UUID.randomUUID());
 		userDTO.setRegistrationToken(registrationToken);
 		saveOrUpdate(userDTO);
