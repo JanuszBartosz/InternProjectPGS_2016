@@ -74,5 +74,4 @@ public class UserProfileDTO {
 	public void setHobbies(Set<String> hobbies) {
 		this.hobbies = hobbies;
 	}
-
 }

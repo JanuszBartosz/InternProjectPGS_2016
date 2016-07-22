@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -40,10 +41,15 @@ public class UserProfile {
 	private User user;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
-	private Set<Hobby> hobbies;
+    @JoinTable(name = "user_hobbies", joinColumns = @JoinColumn(name = "user_profile_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "hobby_id", referencedColumnName = "id"))
+	private Set<Hobby>hobbies;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_profile_id")
+	private Set<Points> points;
+	
+	public UserProfile(){
 
-	public UserProfile() {
 	}
 
 	public UserProfile(Integer id, String name, String surname, String city, String street, String homeNumber,
@@ -127,5 +133,13 @@ public class UserProfile {
 
 	public void setHobbies(Set<Hobby> hobbies) {
 		this.hobbies = hobbies;
+	}
+
+	public Set<Points> getPoints() {
+		return points;
+	}
+
+	public void setPoints(Set<Points> points) {
+		this.points = points;
 	}
 }

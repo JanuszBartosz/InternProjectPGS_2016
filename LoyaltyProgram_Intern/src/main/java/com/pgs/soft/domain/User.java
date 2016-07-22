@@ -1,6 +1,7 @@
 package com.pgs.soft.domain;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -39,6 +41,9 @@ public class User implements UserDetails {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile = new UserProfile();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<Card> cards;
 
 	@Column(name = "registration_token")
 	private String registrationToken;
@@ -111,6 +116,14 @@ public class User implements UserDetails {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Set<Card> getCards() {
+		return cards;
+	}
+
+	public void setCards(Set<Card> cards) {
+		this.cards = cards;
 	}
 
 	@Override

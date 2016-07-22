@@ -79,6 +79,11 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	}
 
 	@Override
+	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname) {
+		return userRepository.findOneByEmailAndUserProfile_NameAndUserProfile_Surname(email, name, surname);
+	}
+	
+	@Override
 	public Boolean checkUUID(String registrationToken) {
 
 		Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
@@ -94,7 +99,6 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 
 	@Override
 	public void register(UserDTO userDTO) {
-
 		String registrationToken = String.valueOf(UUID.randomUUID());
 		userDTO.setRegistrationToken(registrationToken);
 		saveOrUpdate(userDTO);
