@@ -74,8 +74,9 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	@Override
 	public void changePassword(ChangePasswordRequestDTO passwordDTO) {
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		loggedUser.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
-		userRepository.save(loggedUser);
+		User user = getUserByEmail(loggedUser.getEmail()).get();
+		user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+		userRepository.save(user);
 	}
 
 	@Override
