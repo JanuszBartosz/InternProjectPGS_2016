@@ -5,35 +5,40 @@
 <html>
 <body>
 	<h1>
-		<spring:message code="user.register" />
+		<spring:message code="card.main_notlogged" />
 	</h1>
-	<form:form modelAttribute="userDTO" method="POST" action="/register">
+	<form:form modelAttribute="cardNotLoggedDTO" method="POST"
+		action="/card">
 		<form:errors path="" element="div" />
 		<div>
+			<form:label path="number">
+				<spring:message code="card.number" />
+			</form:label>
+			<form:input path="number" />
+		</div>
+		<div>
 			<form:label path="email">
-				<spring:message code="user.email" />
+				<spring:message code="card.email" />
 			</form:label>
 			<form:input path="email" />
-			<form:errors path="email" />
 		</div>
 		<div>
-			<form:label path="password">
-				<spring:message code="user.password" />
+			<form:label path="name">
+				<spring:message code="card.name" />
 			</form:label>
-			<form:password path="password" />
-			<form:errors path="password" />
+			<form:input path="name" />
 		</div>
 		<div>
-			<form:label path="passwordRepeated">
-				<spring:message code="user.password_repeated" />
+			<form:label path="surname">
+				<spring:message code="card.surname" />
 			</form:label>
-			<form:password path="passwordRepeated" />
-			<form:errors path="passwordRepeated" />
+			<form:input path="surname" />
 		</div>
 		<div>
 			<input type="submit" />
 		</div>
 	</form:form>
 	<a href="/"> <spring:message code="go.index" /></a>
+	<br>
 </body>
 </html>

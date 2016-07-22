@@ -1,4 +1,4 @@
-package com.pgs.soft;
+package com.pgs.soft.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ import com.pgs.soft.service.UserService;
 
 @Component
 public class RegisterValidator implements Validator {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -28,23 +28,23 @@ public class RegisterValidator implements Validator {
 		validateEmail(errors, userDTO);
 		validatePassword(errors, userDTO);
 	}
-	
-	private void validatePassword(Errors errors, UserDTO userDTO){
-		if(!userDTO.getPassword().equals(userDTO.getPasswordRepeated())){
+
+	private void validatePassword(Errors errors, UserDTO userDTO) {
+		if (!userDTO.getPassword().equals(userDTO.getPasswordRepeated())) {
 			errors.rejectValue("passwordRepeated", "passwords.nomatch");
 		}
 	}
-	
+
 	private void validateEmail(Errors errors, UserDTO userDTO) {
-        if (userService.getUserByEmail(userDTO.getEmail()).isPresent()) {
-            errors.rejectValue("email", "email.exists");
-        }
-        if (!isEmailFormCorrect(userDTO.getEmail())){
-        	errors.rejectValue("email","email.incorrect");
-        } 
-    }
-	
-	private boolean isEmailFormCorrect(String email){
+		if (userService.getUserByEmail(userDTO.getEmail()).isPresent()) {
+			errors.rejectValue("email", "email.exists");
+		}
+		if (!isEmailFormCorrect(userDTO.getEmail())) {
+			errors.rejectValue("email", "email.incorrect");
+		}
+	}
+
+	private boolean isEmailFormCorrect(String email) {
 		Pattern pattern;
 		Matcher matcher;
 		String emailPattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}";

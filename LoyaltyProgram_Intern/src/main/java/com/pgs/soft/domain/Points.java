@@ -8,22 +8,23 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "hobbies")
-public class Hobby {
+@Table(name = "points")
+public class Points {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "hobby_name")
-	private String hobbyName;
+	@Column(name = "points_amount")
+	private int pointsAmount;
 
-	public Hobby() {
+	public Points() {
 
 	}
 
-	public Hobby(String hobbyName) {
-		this.hobbyName = hobbyName;
+	public Points(int pointsAmount) {
+		super();
+		this.pointsAmount = pointsAmount;
 	}
 
 	public Integer getId() {
@@ -34,11 +35,11 @@ public class Hobby {
 		this.id = id;
 	}
 
-	public String getHobbyName() {
-		return hobbyName;
+	public int getPointsAmount() {
+		return pointsAmount;
 	}
 
-	public void setHobbyName(String hobbyName) {
-		this.hobbyName = hobbyName;
+	public void setPointsAmount(int pointsAmount) {
+		this.pointsAmount = pointsAmount;
 	}
 }
