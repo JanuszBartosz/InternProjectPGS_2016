@@ -2,7 +2,7 @@ package com.pgs.soft.dto;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserDTO {
+public class UserDTO extends GenericDTO<Integer> {
 
 	@NotEmpty
 	private String email;
@@ -12,6 +12,8 @@ public class UserDTO {
 	
 	@NotEmpty
 	private String passwordRepeated;
+	
+	private String registrationToken;
 
 	public String getEmail() {
 		return email;
@@ -35,5 +37,13 @@ public class UserDTO {
 
 	public void setPasswordRepeated(String passwordRepeated) {
 		this.passwordRepeated = passwordRepeated;
-	}	
+	}
+
+	public String getRegistrationToken() {
+		return registrationToken;
+	}
+
+	public void setRegistrationToken(String registrationToken) {
+		this.registrationToken = registrationToken;
+	}
 }

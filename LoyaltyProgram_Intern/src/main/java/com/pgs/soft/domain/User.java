@@ -42,11 +42,19 @@ public class User implements UserDetails {
 	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile = new UserProfile();
 	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Card> cards;
+
+	@Column(name = "registration_token")
+	private String registrationToken;
+	
+	@Column(name="is_active")
+	private Boolean isActive;
 		
 	public User() {
 		super();
+		this.isActive = false;
 	}
 	
 	public User(String email, String password) {
@@ -90,6 +98,22 @@ public class User implements UserDetails {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+	
+	public String getRegistrationToken() {
+		return registrationToken;
+	}
+
+	public void setRegistrationToken(String uuid) {
+		this.registrationToken = uuid;
+	}
+	
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 	public Set<Card> getCards() {
 		return cards;
@@ -132,7 +156,7 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return true;
+		return isActive;
 	}
 
 }

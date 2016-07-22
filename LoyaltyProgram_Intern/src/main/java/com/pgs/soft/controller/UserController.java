@@ -1,5 +1,7 @@
 package com.pgs.soft.controller;
 
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pgs.soft.ChangePasswordRequestValidator;
@@ -22,6 +24,7 @@ import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.LoginFormDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.dto.UserProfileDTO;
+import com.pgs.soft.service.HobbyService;
 import com.pgs.soft.service.UserProfileService;
 import com.pgs.soft.service.UserService;
 
@@ -43,6 +46,9 @@ public class UserController {
 	@Autowired
 	ChangePasswordRequestValidator passwordValidator;
 	
+	@Autowired
+	HobbyService hobbyService;
+	
 	@InitBinder("userProfileDTO")
 	public void initProfileBinder(WebDataBinder binder){
 		binder.addValidators(userProfileValidator);
@@ -57,16 +63,30 @@ public class UserController {
     public void initChangePasswordBinder(WebDataBinder binder) {
         binder.addValidators(passwordValidator);
     }
+	
+	@ModelAttribute("hobbiesNames")
+	public Set<String> getHobbiesNames()
+	{ 
+		return hobbyService.getAllHobbiesNames();
+	}
+	
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
+	public ModelAndView fillProfileView(){
+		ModelAndView model = new ModelAndView("profile");
+		model.addObject(userProfileService.getUserProfile());	
+		return model;
+	}
 
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
-	public String fillProfile(@Valid @RequestBody UserProfileDTO userProfileDTO){
-		userProfileService.save(userProfileDTO);
-		return "Profile filled.";
+	public String fillProfile(@Valid @ModelAttribute("userProfileDTO") UserProfileDTO userProfileDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userProfileService.save(userProfileDTO);
+		}
+		return "profile";
 	}
 	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
 	public String getLogin(@ModelAttribute ("loginForm") LoginFormDTO loginForm){
-
 		return "login";
 	}
 	
@@ -78,16 +98,33 @@ public class UserController {
 	@RequestMapping(value = "/register", method=RequestMethod.POST)
 	public String register(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult result){
 		if(!result.hasErrors()){
-			userService.save(userDTO);
+			userService.register(userDTO);
 			return "index";
 		}
-		return "register";
+		else
+			return "register";
+	}
+	
+	@RequestMapping(value="/activate_account", method=RequestMethod.GET)
+	public ModelAndView activateAccount(@RequestParam String uuid){
+		if(userService.checkUUID(uuid))			
+			return new ModelAndView("index", "message", "Confirmation succeeded, you can now log in.");
+		else
+			return new ModelAndView("index", "message", "Confirmation failed, account cannot be activated!");
+	}
+	
+	@RequestMapping(value = "/change_password", method=RequestMethod.GET)
+	public String changePasswordView(@ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO){
+		return "change_password";
 	}
 
 	@RequestMapping(value = "/change_password", method=RequestMethod.POST)
-	public String changePassword(@Valid @RequestBody ChangePasswordRequestDTO passwordDTO){
-		userService.changePassword(passwordDTO);		
-		return "Password changed successfully.";
+	public String changePassword(@Valid @ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO, BindingResult result){
+		if(!result.hasErrors()){
+			userService.changePassword(passwordDTO);
+			return "main";
+		}				
+		return "change_password";
 	}
 	
 	@RequestMapping("/main")

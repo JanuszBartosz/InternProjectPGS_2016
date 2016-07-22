@@ -35,12 +35,12 @@ public class UserProfileValidator implements Validator {
 			pattern = Pattern.compile(namePattern);
 			matcher = pattern.matcher(name);
 			if(!matcher.matches()){
-				errors.reject("name.incorrect","Name is incorrect");
+				errors.rejectValue("name", "name.incorrect");
 			}
 			pattern = Pattern.compile(surnamePattern);
 			matcher = pattern.matcher(surname);
 			if(!matcher.matches()){
-				errors.reject("surname.incorrect","Surname is incorrect");
+				errors.rejectValue("surname", "surname.incorrect");
 			}
 		}
 	}

@@ -1,7 +1,10 @@
 package com.pgs.soft.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class AddCardRequestDTO {
 	
+	@NotEmpty
 	private String number;
 
 	public String getNumber() {

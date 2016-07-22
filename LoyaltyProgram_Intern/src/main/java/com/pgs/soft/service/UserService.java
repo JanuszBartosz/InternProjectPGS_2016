@@ -2,20 +2,19 @@ package com.pgs.soft.service;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.pgs.soft.domain.User;
 import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 
-@Service
-public interface UserService {
+public interface UserService extends GenericService<UserDTO, Integer> {
 
 	public Optional<User> getUserByEmail(String email);
 
-	public void save(UserDTO userDTO);
-	
 	public void changePassword(ChangePasswordRequestDTO passwordDTO);
 	
 	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname);
+
+	public Boolean checkUUID(String uuid);
+
+	public void register(UserDTO userDTO);
 }

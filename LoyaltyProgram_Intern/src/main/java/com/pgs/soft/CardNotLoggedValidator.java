@@ -1,5 +1,8 @@
 package com.pgs.soft;
 
+import java.util.Optional;
+
+import org.neo4j.cypher.internal.compiler.v2_2.ast.hasAggregateButIsNotAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -28,19 +31,17 @@ public class CardNotLoggedValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		AddCardNotLoggedRequestDTO cardNotLoggedDTO = (AddCardNotLoggedRequestDTO) target;
 		validateUser(errors, cardNotLoggedDTO);
-		validateUsersActiveCards(errors, cardNotLoggedDTO);
 	}
 	
 	private void validateUser(Errors errors, AddCardNotLoggedRequestDTO cardNotLoggedDTO){
 		if(!userService.getUserByEmailAndNameAndSurname(cardNotLoggedDTO.getEmail(), cardNotLoggedDTO.getName(), cardNotLoggedDTO.getSurname()).isPresent()){
 			errors.reject("card.user_not_exist");
+			return;
 		}
-	}
-	
-	private void validateUsersActiveCards(Errors errors, AddCardNotLoggedRequestDTO cardNotLoggedDTO){
 		User user = userService.getUserByEmail(cardNotLoggedDTO.getEmail()).get();
 		if(cardService.hasActiveCard(user.getId())){
 			errors.reject("card.has_active_card");
 		}
+		
 	}
 }
