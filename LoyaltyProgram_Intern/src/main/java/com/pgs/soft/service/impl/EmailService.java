@@ -1,12 +1,16 @@
 package com.pgs.soft.service.impl;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -24,45 +28,34 @@ public class EmailService {
 	@Value("${email.template.for.registration}")
 	private String template;
 	
-	public  String sendConfirmationEmail(String to, String email, String registrationToken)  {
-        
-		String data = "";
+	public  void sendConfirmationEmail(String to, String email, String registrationToken)  {
 		
-	    try{
-	        data = "userName=" + URLEncoder.encode(userName, "UTF-8");
-	        data += "&api_key=" + URLEncoder.encode(apiKey, "UTF-8");
-	        data += "&template=" + URLEncoder.encode(template, "UTF-8");
-	        data += "&to=" + URLEncoder.encode(to, "UTF-8");
-	        data += "&merge_email=" + URLEncoder.encode(email, "UTF-8");
-	        data += "&merge_token=" + URLEncoder.encode(registrationToken, "UTF-8");
-	    }
-	    catch(Exception e){
-            e.printStackTrace();
-	    }
-        return sendData(data);
+        List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+        urlParameters.add(new BasicNameValuePair("userName", userName));
+        urlParameters.add(new BasicNameValuePair("api_key", apiKey));
+        urlParameters.add(new BasicNameValuePair("template", template));
+        urlParameters.add(new BasicNameValuePair("to", to));
+        urlParameters.add(new BasicNameValuePair("merge_email", email));
+        urlParameters.add(new BasicNameValuePair("merge_token", registrationToken));
+
+        sendData(urlParameters);
     }
 
-	private String sendData(String data)
+	private void sendData(List<NameValuePair> urlParameters)
 	{
-		String result = "";
-		try {
-	        URL url = new URL(emailUrl);
-	        URLConnection conn = url.openConnection();
-	        conn.setDoOutput(true);
-	        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-	        wr.write(data);
-	        wr.flush();
-	        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
-	        result = rd.readLine();
-	        wr.close();
-	        rd.close();
-		}
-        catch(Exception e) {
-            
-            e.printStackTrace();
-        }
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost post = new HttpPost(emailUrl);
 		
-        return result;
+
+		try {
+			post.setEntity(new UrlEncodedFormEntity(urlParameters));
+			client.execute(post);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			      
 	}
 	
 }
