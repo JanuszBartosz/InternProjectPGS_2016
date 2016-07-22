@@ -19,11 +19,7 @@ public class Points {
 	
 	@Column(name = "points_amount")
 	private int pointsAmount;
-	
-	@ManyToOne
-	@JoinColumn(name = "user_profile_id")
-	private UserProfile userProfile;
-	
+
 	public Points(){
 		
 	}
@@ -47,13 +43,5 @@ public class Points {
 
 	public void setPointsAmount(int pointsAmount) {
 		this.pointsAmount = pointsAmount;
-	}
-
-	public UserProfile getUserProfile() {
-		return userProfile;
-	}
-
-	public void setUserProfile(UserProfile userProfile) {
-		this.userProfile = userProfile;
 	}
 }
