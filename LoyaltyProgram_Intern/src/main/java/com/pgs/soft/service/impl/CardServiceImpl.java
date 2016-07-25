@@ -38,7 +38,7 @@ public class CardServiceImpl implements CardService {
 		cardRepository.save(card);
 	}
 
-	private Card map(AddCardRequestDTO cardDTO, User user) {
+	public Card map(AddCardRequestDTO cardDTO, User user) {
 		Card card = new Card();
 		card.setNumber(cardDTO.getNumber());
 		card.setUser(user);
