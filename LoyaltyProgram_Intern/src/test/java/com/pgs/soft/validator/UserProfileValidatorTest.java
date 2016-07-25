@@ -5,6 +5,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -21,6 +22,13 @@ public class UserProfileValidatorTest {
 	@Mock
 	Errors errors;
 
+	UserProfileDTO userProfileDTO;
+
+	@Before
+	public void setUp() {
+		userProfileDTO = new UserProfileDTO();
+	}
+
 	@Test
 	public void supportsTest() throws Exception {
 		boolean supports = userProfileValidator.supports(UserProfileDTO.class);
@@ -28,10 +36,9 @@ public class UserProfileValidatorTest {
 	}
 
 	@Test
-	public void validateTest() throws Exception {
+	public void testValidateSuccess() throws Exception {
 
 		// Given
-		UserProfileDTO userProfileDTO = new UserProfileDTO();
 		userProfileDTO.setName("Adrian");
 		userProfileDTO.setSurname("Kulinski");
 
@@ -43,10 +50,9 @@ public class UserProfileValidatorTest {
 	}
 
 	@Test
-	public void incorrectNameValidateTest() throws Exception {
+	public void testValidateIncorrectName() throws Exception {
 
 		// Given
-		UserProfileDTO userProfileDTO = new UserProfileDTO();
 		userProfileDTO.setName("Adr321ian");
 		userProfileDTO.setSurname("Kulinski");
 
@@ -58,10 +64,9 @@ public class UserProfileValidatorTest {
 	}
 
 	@Test
-	public void incorrectSurnameValidateTest() throws Exception {
+	public void testValidateIncorrectSurname() throws Exception {
 
 		// Given
-		UserProfileDTO userProfileDTO = new UserProfileDTO();
 		userProfileDTO.setName("Adrian");
 		userProfileDTO.setSurname("Kulin321ski");
 

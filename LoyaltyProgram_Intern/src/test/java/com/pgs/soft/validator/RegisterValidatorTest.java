@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,13 @@ public class RegisterValidatorTest {
 	@Mock
 	private Errors errors;
 
+	UserDTO userDTO;
+
+	@Before
+	public void setUp() {
+		userDTO = new UserDTO();
+	}
+
 	@Test
 	public void supportsTest() throws Exception {
 		boolean supports = registerValidator.supports(UserDTO.class);
@@ -38,9 +46,8 @@ public class RegisterValidatorTest {
 	}
 
 	@Test
-	public void validateTest() throws Exception {
+	public void testValidateSuccess() throws Exception {
 		// Given
-		UserDTO userDTO = new UserDTO();
 		userDTO.setEmail("adrian@gmail.com");
 		userDTO.setPassword("pass");
 		userDTO.setPasswordRepeated("pass");
@@ -52,5 +59,53 @@ public class RegisterValidatorTest {
 
 		// Then
 		verify(errors, never()).rejectValue(anyString(), anyString());
+	}
+
+	@Test
+	public void testValidateUserExists() throws Exception {
+		// Given
+		userDTO.setEmail("adrian@gmail.com");
+		userDTO.setPassword("pass");
+		userDTO.setPasswordRepeated("pass");
+		Optional<User> optionalUser = Optional.ofNullable(new User());
+		Mockito.when(userServiceMock.getUserByEmail(userDTO.getEmail())).thenReturn(optionalUser);
+
+		// When
+		registerValidator.validate(userDTO, errors);
+
+		// Then
+		verify(errors).rejectValue("email", "email.exists");
+	}
+
+	@Test
+	public void testValidateIncorrectEmail() throws Exception {
+		// Given
+		userDTO.setEmail("adriangmail.co321m");
+		userDTO.setPassword("pass");
+		userDTO.setPasswordRepeated("pass");
+		Optional<User> optionalUser = Optional.ofNullable(null);
+		Mockito.when(userServiceMock.getUserByEmail(userDTO.getEmail())).thenReturn(optionalUser);
+
+		// When
+		registerValidator.validate(userDTO, errors);
+
+		// Then
+		verify(errors).rejectValue("email", "email.incorrect");
+	}
+
+	@Test
+	public void testValidatePasswordsDontMatch() throws Exception {
+		// Given
+		userDTO.setEmail("adrian@gmail.com");
+		userDTO.setPassword("pass");
+		userDTO.setPasswordRepeated("diffpass");
+		Optional<User> optionalUser = Optional.ofNullable(null);
+		Mockito.when(userServiceMock.getUserByEmail(userDTO.getEmail())).thenReturn(optionalUser);
+
+		// When
+		registerValidator.validate(userDTO, errors);
+
+		// Then
+		verify(errors).rejectValue("passwordRepeated", "passwords.nomatch");
 	}
 }
