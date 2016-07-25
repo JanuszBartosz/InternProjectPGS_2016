@@ -42,4 +42,34 @@ public class UserProfileValidatorTest {
 		verify(errors, never()).rejectValue(anyString(), anyString());
 	}
 
+	@Test
+	public void incorrectNameValidateTest() throws Exception {
+
+		// Given
+		UserProfileDTO userProfileDTO = new UserProfileDTO();
+		userProfileDTO.setName("Adr321ian");
+		userProfileDTO.setSurname("Kulinski");
+
+		// When
+		userProfileValidator.validate(userProfileDTO, errors);
+
+		// Then
+		verify(errors).rejectValue("name", "name.incorrect");
+	}
+
+	@Test
+	public void incorrectSurnameValidateTest() throws Exception {
+
+		// Given
+		UserProfileDTO userProfileDTO = new UserProfileDTO();
+		userProfileDTO.setName("Adrian");
+		userProfileDTO.setSurname("Kulin321ski");
+
+		// When
+		userProfileValidator.validate(userProfileDTO, errors);
+
+		// Then
+		verify(errors).rejectValue("surname", "surname.incorrect");
+	}
+
 }
