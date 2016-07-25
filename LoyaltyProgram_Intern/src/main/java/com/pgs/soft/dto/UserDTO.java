@@ -10,7 +10,6 @@ public class UserDTO extends GenericDTO<Integer> {
 	@NotEmpty
 	private String password;
 
-	@NotEmpty
 	private String passwordRepeated;
 
 	private String registrationToken;
