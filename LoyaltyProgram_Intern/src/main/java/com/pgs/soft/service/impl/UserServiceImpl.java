@@ -3,8 +3,11 @@ package com.pgs.soft.service.impl;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,7 +47,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		user.setId(userDTO.getId());
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-		user.setRole(Role.USER);
+		user.setRole(userDTO.getRole());
 		user.setRegistrationToken(userDTO.getRegistrationToken());
 		return user;
 	}
@@ -76,6 +79,12 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = getUserByEmail(loggedUser.getEmail()).get();
 		user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+		if (user.getRole() == Role.REGISTERED) {
+			user.setRole(Role.USER);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),
+					user.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
 		userRepository.save(user);
 	}
 
@@ -101,8 +110,11 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	@Override
 	public void register(UserDTO userDTO) {
 		String registrationToken = String.valueOf(UUID.randomUUID());
+		String randomPassword = RandomStringUtils.randomAlphanumeric(10);
+		userDTO.setPassword(randomPassword);
 		userDTO.setRegistrationToken(registrationToken);
+		userDTO.setRole(Role.REGISTERED);
 		saveOrUpdate(userDTO);
-		emailService.sendConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), registrationToken);
+		emailService.sendConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), randomPassword, registrationToken);
 	}
 }

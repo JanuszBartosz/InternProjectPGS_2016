@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.LoginFormDTO;
@@ -119,10 +120,10 @@ public class UserController {
 
 	@RequestMapping(value = "/change_password", method = RequestMethod.POST)
 	public String changePassword(@Valid @ModelAttribute("passwordDTO") ChangePasswordRequestDTO passwordDTO,
-			BindingResult result) {
+			BindingResult result, RedirectAttributes redirectAttributes) {
 		if (!result.hasErrors()) {
 			userService.changePassword(passwordDTO);
-			return "main";
+			return "redirect:/main";
 		}
 		return "change_password";
 	}
