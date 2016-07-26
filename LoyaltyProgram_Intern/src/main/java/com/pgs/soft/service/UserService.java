@@ -14,7 +14,7 @@ public interface UserService extends GenericService<UserDTO, Integer> {
 
 	public Optional<User> getUserByEmailAndNameAndSurname(String email, String name, String surname);
 
-	public Boolean checkUUID(String uuid);
+	public Boolean checkRegistrationToken(String uuid);
 
 	public void register(UserDTO userDTO);
 }

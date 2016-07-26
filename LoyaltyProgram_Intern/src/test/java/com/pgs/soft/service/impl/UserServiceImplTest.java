@@ -1,6 +1,7 @@
 package com.pgs.soft.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Optional;
@@ -21,12 +22,15 @@ import com.pgs.soft.domain.User;
 import com.pgs.soft.dto.ChangePasswordRequestDTO;
 import com.pgs.soft.dto.UserDTO;
 import com.pgs.soft.repository.UserRepository;
+import com.pgs.soft.service.EmailService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
 
 	@Mock
 	UserRepository userRepository;
+	@Mock
+	EmailService emailService;
 
 	@InjectMocks
 	UserServiceImpl userServiceImpl = new UserServiceImpl();
@@ -97,7 +101,7 @@ public class UserServiceImplTest {
 
 		Authentication auth = new UsernamePasswordAuthenticationToken(loggedUser, null);
 		SecurityContextHolder.getContext().setAuthentication(auth);
-		Optional<User> user = null;
+		Optional<User> user = Optional.of(loggedUser);
 		Mockito.when(userRepository.findOneByEmail(email)).thenReturn(user);
 
 		// When
@@ -107,4 +111,52 @@ public class UserServiceImplTest {
 		assertTrue(bCryptPasswordEncoder.matches(newPassword, loggedUser.getPassword()));
 	}
 
+	@Test
+	public void checkRegistrationTokenCorrectTest() {
+		// Given
+		User user = new User();
+		String token = "qwertyuiop";
+		user.setRegistrationToken(token);
+		Optional<User> userFromDB = Optional.of(user);
+		Mockito.when(userRepository.findOneByRegistrationToken(token)).thenReturn(userFromDB);
+
+		// When
+		Boolean result = userServiceImpl.checkRegistrationToken(token);
+
+		// Then
+		assertTrue(result);
+	}
+
+	@Test
+	public void checkRegistrationTokenIncorrectTest() {
+		// Given
+		String token = "qwertyuiop";
+		Mockito.when(userRepository.findOneByRegistrationToken(token)).thenReturn(Optional.empty());
+
+		// When
+		Boolean result = userServiceImpl.checkRegistrationToken(token);
+
+		// Then
+		assertFalse(result);
+	}
+
+	@Test
+	public void registerTest() {
+		// Given
+		UserDTO userDTO = new UserDTO();
+		userServiceImpl.setbCryptPasswordEncoder(bCryptPasswordEncoder);
+		Integer id = new Integer(4);
+		String email = "test@test.com";
+		String password = "testpassword";
+		userDTO.setId(id);
+		userDTO.setEmail(email);
+		userDTO.setPassword(password);
+
+		// When
+		userServiceImpl.register(userDTO);
+
+		// Then
+		assertTrue(userDTO.getRegistrationToken() != null);
+
+	}
 }

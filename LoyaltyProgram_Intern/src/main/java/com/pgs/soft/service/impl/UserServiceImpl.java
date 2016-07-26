@@ -89,7 +89,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	}
 
 	@Override
-	public Boolean checkUUID(String registrationToken) {
+	public Boolean checkRegistrationToken(String registrationToken) {
 
 		Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
 
