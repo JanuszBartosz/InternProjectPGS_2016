@@ -11,13 +11,13 @@ import com.pgs.soft.dto.AddCardRequestDTO;
 
 public class CardServiceImplTest {
 
-	CardServiceImpl cardServiceImpl = new CardServiceImpl();
+	private CardServiceImpl cardServiceImpl = new CardServiceImpl();
 
-	AddCardRequestDTO cardDTO;
+	private AddCardRequestDTO cardDTO;
 
-	Card card;
+	private Card card;
 
-	User user;
+	private User user;
 
 	@Before
 	public void setUp() throws Exception {

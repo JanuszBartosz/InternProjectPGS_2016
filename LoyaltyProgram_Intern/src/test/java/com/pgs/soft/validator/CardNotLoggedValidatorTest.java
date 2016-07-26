@@ -97,13 +97,10 @@ public class CardNotLoggedValidatorTest {
 		verify(errors).reject("card.user_not_exist");
 	}
 
-	/*
-	 * That one is not working
-	 */
 	@Test
 	public void testValidateFailureHasActiveCard() {
 		// Given
-		optionalUser = Optional.ofNullable(new User());
+		optionalUser = Optional.ofNullable(user);
 		Mockito.when(userServiceMock.getUserByEmailAndNameAndSurname(cardDTO.getEmail(), cardDTO.getName(),
 				cardDTO.getSurname())).thenReturn(optionalUser);
 		Mockito.when(userServiceMock.getUserByEmail(cardDTO.getEmail())).thenReturn(optionalUser);
