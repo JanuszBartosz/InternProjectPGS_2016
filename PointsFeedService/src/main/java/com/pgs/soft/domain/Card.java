@@ -23,6 +23,10 @@ public class Card {
 	@Column(name = "active")
 	private boolean isActive;
 
+	public Card() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}

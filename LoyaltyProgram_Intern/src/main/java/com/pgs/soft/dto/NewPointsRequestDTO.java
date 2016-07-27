@@ -1,29 +1,20 @@
-package com.pgs.soft.domain;
+package com.pgs.soft.dto;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Message {
+public class NewPointsRequestDTO {
 
 	private String cardNumber;
 	private Integer points;
 	private String date;
 
-	public Message() {
+	public NewPointsRequestDTO() {
 		super();
 	}
 
-	public Message(String cardNumber, Integer points) {
+	public NewPointsRequestDTO(String cardNumber, Integer points, String date) {
 		super();
 		this.cardNumber = cardNumber;
 		this.points = points;
-
-		Date dNow = new Date();
-		SimpleDateFormat ft = new SimpleDateFormat("E yyyy.MM.dd HH:mm:ss");
-		this.date = ft.format(dNow);
+		this.date = date;
 	}
 
 	public String getCardNumber() {
@@ -52,6 +43,6 @@ public class Message {
 
 	@Override
 	public String toString() {
-		return "Message{cardId = " + cardNumber + ", points = " + points + ", date = " + date + "}";
+		return "Message{cardNumber = " + cardNumber + ", points = " + points + ", date = " + date + "}";
 	}
 }

@@ -8,4 +8,6 @@ import com.pgs.soft.domain.UserProfile;
 @Repository
 public interface UserProfileRepository extends CrudRepository<UserProfile, Integer> {
 
+	UserProfile findOneByUser_Cards_Number(String number);
+
 }

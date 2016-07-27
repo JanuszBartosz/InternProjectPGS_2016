@@ -25,13 +25,14 @@ public class GeneratorService {
 	@Scheduled(fixedRate = 1000)
 	public void send() {
 
-		List<Integer> allCardsIds = StreamSupport.stream(cardRepository.findAll().spliterator(), false)
-				.map(c -> c.getId()).collect(Collectors.toList());
+		List<String> allCardsNumbers = StreamSupport.stream(cardRepository.findAll().spliterator(), false)
+				.map(c -> c.getNumber()).collect(Collectors.toList());
 
 		System.out.println("Sending");
-		String result = restTemplate.postForObject("http://localhost:8080/new_points",
-				new Message(allCardsIds.get(rand.nextInt(allCardsIds.size())), rand.nextInt(1901) + 100), String.class);
-
+		Message message = new Message(allCardsNumbers.get(rand.nextInt(allCardsNumbers.size())),
+				rand.nextInt(1901) + 100);
+		System.out.println(message);
+		String result = restTemplate.postForObject("http://localhost:8080/new_points", message, String.class);
 		System.out.println(result);
 	}
 
