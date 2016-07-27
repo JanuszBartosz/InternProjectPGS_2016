@@ -3,6 +3,7 @@ package com.pgs.soft.service;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class AwardServiceImpl implements AwardsService {
 	}
 
 	@Override
-	public List<AwardDTO> getAwardsByCategoryAndSorted(String category, Sort sort) {
-		return awardsRepository.findByCategory(Category.valueOf(category), sort).stream().map((a) -> mapEntityToDto(a))
+	public List<AwardDTO> getAwardsByCategoryAndSorted(Category category, Sort sort) {
+		return awardsRepository.findByCategory(category, sort).stream().map((a) -> mapEntityToDto(a))
 				.collect(Collectors.toList());
 	}
 
@@ -56,10 +57,16 @@ public class AwardServiceImpl implements AwardsService {
 
 		awardDTO.setName(award.getName());
 		awardDTO.setDescription(award.getDescription());
-		awardDTO.setCategory(award.getCategory().toString());
+		awardDTO.setCategory(award.getCategory());
 		awardDTO.setPointsPrice(award.getPointsPrice());
 
 		return awardDTO;
+	}
+
+	@Override
+	public List<AwardDTO> getAllAwards(Sort sort) {
+		return StreamSupport.stream(awardsRepository.findAll(sort).spliterator(), false).map(a -> mapEntityToDto(a))
+				.collect(Collectors.toList());
 	}
 
 }
