@@ -35,7 +35,6 @@
 			<input type="submit" />
 		</div>
 	</form:form>
-
-	<a href="/main"> <spring:message code="go.main" /></a>
+		<a href="/main"> <spring:message code="go.main" /></a>
 </body>
 </html>
