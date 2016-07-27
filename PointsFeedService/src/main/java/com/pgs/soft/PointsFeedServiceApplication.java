@@ -8,5 +8,6 @@ public class PointsFeedServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PointsFeedServiceApplication.class, args);
+
 	}
 }
