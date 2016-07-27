@@ -1,6 +1,7 @@
 package com.pgs.soft.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Sort;
 
@@ -13,5 +14,5 @@ public interface AwardsService {
 
 	public List<AwardDTO> getAwardsByCategoryAndSorted(Category category, Sort sort);
 
-	public List<AwardDTO> getAllAwards(Sort sort);
+	public Map<Category, List<AwardDTO>> getAllAwardsGrouped();
 }

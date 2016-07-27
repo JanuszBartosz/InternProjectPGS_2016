@@ -1,6 +1,8 @@
 package com.pgs.soft;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -25,7 +27,7 @@ public class AwardsController {
 	AwardsRepository awardsRepository;
 
 	@RequestMapping(value = "/awards")
-	public List<AwardDTO> getAllAwardsSorted(
+	public Map<Category, List<AwardDTO>> getAllAwardsSorted(
 			@RequestParam(value = "sortBy", defaultValue = "name", required = false) String sortProperty,
 			@RequestParam(value = "direction", defaultValue = "ASC", required = false) Sort.Direction direction,
 			@RequestParam(value = "category", required = false) Category category) {
@@ -33,9 +35,11 @@ public class AwardsController {
 		Sort sort = new Sort(direction, sortProperty);
 
 		if (category != null) {
-			return awardsService.getAwardsByCategoryAndSorted(category, sort);
+			Map<Category, List<AwardDTO>> map = new HashMap<>();
+			map.put(category, awardsService.getAwardsByCategoryAndSorted(category, sort));
+			return map;
 		}
-		return awardsService.getAllAwards(sort);
+		return awardsService.getAllAwardsGrouped();
 	}
 
 }
