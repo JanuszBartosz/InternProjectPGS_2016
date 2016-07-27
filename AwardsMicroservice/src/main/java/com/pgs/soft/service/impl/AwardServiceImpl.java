@@ -1,4 +1,4 @@
-package com.pgs.soft.service;
+package com.pgs.soft.service.impl;
 
 import java.util.List;
 import java.util.Random;
@@ -16,6 +16,7 @@ import com.pgs.soft.domain.Award;
 import com.pgs.soft.domain.Category;
 import com.pgs.soft.dto.AwardDTO;
 import com.pgs.soft.repository.AwardsRepository;
+import com.pgs.soft.service.AwardsService;
 
 @Service
 public class AwardServiceImpl implements AwardsService {
