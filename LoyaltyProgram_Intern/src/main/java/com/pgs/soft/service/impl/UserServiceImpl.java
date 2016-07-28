@@ -103,6 +103,6 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		String registrationToken = String.valueOf(UUID.randomUUID());
 		userDTO.setRegistrationToken(registrationToken);
 		saveOrUpdate(userDTO);
-		emailService.sendConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), registrationToken);
+		emailService.sendRegisterConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), registrationToken);
 	}
 }
