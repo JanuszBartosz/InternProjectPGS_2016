@@ -21,6 +21,8 @@
               	<br/>
               	${awardDTO.pointsPrice}
               	<br/>
+              	${awardDTO.stockAmount}
+              	<br/>
               	<sec:authorize access="hasAuthority('USER')">
 					<button form="awardDTO">Order</button> 
 				</sec:authorize>                   

@@ -10,6 +10,8 @@ public class AwardDTO {
 
 	private Category category;
 
+	private int stockAmount;
+
 	public AwardDTO() {
 
 	}
@@ -52,6 +54,14 @@ public class AwardDTO {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public int getStockAmount() {
+		return stockAmount;
+	}
+
+	public void setStockAmount(int stockAmount) {
+		this.stockAmount = stockAmount;
 	}
 
 }

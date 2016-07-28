@@ -42,6 +42,7 @@ public class AwardServiceImpl implements AwardsService {
 			award.setDescription(RandomStringUtils.randomAlphabetic(50));
 			award.setPointsPrice(generator.nextInt(1900) + 100);
 			award.setCategory(Category.values()[generator.nextInt(Category.values().length)]);
+			award.setStockAmount(generator.nextInt(10) + 1);
 
 			awardsRepository.save(award);
 		}
@@ -61,11 +62,13 @@ public class AwardServiceImpl implements AwardsService {
 		awardDTO.setDescription(award.getDescription());
 		awardDTO.setCategory(award.getCategory());
 		awardDTO.setPointsPrice(award.getPointsPrice());
+		awardDTO.setStockAmount(award.getStockAmount());
 
 		return awardDTO;
 	}
 
-	List<AwardDTO> getAllAwards(Sort sort) {
+	@Override
+	public List<AwardDTO> getAllAwards(Sort sort) {
 		return StreamSupport.stream(awardsRepository.findAll(sort).spliterator(), false).map((a) -> mapEntityToDto(a))
 				.collect(Collectors.toList());
 	}
