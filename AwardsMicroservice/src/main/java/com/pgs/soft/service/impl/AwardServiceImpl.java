@@ -1,10 +1,10 @@
 package com.pgs.soft.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,17 +65,15 @@ public class AwardServiceImpl implements AwardsService {
 		return awardDTO;
 	}
 
+	List<AwardDTO> getAllAwards() {
+		return StreamSupport.stream(awardsRepository.findAll().spliterator(), false).map((a) -> mapEntityToDto(a))
+				.collect(Collectors.toList());
+	}
+
 	@Override
 	public Map<Category, List<AwardDTO>> getAllAwardsGrouped() {
-		Map<Category, List<AwardDTO>> awardsGrouped = new HashMap<>();
-		Sort sort = new Sort("name");
-		for (Category category : Category.values()) {
-			awardsGrouped.put(category, getAwardsByCategoryAndSorted(category, sort));
-		}
-
-		// List<AwardDTO> list1 = getAwardsByCategoryAndSorted(category, new
-		// Sort("name"));
-
+		Map<Category, List<AwardDTO>> awardsGrouped = getAllAwards().stream()
+				.collect(Collectors.groupingBy(AwardDTO::getCategory));
 		return awardsGrouped;
 	}
 }
