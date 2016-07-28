@@ -10,6 +10,8 @@
 		<a href="/register"> <spring:message code="index.register" /></a><br>
 		<a href="/card"> <spring:message code="index.card" /></a><br>
 		<a href="/available_awards"> <spring:message code="main.available_awards" /></a><br>
+		<a href="/contact"> <spring:message code="index.contact" /></a><br>
+
 	</h3>
 </body>
 </html>
