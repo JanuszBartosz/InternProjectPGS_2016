@@ -22,16 +22,22 @@ public class AwardsController {
 		ModelAndView model = new ModelAndView("available_awards");
 
 		RestTemplate restTemplate = new RestTemplate();
-		Map<Category, List<AwardDTO>> mapa = new HashMap<>();// =
-																// restTemplate.getForObject("http://localhost:8080/awards",
-																// HashMap.class);
+		Map<Category, List<AwardDTO>> map = new HashMap<>();// =
+															// restTemplate.getForObject("http://localhost:8080/awards",
+															// HashMap.class);
 
 		List<AwardDTO> list1 = new ArrayList<>();
-		list1.add(new AwardDTO());
-		list1.add(new AwardDTO());
-		mapa.put(Category.Books, list1);
+		list1.add(new AwardDTO("Name1", "Description1", 1000, Category.Books));
+		list1.add(new AwardDTO("Name2", "Description2", 2000, Category.Books));
 
-		model.addObject("map", mapa);
+		List<AwardDTO> list2 = new ArrayList<>();
+		list2.add(new AwardDTO("Name3", "Description3", 3000, Category.Toys));
+		list2.add(new AwardDTO("Name4", "Description4", 4000, Category.Toys));
+
+		map.put(Category.Books, list1);
+		map.put(Category.Toys, list2);
+
+		model.addObject("map", map);
 		return model;
 	}
 

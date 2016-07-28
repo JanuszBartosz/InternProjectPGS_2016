@@ -10,6 +10,18 @@ public class AwardDTO {
 
 	private Category category;
 
+	public AwardDTO() {
+
+	}
+
+	public AwardDTO(String name, String description, int pointsPrice, Category category) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.pointsPrice = pointsPrice;
+		this.category = category;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -41,4 +53,5 @@ public class AwardDTO {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
 }
