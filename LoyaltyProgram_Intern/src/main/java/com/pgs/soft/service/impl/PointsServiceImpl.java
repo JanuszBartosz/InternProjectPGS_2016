@@ -9,9 +9,10 @@ import com.pgs.soft.domain.UserProfile;
 import com.pgs.soft.dto.NewPointsRequestDTO;
 import com.pgs.soft.repository.PointsRepository;
 import com.pgs.soft.repository.UserProfileRepository;
+import com.pgs.soft.service.PointsService;
 
 @Service
-public class PointsService extends GenericServiceImpl<Points, NewPointsRequestDTO, Long> {
+public class PointsServiceImpl extends GenericServiceImpl<Points, NewPointsRequestDTO, Long> implements PointsService {
 
 	@Autowired
 	PointsRepository pointsRepository;
@@ -26,18 +27,16 @@ public class PointsService extends GenericServiceImpl<Points, NewPointsRequestDT
 	}
 
 	@Override
-	protected Points mapDtoToEntity(NewPointsRequestDTO newPointsRequestDTO) {
-
+	public Points mapDtoToEntity(NewPointsRequestDTO newPointsRequestDTO) {
 		Points points = new Points();
 		points.setCardNumber(newPointsRequestDTO.getCardNumber());
 		points.setDate(newPointsRequestDTO.getDate());
 		points.setPointsAmount(newPointsRequestDTO.getPoints());
-		// points.setUserProfile(userProfileRepository.findOneByUser_Cards_Number(newPointsRequestDTO.getCardNumber()));
 		return points;
 	}
 
 	@Override
-	protected NewPointsRequestDTO mapEntityToDto(Points points) {
+	public NewPointsRequestDTO mapEntityToDto(Points points) {
 		NewPointsRequestDTO newPointsRequestDTO = new NewPointsRequestDTO();
 		newPointsRequestDTO.setCardNumber(points.getCardNumber());
 		newPointsRequestDTO.setDate(points.getDate());
@@ -45,6 +44,7 @@ public class PointsService extends GenericServiceImpl<Points, NewPointsRequestDT
 		return newPointsRequestDTO;
 	}
 
+	@Override
 	public void updateUserPoints(NewPointsRequestDTO newPointsRequestDTO) {
 
 		UserProfile userProfile = userProfileRepository.findOneByUser_Cards_Number(newPointsRequestDTO.getCardNumber());

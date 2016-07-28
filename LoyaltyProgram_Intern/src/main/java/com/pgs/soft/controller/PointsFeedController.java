@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pgs.soft.dto.NewPointsRequestDTO;
-import com.pgs.soft.service.impl.PointsService;
+import com.pgs.soft.service.PointsService;
 
 @RestController
 public class PointsFeedController {
