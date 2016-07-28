@@ -17,4 +17,6 @@ public interface AwardsService {
 	public Map<Category, List<AwardDTO>> getAllAwardsGrouped(Sort sort);
 
 	public List<AwardDTO> getAllAwards(Sort sort);
+
+	public AwardDTO getAward(Integer id);
 }

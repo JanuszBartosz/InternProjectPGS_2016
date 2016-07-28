@@ -67,6 +67,10 @@ public class AwardServiceImpl implements AwardsService {
 		return awardDTO;
 	}
 
+	public AwardDTO getAward(Integer id) {
+		return mapEntityToDto(awardsRepository.findOne(id));
+	}
+
 	@Override
 	public List<AwardDTO> getAllAwards(Sort sort) {
 		return StreamSupport.stream(awardsRepository.findAll(sort).spliterator(), false).map((a) -> mapEntityToDto(a))
