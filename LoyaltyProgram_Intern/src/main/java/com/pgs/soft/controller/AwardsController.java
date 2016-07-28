@@ -18,6 +18,7 @@ import com.pgs.soft.dto.Category;
 @Controller
 public class AwardsController {
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/available_awards", method = RequestMethod.GET)
 	public ModelAndView awardsView(
 			@RequestParam(value = "sortBy", defaultValue = "name", required = false) String sortProperty,
