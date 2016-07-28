@@ -22,7 +22,7 @@ public class GeneratorService {
 	@Autowired
 	CardRepository cardRepository;
 
-	@Scheduled(fixedRate = 1000)
+	@Scheduled(fixedRate = 3600000)
 	public void send() {
 
 		List<String> allCardsNumbers = StreamSupport.stream(cardRepository.findAll().spliterator(), false)
