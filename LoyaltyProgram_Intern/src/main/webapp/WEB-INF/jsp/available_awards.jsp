@@ -14,7 +14,7 @@
 <table>
    <c:forEach items="${map}" var="mapElement">
       <tr>
-           <td>${mapElement.key}</td>
+           <td><a href="http://localhost:8080/available_awards?category=${mapElement.key}">${mapElement.key}</a></td>
            <c:forEach items="${mapElement.value}" var="awardDTO" >
               <td>
               	${awardDTO.name} 

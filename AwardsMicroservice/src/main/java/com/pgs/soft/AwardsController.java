@@ -39,7 +39,7 @@ public class AwardsController {
 			map.put(category, awardsService.getAwardsByCategoryAndSorted(category, sort));
 			return map;
 		}
-		return awardsService.getAllAwardsGrouped();
+		return awardsService.getAllAwardsGrouped(sort);
 	}
 
 }

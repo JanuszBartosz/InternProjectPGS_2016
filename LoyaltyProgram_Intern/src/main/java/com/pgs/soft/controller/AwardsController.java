@@ -33,7 +33,8 @@ public class AwardsController {
 					+ sortProperty + "&direction=" + direction, Map.class);
 		}
 		else {
-			map = restTemplate.getForObject("http://localhost:9000/awards", Map.class);
+			map = restTemplate.getForObject(
+					"http://localhost:9000/awards?sortBy=" + sortProperty + "&direction=" + direction, Map.class);
 		}
 
 		model.addObject("map", map);

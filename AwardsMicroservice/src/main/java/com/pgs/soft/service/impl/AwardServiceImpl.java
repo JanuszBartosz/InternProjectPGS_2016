@@ -65,14 +65,14 @@ public class AwardServiceImpl implements AwardsService {
 		return awardDTO;
 	}
 
-	List<AwardDTO> getAllAwards() {
-		return StreamSupport.stream(awardsRepository.findAll().spliterator(), false).map((a) -> mapEntityToDto(a))
+	List<AwardDTO> getAllAwards(Sort sort) {
+		return StreamSupport.stream(awardsRepository.findAll(sort).spliterator(), false).map((a) -> mapEntityToDto(a))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Map<Category, List<AwardDTO>> getAllAwardsGrouped() {
-		Map<Category, List<AwardDTO>> awardsGrouped = getAllAwards().stream()
+	public Map<Category, List<AwardDTO>> getAllAwardsGrouped(Sort sort) {
+		Map<Category, List<AwardDTO>> awardsGrouped = getAllAwards(sort).stream()
 				.collect(Collectors.groupingBy(AwardDTO::getCategory));
 		return awardsGrouped;
 	}
