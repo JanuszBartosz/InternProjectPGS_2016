@@ -42,4 +42,14 @@ public class AwardsController {
 		return model;
 	}
 
+	@RequestMapping(value = "/order", method = RequestMethod.GET)
+	public ModelAndView orderFormView(@RequestParam(value = "id") Integer id) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		AwardDTO awardDTO = restTemplate.getForObject("http://localhost:9000/award?id=" + id, AwardDTO.class);
+
+		return new ModelAndView("order_form");
+	}
+
 }

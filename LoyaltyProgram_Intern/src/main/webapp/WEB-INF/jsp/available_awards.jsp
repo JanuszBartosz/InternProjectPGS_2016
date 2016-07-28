@@ -14,7 +14,7 @@
 <table>
    <c:forEach items="${map}" var="mapElement">
       <tr>
-           <td><a href="http://localhost:8080/available_awards?category=${mapElement.key}">${mapElement.key}</a></td>
+           <td><a href="/available_awards?category=${mapElement.key}">${mapElement.key}</a></td>
            <c:forEach items="${mapElement.value}" var="awardDTO" >
               <td>
               	${awardDTO.name} 
@@ -24,7 +24,7 @@
               	${awardDTO.stockAmount}
               	<br/>
               	<sec:authorize access="hasAuthority('USER')">
-					<button form="awardDTO">Order</button> 
+					<a href="/order?id=${awardDTO.id}"></a>
 				</sec:authorize>                   
               </td>                      
            </c:forEach>

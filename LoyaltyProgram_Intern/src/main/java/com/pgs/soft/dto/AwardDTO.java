@@ -2,6 +2,8 @@ package com.pgs.soft.dto;
 
 public class AwardDTO {
 
+	private Integer id;
+
 	private String name;
 
 	private String description;
@@ -22,6 +24,14 @@ public class AwardDTO {
 		this.description = description;
 		this.pointsPrice = pointsPrice;
 		this.category = category;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getName() {
