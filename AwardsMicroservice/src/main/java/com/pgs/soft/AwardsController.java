@@ -42,4 +42,9 @@ public class AwardsController {
 		return awardsService.getAllAwardsGrouped(sort);
 	}
 
+	@RequestMapping(value = "/get_award")
+	public AwardDTO getAward(@RequestParam Integer id) {
+		return awardsService.getAward(id);
+	}
+
 }
