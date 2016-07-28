@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pgs.soft.dto.AwardDTO;
 import com.pgs.soft.dto.Category;
+import com.pgs.soft.service.UserProfileService;
 
 @Controller
 public class AwardsController {
+
+	@Autowired
+	private UserProfileService userProfileService;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/available_awards", method = RequestMethod.GET)
@@ -45,11 +50,18 @@ public class AwardsController {
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
 	public ModelAndView orderFormView(@RequestParam(value = "id") Integer id) {
 
+		ModelAndView model = new ModelAndView("order_form");
+
 		RestTemplate restTemplate = new RestTemplate();
 
-		AwardDTO awardDTO = restTemplate.getForObject("http://localhost:9000/award?id=" + id, AwardDTO.class);
+		AwardDTO awardDTO = restTemplate.getForObject("http://localhost:9000/get_award?id=" + id, AwardDTO.class);
 
-		return new ModelAndView("order_form");
+		System.out.println(awardDTO.getName());
+
+		model.addObject(userProfileService.getUserProfile());
+		model.addObject(awardDTO);
+
+		return model;
 	}
 
 }

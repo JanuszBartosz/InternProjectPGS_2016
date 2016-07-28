@@ -24,7 +24,7 @@
               	${awardDTO.stockAmount}
               	<br/>
               	<sec:authorize access="hasAuthority('USER')">
-					<a href="/order?id=${awardDTO.id}"></a>
+					<a href="/order?id=${awardDTO.id}">Order</a>
 				</sec:authorize>                   
               </td>                      
            </c:forEach>

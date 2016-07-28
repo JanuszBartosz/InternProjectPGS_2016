@@ -1,12 +1,66 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
 <body>
+	<h1>
+		Your order:
+	</h1>
+	
+	<h2>
+	
+			${awardDTO.description}
+	
+	</h2>
 
+
+	
+	<form:form modelAttribute="userProfileDTO">
+		<form:errors path="" element="div" />
+		<div>
+			<form:label path="name">
+				<spring:message code="profile.name" />
+			</form:label>
+			<form:input path="name" />
+			<form:errors path="name" />
+		</div>
+		<div>
+			<form:label path="surname">
+				<spring:message code="profile.surname" />
+			</form:label>
+			<form:input path="surname" />
+			<form:errors path="surname" />
+		</div>
+		<div>
+			<form:label path="city">
+				<spring:message code="profile.city" />
+			</form:label>
+			<form:input path="city" />
+		</div>
+		<div>
+			<form:label path="street">
+				<spring:message code="profile.street" />
+			</form:label>
+			<form:input path="street" />
+		</div>
+		<div>
+			<form:label path="homeNumber">
+				<spring:message code="profile.home_number" />
+			</form:label>
+			<form:input path="homeNumber" />
+		</div>
+		<div>
+			<form:label path="postCode">
+				<spring:message code="profile.post_code" />
+			</form:label>
+			<form:input path="postCode" />
+		</div>
+		<div>
+			<input type="submit" />
+		</div>
+	</form:form>
+
+	<a href="/main"> <spring:message code="go.main" /></a>
 </body>
 </html>

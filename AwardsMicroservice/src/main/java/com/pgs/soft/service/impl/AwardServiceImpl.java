@@ -58,6 +58,7 @@ public class AwardServiceImpl implements AwardsService {
 	public AwardDTO mapEntityToDto(Award award) {
 		AwardDTO awardDTO = new AwardDTO();
 
+		awardDTO.setId(award.getId());
 		awardDTO.setName(award.getName());
 		awardDTO.setDescription(award.getDescription());
 		awardDTO.setCategory(award.getCategory());
@@ -67,6 +68,7 @@ public class AwardServiceImpl implements AwardsService {
 		return awardDTO;
 	}
 
+	@Override
 	public AwardDTO getAward(Integer id) {
 		return mapEntityToDto(awardsRepository.findOne(id));
 	}
