@@ -9,6 +9,7 @@
 		<a href="/login"> <spring:message code="index.login" /></a><br>
 		<a href="/register"> <spring:message code="index.register" /></a><br>
 		<a href="/card"> <spring:message code="index.card" /></a><br>
+		<a href="/contact"> <spring:message code="index.contact" /></a><br>
 	</h3>
 </body>
 </html>
