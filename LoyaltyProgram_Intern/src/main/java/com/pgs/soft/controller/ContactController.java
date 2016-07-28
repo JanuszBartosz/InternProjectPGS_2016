@@ -1,5 +1,6 @@
 package com.pgs.soft.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.pgs.soft.domain.User;
 import com.pgs.soft.dto.ContactMessageDTO;
+import com.pgs.soft.service.ContactService;
 
 @Controller
 public class ContactController {
+
+	@Autowired
+	ContactService contactService;
 
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public ModelAndView doGet(@ModelAttribute ContactMessageDTO contactMessageDTO) {
@@ -30,6 +35,7 @@ public class ContactController {
 
 	@RequestMapping(value = "/contact", method = RequestMethod.POST)
 	public ModelAndView doPost(@ModelAttribute ContactMessageDTO contactMessageDTO) {
+		contactService.saveAndSendEmail(contactMessageDTO);
 
 		return new ModelAndView("index", "message", "Email sent successfully.");
 	}
