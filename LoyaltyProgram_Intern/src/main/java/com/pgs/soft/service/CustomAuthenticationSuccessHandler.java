@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 
 		httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+		SecurityContextHolderAwareRequestWrapper securityContextHolderAwareRequestWrapper = new SecurityContextHolderAwareRequestWrapper(
+				httpServletRequest, "");
 
-		httpServletResponse.sendRedirect("/main");
+		if (securityContextHolderAwareRequestWrapper.isUserInRole("USER"))
+			httpServletResponse.sendRedirect("/main");
+		else if (securityContextHolderAwareRequestWrapper.isUserInRole("REGISTERED"))
+			httpServletResponse.sendRedirect("/change_password");
+
 	}
 }

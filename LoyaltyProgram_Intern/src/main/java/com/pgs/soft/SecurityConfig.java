@@ -37,10 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
-			.antMatchers("/profile","/profile/*").authenticated()
-			.antMatchers("/change_password").authenticated()
-			.antMatchers("/main").authenticated()
-			.antMatchers("/main/card").authenticated()
+			.antMatchers("/profile","/profile/*","/main","/main/*").hasAuthority("USER")
+			.antMatchers("/change_password").hasAnyAuthority("REGISTERED", "USER")
 			.and()
 				.formLogin()
 				.loginProcessingUrl("/login")
