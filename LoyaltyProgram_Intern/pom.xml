@@ -85,7 +85,18 @@
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpclient</artifactId>
 		</dependency>
+		<dependency>
+ 		    <groupId>org.springframework.security</groupId>
+ 		    <artifactId>spring-security-taglibs</artifactId>
+ 		    <version>4.0.1.RELEASE</version>
+ 		</dependency>
 
+
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.1</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
 		<dependency>
 		    <groupId>org.powermock</groupId>
@@ -99,7 +110,6 @@
 		    <version>1.6.5</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.sourceforge.cobertura/cobertura -->
-		
 	</dependencies>
 	
 	<build>

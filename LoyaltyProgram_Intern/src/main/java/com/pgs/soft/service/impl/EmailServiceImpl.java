@@ -31,11 +31,12 @@ public class EmailServiceImpl implements EmailService {
 	private String template;
 
 	@Override
-	public void sendConfirmationEmail(String to, String email, String registrationToken) {
+	public void sendConfirmationEmail(String to, String email, String randomPassword, String registrationToken) {
 
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("to", to));
 		urlParameters.add(new BasicNameValuePair("merge_email", email));
+		urlParameters.add(new BasicNameValuePair("merge_randomPassword", randomPassword));
 		urlParameters.add(new BasicNameValuePair("merge_token", registrationToken));
 
 		sendData(urlParameters);
