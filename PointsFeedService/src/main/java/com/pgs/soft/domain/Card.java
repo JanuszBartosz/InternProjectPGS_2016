@@ -40,14 +40,6 @@ public class Card {
 		this.number = number;
 	}
 
-	public Integer getUser() {
-		return user;
-	}
-
-	public void setUser(Integer user) {
-		this.user = user;
-	}
-
 	public boolean isActive() {
 		return isActive;
 	}
