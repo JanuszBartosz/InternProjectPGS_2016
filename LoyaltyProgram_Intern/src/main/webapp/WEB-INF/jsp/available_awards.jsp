@@ -10,6 +10,7 @@
 <body>
 
 <h2>Awards</h2>
+ <h3>${message}</h3>
 <form:form modelAttribute="map">
 <form:errors path="" element="div" />
 <table>

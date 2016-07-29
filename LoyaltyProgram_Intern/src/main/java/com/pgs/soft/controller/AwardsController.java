@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,8 +44,7 @@ public class AwardsController {
 	}
 
 	@RequestMapping(value = "/order", method = RequestMethod.GET)
-	public ModelAndView orderFormView(@RequestParam(value = "id") Integer id,
-			@ModelAttribute AwardRequestToValidateDTO awardRequestToValidateDTO, BindingResult result) {
+	public ModelAndView orderFormView(@RequestParam(value = "id") Integer id) {
 
 		ModelAndView model = new ModelAndView("order_form");
 
@@ -54,20 +52,24 @@ public class AwardsController {
 
 		UserProfileDTO userProfileDTO = userProfileService.getUserProfile();
 
-		awardRequestToValidateDTO.setAwardDTO(awardDTO);
-		awardRequestToValidateDTO.setUserProfileDTO(userProfileDTO);
-		// model.addObject(userProfileDTO);
-		// model.addObject(awardDTO);
+		model.addObject(userProfileDTO);
+		model.addObject(awardDTO);
 
-		// AwardRequestToValidateDTO awardRequestToValidateDTO = new
-		// AwardRequestToValidateDTO(awardDTO, userProfileDTO);
-		awardValidator.validate(awardRequestToValidateDTO, result);
+		AwardRequestToValidateDTO awardRequestToValidateDTO = new AwardRequestToValidateDTO(awardDTO, userProfileDTO);
+
+		DataBinder binder = new DataBinder(awardRequestToValidateDTO);
+		binder.setValidator(awardValidator);
+		binder.validate();
+
 		Category category = null;
 		String sortProperty = "name";
 		Sort.Direction direction = Direction.ASC;
 
-		if (result.hasErrors()) {
-			return new ModelAndView("available_awards", "map", getAvailableAwards(category, sortProperty, direction));
+		if (binder.getBindingResult().hasErrors()) {
+			ModelAndView mav = new ModelAndView("available_awards", "map",
+					getAvailableAwards(category, sortProperty, direction));
+			mav.addObject("message", binder.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+			return mav;
 		}
 
 		return model;

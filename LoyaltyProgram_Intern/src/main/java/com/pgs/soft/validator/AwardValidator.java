@@ -23,10 +23,10 @@ public class AwardValidator implements Validator {
 	private void canBuy(Errors errors, AwardRequestToValidateDTO awardRequestToValidateDTO) {
 		if (awardRequestToValidateDTO.getAwardDTO().getPointsPrice() > awardRequestToValidateDTO.getUserProfileDTO()
 				.getPointsSum()) {
-			errors.reject("available_awards.not_enough_points");
+			errors.reject("available_awards.not_enough_points", "You dont have enough points");
 		}
 		if (awardRequestToValidateDTO.getAwardDTO().getStockAmount() <= 0) {
-			errors.reject("available_awards.not_available");
+			errors.reject("available_awards.not_available", "That award is not available");
 		}
 	}
 }
