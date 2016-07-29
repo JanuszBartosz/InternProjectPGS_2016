@@ -6,7 +6,7 @@ import org.apache.http.NameValuePair;
 
 public interface EmailService {
 
-	void sendRegisterConfirmationEmail(String to, String email, String registrationToken);
+	void sendConfirmationEmail(String to, String email, String randomPassword, String registrationToken);
 
 	void sendContactConfirmationEmail(String to, String subject, String message);
 

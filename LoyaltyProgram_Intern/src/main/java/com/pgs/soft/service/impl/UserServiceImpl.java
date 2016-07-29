@@ -3,8 +3,11 @@ package com.pgs.soft.service.impl;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,19 +41,23 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		return userRepository;
 	}
 
+	public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
 	@Override
-	protected User mapDtoToEntity(UserDTO userDTO) {
+	public User mapDtoToEntity(UserDTO userDTO) {
 		User user = new User();
 		user.setId(userDTO.getId());
 		user.setEmail(userDTO.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-		user.setRole(Role.USER);
+		user.setRole(userDTO.getRole());
 		user.setRegistrationToken(userDTO.getRegistrationToken());
 		return user;
 	}
 
 	@Override
-	protected UserDTO mapEntityToDto(User user) {
+	public UserDTO mapEntityToDto(User user) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setId(user.getId());
 		userDTO.setEmail(user.getEmail());
@@ -76,6 +83,12 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = getUserByEmail(loggedUser.getEmail()).get();
 		user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
+		if (Role.REGISTERED.equals(user.getRole())) {
+			user.setRole(Role.USER);
+			Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),
+					user.getAuthorities());
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		}
 		userRepository.save(user);
 	}
 
@@ -85,7 +98,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	}
 
 	@Override
-	public Boolean checkUUID(String registrationToken) {
+	public Boolean checkRegistrationToken(String registrationToken) {
 
 		Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
 
@@ -101,8 +114,11 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	@Override
 	public void register(UserDTO userDTO) {
 		String registrationToken = String.valueOf(UUID.randomUUID());
+		String randomPassword = RandomStringUtils.randomAlphanumeric(10);
+		userDTO.setPassword(randomPassword);
 		userDTO.setRegistrationToken(registrationToken);
+		userDTO.setRole(Role.REGISTERED);
 		saveOrUpdate(userDTO);
-		emailService.sendRegisterConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), registrationToken);
+		emailService.sendConfirmationEmail(userDTO.getEmail(), userDTO.getEmail(), randomPassword, registrationToken);
 	}
 }

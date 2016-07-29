@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
+<%@include file="./header.jsp" %>
 <body>
 	<h1>
 		<spring:message code="change_password.main" />
@@ -36,6 +36,8 @@
 		</div>
 	</form:form>
 
-	<a href="/main"> <spring:message code="go.main" /></a>
+	 <sec:authorize access="hasAuthority('USER')">
+		<a href="/main"> <spring:message code="go.main" /></a>
+	 </sec:authorize>
 </body>
 </html>
