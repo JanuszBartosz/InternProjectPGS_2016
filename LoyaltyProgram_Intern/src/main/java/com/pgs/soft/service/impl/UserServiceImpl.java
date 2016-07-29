@@ -79,7 +79,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = getUserByEmail(loggedUser.getEmail()).get();
 		user.setPassword(bCryptPasswordEncoder.encode(passwordDTO.getNewPassword()));
-		if (user.getRole() == Role.REGISTERED) {
+		if (Role.REGISTERED.equals(user.getRole())) {
 			user.setRole(Role.USER);
 			Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),
 					user.getAuthorities());
