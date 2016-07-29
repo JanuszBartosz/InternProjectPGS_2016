@@ -3,13 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login form</title>
-</head>
+<%@include file="./header.jsp" %>
 <body>
+<div class="container">
 	<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
 		<font color="red"> Your login attempt was not successful due to
 			<br />
@@ -17,21 +13,26 @@
 				var="SPRING_SECURITY_LAST_EXCEPTION" scope="session" />
 		</font>
 	</c:if>
-	<form:form modelAttribute="loginForm" method="POST">
-		<table>
-			<tr>
-				<td>Email:</td>
-				<td><form:input type="text" path="email" /></td>
-				<td><form:errors path="email" />
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><form:input type="password" path="password" /></td>
-			</tr>
-		</table>
-		<input type="submit" name="submit" value="Submit">
+	<form:form modelAttribute="loginForm" method="POST" cssClass="form-signin" id="">
+	<h2 class="form-signin-heading">Please sign in</h2>
+	<form:input cssClass="form-control" type="email" path="email" id="inputEmail" />
+	<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+<!-- 		<table> -->
+<!-- 			<tr> -->
+<!-- 				<label for="inputEmail" class="sr-only">Email address</label> -->
+<%-- 				<td></td> --%>
+<%-- 				<td><form:errors path="email" /> --%>
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td>Password:</td> -->
+<%-- 				<td><form:input type="password" path="password" /></td> --%>
+<!-- 			</tr> -->
+<!-- 		</table> -->
+<!-- 		<input type="submit" name="submit" value="Submit"> -->
 
 	</form:form>
 	<a href="/"> <spring:message code="go.index" /></a>
+</div>
 </body>
 </html>
