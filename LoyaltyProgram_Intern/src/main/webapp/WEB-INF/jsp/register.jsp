@@ -15,20 +15,7 @@
 			<form:input cssClass="form-control" path="email" />
 			<form:errors path="email" />
 		</div>
-		<div class="form-group">
-			<form:label path="password">
-				<spring:message code="user.password" />
-			</form:label>
-			<form:password cssClass="form-control" path="password" />
-			<form:errors path="password" />
-		</div>
-		<div class="form-group">
-			<form:label path="passwordRepeated">
-				<spring:message code="user.password_repeated" />
-			</form:label>
-			<form:password cssClass="form-control" path="passwordRepeated" />
-			<form:errors path="passwordRepeated" />
-		</div>
+
 		<div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>

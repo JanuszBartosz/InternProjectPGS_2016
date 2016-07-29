@@ -16,7 +16,7 @@
 	<form:form modelAttribute="loginForm" method="POST" cssClass="form-signin" id="">
 	<h2 class="form-signin-heading">Please sign in</h2>
 	<form:input cssClass="form-control" type="email" path="email" id="inputEmail" />
-	<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+	<form:input cssClass="form-control" type="password" path="password" id="password" />
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 <!-- 		<table> -->
 <!-- 			<tr> -->
