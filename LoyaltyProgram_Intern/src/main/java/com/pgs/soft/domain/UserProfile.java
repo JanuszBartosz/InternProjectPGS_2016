@@ -31,6 +31,9 @@ public class UserProfile {
 
 	private String street;
 
+	@Column(name = "points_sum")
+	private Integer pointsSum;
+
 	@Column(name = "home_number")
 	private String homeNumber;
 
@@ -49,11 +52,11 @@ public class UserProfile {
 	private Set<Points> points;
 
 	public UserProfile() {
-
+		this.pointsSum = 0;
 	}
 
 	public UserProfile(Integer id, String name, String surname, String city, String street, String homeNumber,
-			String postCode) {
+			String postCode, Integer pointsSum) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -61,6 +64,15 @@ public class UserProfile {
 		this.street = street;
 		this.homeNumber = homeNumber;
 		this.postCode = postCode;
+		this.pointsSum = pointsSum;
+	}
+
+	public Integer getPointsSum() {
+		return pointsSum;
+	}
+
+	public void setPointsSum(Integer pointsSum) {
+		this.pointsSum = pointsSum;
 	}
 
 	public User getUser() {

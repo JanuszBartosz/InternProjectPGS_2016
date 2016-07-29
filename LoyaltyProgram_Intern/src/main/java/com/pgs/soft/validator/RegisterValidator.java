@@ -26,13 +26,6 @@ public class RegisterValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		UserDTO userDTO = (UserDTO) target;
 		validateEmail(errors, userDTO);
-		validatePassword(errors, userDTO);
-	}
-
-	private void validatePassword(Errors errors, UserDTO userDTO) {
-		if (!userDTO.getPassword().equals(userDTO.getPasswordRepeated())) {
-			errors.rejectValue("passwordRepeated", "passwords.nomatch");
-		}
 	}
 
 	private void validateEmail(Errors errors, UserDTO userDTO) {

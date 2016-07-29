@@ -17,20 +17,6 @@
 			<form:errors path="email" />
 		</div>
 		<div>
-			<form:label path="password">
-				<spring:message code="user.password" />
-			</form:label>
-			<form:password path="password" />
-			<form:errors path="password" />
-		</div>
-		<div>
-			<form:label path="passwordRepeated">
-				<spring:message code="user.password_repeated" />
-			</form:label>
-			<form:password path="passwordRepeated" />
-			<form:errors path="passwordRepeated" />
-		</div>
-		<div>
 			<input type="submit" />
 		</div>
 	</form:form>
