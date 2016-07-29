@@ -7,16 +7,9 @@
 	<h1>
 		Your order:
 	</h1>
-	
-	<h2>
-	
-			${awardDTO.description}
-	
-	</h2>
 
-
-	
-	<form:form modelAttribute="userProfileDTO" >
+	<form:form modelAttribute="orderDTO" method="POST"
+		action="/order" >
 		<form:errors path="" element="div" />
 		<div>
 			<form:label path="name">
