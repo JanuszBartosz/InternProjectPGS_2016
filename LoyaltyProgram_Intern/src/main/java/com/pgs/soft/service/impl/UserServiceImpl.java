@@ -41,8 +41,12 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 		return userRepository;
 	}
 
+	public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
 	@Override
-	protected User mapDtoToEntity(UserDTO userDTO) {
+	public User mapDtoToEntity(UserDTO userDTO) {
 		User user = new User();
 		user.setId(userDTO.getId());
 		user.setEmail(userDTO.getEmail());
@@ -53,7 +57,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	}
 
 	@Override
-	protected UserDTO mapEntityToDto(User user) {
+	public UserDTO mapEntityToDto(User user) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setId(user.getId());
 		userDTO.setEmail(user.getEmail());
@@ -94,7 +98,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, UserDTO, Integer>
 	}
 
 	@Override
-	public Boolean checkUUID(String registrationToken) {
+	public Boolean checkRegistrationToken(String registrationToken) {
 
 		Optional<User> user = userRepository.findOneByRegistrationToken(registrationToken);
 
