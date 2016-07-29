@@ -1,6 +1,5 @@
 package com.pgs.soft.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,18 +77,13 @@ public class AwardsController {
 	@SuppressWarnings("unchecked")
 	public Map<Category, List<AwardDTO>> getAvailableAwards(Category category, String sortProperty,
 			Sort.Direction direction) {
-		Map<Category, List<AwardDTO>> map = new HashMap<>();
 
 		if (category != null) {
-			map = restTemplate.getForObject("http://localhost:9000/awards?category=" + category + "&sortBy="
+			return restTemplate.getForObject("http://localhost:9000/awards?category=" + category + "&sortBy="
 					+ sortProperty + "&direction=" + direction, Map.class);
 		}
-		else {
-			map = restTemplate.getForObject(
-					"http://localhost:9000/awards?sortBy=" + sortProperty + "&direction=" + direction, Map.class);
-		}
-
-		return map;
+		return restTemplate.getForObject(
+				"http://localhost:9000/awards?sortBy=" + sortProperty + "&direction=" + direction, Map.class);
 	}
 
 }

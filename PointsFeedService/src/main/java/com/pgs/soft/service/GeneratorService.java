@@ -16,8 +16,8 @@ import com.pgs.soft.repository.CardRepository;
 @Service
 public class GeneratorService {
 
-	RestTemplate restTemplate = new RestTemplate();
-	Random rand = new Random();
+	@Autowired
+	RestTemplate restTemplate;
 
 	@Autowired
 	CardRepository cardRepository;
@@ -28,12 +28,10 @@ public class GeneratorService {
 		List<String> allCardsNumbers = StreamSupport.stream(cardRepository.findAll().spliterator(), false)
 				.map(c -> c.getNumber()).collect(Collectors.toList());
 
-		System.out.println("Sending");
+		Random rand = new Random();
 		Message message = new Message(allCardsNumbers.get(rand.nextInt(allCardsNumbers.size())),
 				rand.nextInt(1901) + 100);
-		System.out.println(message);
-		String result = restTemplate.postForObject("http://localhost:8080/new_points", message, String.class);
-		System.out.println(result);
+		restTemplate.postForObject("http://localhost:8080/new_points", message, String.class);
 	}
 
 }

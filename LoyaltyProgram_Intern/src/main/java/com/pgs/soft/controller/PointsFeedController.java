@@ -19,9 +19,7 @@ public class PointsFeedController {
 	@ResponseBody
 	@RequestMapping(value = "/new_points", method = RequestMethod.POST)
 	public String doPost(@RequestBody NewPointsRequestDTO newPointsRequestDTO) {
-		System.out.println(newPointsRequestDTO);
 		pointsService.updateUserPoints(newPointsRequestDTO);
 		return "200";
 	}
-
 }
