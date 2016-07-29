@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.pgs.soft.domain.Points;
 import com.pgs.soft.dto.NewPointsRequestDTO;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class PointsServiceImplTest {
 
 	PointsServiceImpl pointsServiceImpl = new PointsServiceImpl();

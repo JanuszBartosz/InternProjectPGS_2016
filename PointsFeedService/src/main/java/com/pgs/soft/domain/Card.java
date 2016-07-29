@@ -17,9 +17,6 @@ public class Card {
 
 	private String number;
 
-	@Column(name = "user_id")
-	private Integer user;
-
 	@Column(name = "active")
 	private boolean isActive;
 
