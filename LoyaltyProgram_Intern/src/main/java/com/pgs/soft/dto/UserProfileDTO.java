@@ -19,6 +19,8 @@ public class UserProfileDTO {
 
 	private Set<String> hobbies = new HashSet<String>();
 
+	private Integer pointsSum;
+
 	public String getName() {
 		return name;
 	}
@@ -74,4 +76,13 @@ public class UserProfileDTO {
 	public void setHobbies(Set<String> hobbies) {
 		this.hobbies = hobbies;
 	}
+
+	public Integer getPointsSum() {
+		return pointsSum;
+	}
+
+	public void setPointsSum(Integer pointsSum) {
+		this.pointsSum = pointsSum;
+	}
+
 }

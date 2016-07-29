@@ -11,6 +11,7 @@
 
 <h2>Awards</h2>
 <form:form modelAttribute="map">
+<form:errors path="" element="div" />
 <table>
    <c:forEach items="${map}" var="mapElement">
       <tr>

@@ -72,6 +72,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		userProfileDTO.setStreet(userProfile.getStreet());
 		userProfileDTO.setHomeNumber(userProfile.getHomeNumber());
 		userProfileDTO.setPostCode(userProfile.getPostCode());
+		userProfileDTO.setPointsSum(userProfile.getPointsSum());
 
 		for (Hobby hobby : userProfile.getHobbies()) {
 			userProfileDTO.getHobbies().add(hobby.getHobbyName());

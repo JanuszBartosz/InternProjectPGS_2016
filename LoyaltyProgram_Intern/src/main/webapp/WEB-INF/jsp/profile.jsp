@@ -53,6 +53,12 @@
 			<form:checkboxes items="${hobbiesNames}" path="hobbies" />
 		</div>
 		<div>
+			<form:label path="pointsSum">
+				<spring:message code="profile.points_sum" />
+			</form:label>
+			<form:input path="pointsSum" disabled="true" />
+		</div>
+		<div>
 			<input type="submit" />
 		</div>
 	</form:form>
