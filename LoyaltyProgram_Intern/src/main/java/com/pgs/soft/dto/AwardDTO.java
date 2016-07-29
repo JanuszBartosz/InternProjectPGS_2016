@@ -1,7 +1,5 @@
 package com.pgs.soft.dto;
 
-import com.pgs.soft.domain.Category;
-
 public class AwardDTO {
 
 	private String name;
@@ -13,6 +11,18 @@ public class AwardDTO {
 	private Category category;
 
 	private int stockAmount;
+
+	public AwardDTO() {
+
+	}
+
+	public AwardDTO(String name, String description, int pointsPrice, Category category) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.pointsPrice = pointsPrice;
+		this.category = category;
+	}
 
 	public String getName() {
 		return name;

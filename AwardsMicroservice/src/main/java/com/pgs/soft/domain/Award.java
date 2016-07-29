@@ -27,6 +27,9 @@ public class Award {
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
+	@Column(name = "stock_amount")
+	private int stockAmount;
+
 	public Integer getId() {
 		return id;
 	}
@@ -65,5 +68,13 @@ public class Award {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public int getStockAmount() {
+		return stockAmount;
+	}
+
+	public void setStockAmount(int stockAmount) {
+		this.stockAmount = stockAmount;
 	}
 }

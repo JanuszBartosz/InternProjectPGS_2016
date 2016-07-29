@@ -42,6 +42,7 @@ public class AwardServiceImpl implements AwardsService {
 			award.setDescription(RandomStringUtils.randomAlphabetic(50));
 			award.setPointsPrice(generator.nextInt(1900) + 100);
 			award.setCategory(Category.values()[generator.nextInt(Category.values().length)]);
+			award.setStockAmount(generator.nextInt(10) + 1);
 
 			awardsRepository.save(award);
 		}
@@ -61,18 +62,20 @@ public class AwardServiceImpl implements AwardsService {
 		awardDTO.setDescription(award.getDescription());
 		awardDTO.setCategory(award.getCategory());
 		awardDTO.setPointsPrice(award.getPointsPrice());
+		awardDTO.setStockAmount(award.getStockAmount());
 
 		return awardDTO;
 	}
 
-	List<AwardDTO> getAllAwards() {
-		return StreamSupport.stream(awardsRepository.findAll().spliterator(), false).map((a) -> mapEntityToDto(a))
+	@Override
+	public List<AwardDTO> getAllAwards(Sort sort) {
+		return StreamSupport.stream(awardsRepository.findAll(sort).spliterator(), false).map((a) -> mapEntityToDto(a))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Map<Category, List<AwardDTO>> getAllAwardsGrouped() {
-		Map<Category, List<AwardDTO>> awardsGrouped = getAllAwards().stream()
+	public Map<Category, List<AwardDTO>> getAllAwardsGrouped(Sort sort) {
+		Map<Category, List<AwardDTO>> awardsGrouped = getAllAwards(sort).stream()
 				.collect(Collectors.groupingBy(AwardDTO::getCategory));
 		return awardsGrouped;
 	}
