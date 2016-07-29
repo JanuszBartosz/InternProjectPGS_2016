@@ -107,7 +107,7 @@ public class UserController {
 
 	@RequestMapping(value = "/activate_account", method = RequestMethod.GET)
 	public ModelAndView activateAccount(@RequestParam String uuid) {
-		if (userService.checkUUID(uuid))
+		if (userService.checkRegistrationToken(uuid))
 			return new ModelAndView("index", "message", "Confirmation succeeded, you can now log in.");
 		else
 			return new ModelAndView("index", "message", "Confirmation failed, account cannot be activated!");

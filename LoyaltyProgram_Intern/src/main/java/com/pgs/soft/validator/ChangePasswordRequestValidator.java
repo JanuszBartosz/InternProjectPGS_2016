@@ -17,6 +17,10 @@ public class ChangePasswordRequestValidator implements Validator {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.equals(ChangePasswordRequestDTO.class);

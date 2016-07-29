@@ -36,6 +36,7 @@
 			<input type="submit" />
 		</div>
 	</form:form>
+
 	 <sec:authorize access="hasAuthority('USER')">
 		<a href="/main"> <spring:message code="go.main" /></a>
 	 </sec:authorize>
