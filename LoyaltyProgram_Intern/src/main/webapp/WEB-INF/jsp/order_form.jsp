@@ -16,7 +16,7 @@
 
 
 	
-	<form:form modelAttribute="userProfileDTO">
+	<form:form modelAttribute="userProfileDTO" >
 		<form:errors path="" element="div" />
 		<div>
 			<form:label path="name">

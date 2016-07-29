@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,9 @@ public class AwardsController {
 
 	@Autowired
 	private RestTemplate restTemplate;
+
+	@Value("${awards_microservice.address}")
+	private String awardsMicroserviceAddress;
 
 	@RequestMapping(value = "/available_awards", method = RequestMethod.GET)
 	public ModelAndView awardsView(
@@ -79,11 +83,11 @@ public class AwardsController {
 			Sort.Direction direction) {
 
 		if (category != null) {
-			return restTemplate.getForObject("http://localhost:9000/awards?category=" + category + "&sortBy="
+			return restTemplate.getForObject(awardsMicroserviceAddress + "awards?category=" + category + "&sortBy="
 					+ sortProperty + "&direction=" + direction, Map.class);
 		}
 		return restTemplate.getForObject(
-				"http://localhost:9000/awards?sortBy=" + sortProperty + "&direction=" + direction, Map.class);
+				awardsMicroserviceAddress + "awards?sortBy=" + sortProperty + "&direction=" + direction, Map.class);
 	}
 
 }
