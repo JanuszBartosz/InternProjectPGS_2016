@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.pgs.soft.dto.OrderDTO;
 import com.pgs.soft.service.EmailService;
 
 @PropertySource("email.properties")
@@ -31,6 +32,8 @@ public class EmailServiceImpl implements EmailService {
 	private String template_registration;
 	@Value("${email.template.for.contact.confirmation}")
 	private String template_contact;
+	@Value("${email.template.for.order.confirmation}")
+	private String template_order;
 
 	@Override
 	public void sendRegisterConfirmationEmail(String to, String email, String registrationToken) {
@@ -43,6 +46,7 @@ public class EmailServiceImpl implements EmailService {
 		sendData(urlParameters, template_registration);
 	}
 
+	@Override
 	public void sendContactConfirmationEmail(String to, String subject, String message) {
 		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
 		urlParameters.add(new BasicNameValuePair("to", to));
@@ -50,6 +54,25 @@ public class EmailServiceImpl implements EmailService {
 		urlParameters.add(new BasicNameValuePair("merge_message", message));
 
 		sendData(urlParameters, template_contact);
+
+	}
+
+	public void sendOrderConfirmationEmail(String to, OrderDTO orderDTO) {
+
+		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+		urlParameters.add(new BasicNameValuePair("to", to));
+		urlParameters.add(new BasicNameValuePair("merge_name", orderDTO.getName()));
+		urlParameters.add(new BasicNameValuePair("merge_surname", orderDTO.getSurname()));
+		urlParameters.add(new BasicNameValuePair("merge_city", orderDTO.getCity()));
+		urlParameters.add(new BasicNameValuePair("merge_street", orderDTO.getCity()));
+		urlParameters.add(new BasicNameValuePair("merge_homeNumber", orderDTO.getHomeNumber()));
+		urlParameters.add(new BasicNameValuePair("merge_postCode", orderDTO.getPostCode()));
+		urlParameters.add(new BasicNameValuePair("merge_awardName", orderDTO.getAwardName()));
+		urlParameters.add(new BasicNameValuePair("merge_description", orderDTO.getDescription()));
+		urlParameters.add(new BasicNameValuePair("merge_pointsPrice", orderDTO.getPointsPrice()));
+		urlParameters.add(new BasicNameValuePair("merge_category", orderDTO.getCategory()));
+
+		sendData(urlParameters, template_order);
 
 	}
 
